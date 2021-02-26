@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
@@ -25,6 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [RegisterUserController::class, 'store']);
 Route::post('/login', LoginController::class);
 Route::post('/verify', [VerificationController::class, 'verify']);
-Route::post('/forgotten-password', [ForgotPasswordController::class, 'forgotten']);
+Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
+Route::post('/forgot-password-verify', [ForgotPasswordController::class, 'verifyForgot']);
+
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Mail\ForgotPasswordMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
@@ -22,19 +24,14 @@ class ForgotPasswordController extends Controller
 
     // use SendsPasswordResetEmails;
 
-    public function forgotten() 
+    public function forgotPassword(Request $request) 
     {
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:App\Models\User,id' ],
+            'email' => ['required', 'string', 'email', 'max:255', 'exists:App\Models\User,email' ],
         ]);
 
-        $forgotUser = User::find($request->id);
+        $forgotUser = User::where('email', $request->email)->first();
 
-        // Updated unique password to DB
-        $forgotUser->password = md5(rand(0, 6));
-        $forgotUser->save();
-
-        // Verify User By Email
         if ($forgotUser) {    
             
             Mail::to($forgotUser['email'])->send(new ForgotPasswordMail($forgotUser));
@@ -43,9 +40,34 @@ class ForgotPasswordController extends Controller
             ]]);
         } else {
             return response()->json(['errors' => [
-                'root' => 'Cannot send updated password to user mail.'
+                'root' => 'Verification mail was not been sent.'
             ]]);
         }
 
+    }
+
+    public function verifyForgot(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'exists:App\Models\User,id'],
+            'token' => ['required', 'exists:App\Models\User,email_verification_code']
+        ]);
+
+        $resetUserPassword = User::where('id', $request->id)->first();
+        
+        if ($resetUserPassword && $request->token == $resetUserPassword->email_verification_code) {
+
+            $resetUserPassword->email_verified_at = now();
+            $resetUserPassword->save();
+
+            return response()->json(['data' => [
+                'success' => true,
+                'email' => $resetUserPassword->email
+            ]]);
+        } else {
+            return response()->json(['errors' => [
+                'root' => 'Cannot verify user.'
+            ]]);
+        }  
     }
 }

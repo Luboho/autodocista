@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterUserController extends Controller
 {
@@ -31,9 +32,9 @@ class RegisterUserController extends Controller
         if ($tempUser) {    
             
             Mail::to($tempUser['email'])->send(new VerifyEmail($tempUser));
-            return response()->json(['data' => [
-                'success' => true
-            ]]);
+            return response()
+                    ->json(['data' => ['success' => true ]])
+                    ->setStatusCode(Response::HTTP_CREATED);
         } else {
             return response()->json(['errors' => [
                 'root' => 'Cannot create user.'

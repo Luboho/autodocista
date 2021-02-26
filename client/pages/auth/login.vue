@@ -1,5 +1,7 @@
 <template>
-  <form @submit.prevent="submit" class="pt-1">
+    <div>
+
+    <form @submit.prevent="submit" class="pt-1">
                 
                 <div class="relative pt-3">
                     <label for="email" class="absolute uppercase text-blue-500 text-xs font-bold pl-3 pt-2">
@@ -44,8 +46,12 @@
                         Prihlásiť
                     </button>
                 </div>
-            
-        </form>
+            </form>
+
+            <div class="py-4">
+                <NuxtLink to="/auth/forgot-password/create" class="mt-4 font-smaller">Zabudol som heslo <span class="sr-only"></span></NuxtLink>
+            </div>
+    </div>
 </template>
 
 <script>
@@ -85,7 +91,15 @@ export default {
             }
         },
 
-    }
+    },
+
+    // watchQuery(["auth-forgot-password-verify-verify"]),
+
+    // watch() {
+    //     this.$router.query.verifiedEmail() {
+    //         this.form.email = $route.query.verifiedEmail;
+    //     }
+    // }
 }
 </script>
 

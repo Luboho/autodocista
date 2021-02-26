@@ -138,16 +138,7 @@ export default {
                 }).then(function() {
                     alert('You received a confirmation email. Please verify your email.')
                 })
-                // try {
-                //     await this.$auth.loginWith('local', {
-                //         data: {
-                //             email: this.form.email,
-                //             password: this.form.password
-                //         }
-                //     }).then(res => console.log(res))
-                // } catch (e) {
-                //     console.log(e);
-                // }
+                
                 this.$router.replace({name: 'index'})
             } catch (e) {
                 if(e.response.data.errors) {

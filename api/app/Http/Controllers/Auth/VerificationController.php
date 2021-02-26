@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Symfony\Component\HttpFoundation\Response;
 
 class VerificationController extends Controller
 {
@@ -45,9 +46,9 @@ class VerificationController extends Controller
             // Delete Temp User Row
             $tempUser->delete();
 
-            return response()->json(['data' => [
-                'success' => true
-            ]]);
+            return response()
+                    ->json(['data' => [ 'success' => true ]])
+                    ->setStatusCode(Response::HTTP_CREATED);
         } else {
             return response()->json(['data' => [
                 'success' => false
