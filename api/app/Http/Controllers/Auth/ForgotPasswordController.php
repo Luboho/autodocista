@@ -32,6 +32,10 @@ class ForgotPasswordController extends Controller
 
         $forgotUser = User::where('email', $request->email)->first();
 
+        // Set New verif. code.
+        $forgotUser->email_verification_code = md5(rand(0,6));
+        $forgotUser->save();
+
         if ($forgotUser) {    
             
             Mail::to($forgotUser['email'])->send(new ForgotPasswordMail($forgotUser));

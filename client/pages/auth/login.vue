@@ -49,7 +49,7 @@
             </form>
 
             <div class="py-4">
-                <NuxtLink to="/auth/forgot-password/create" class="mt-4 font-smaller">Zabudol som heslo <span class="sr-only"></span></NuxtLink>
+                <NuxtLink to="/auth/forgot-password/form" class="mt-4 font-smaller">Zabudol som heslo <span class="sr-only"></span></NuxtLink>
             </div>
     </div>
 </template>
@@ -67,6 +67,10 @@ export default {
         errors: []
     }),
 
+    created() {
+        this.verifiedEmail();
+    },
+
     methods: {
 
         async submit(e) {
@@ -79,6 +83,12 @@ export default {
                 } else if (e.response.request.status == 401) {
                     this.errors = { email: { 0: 'Nesprávne zadaný email, alebo heslo.'}}
                 }
+            }
+        },
+
+        verifiedEmail() {
+            if(this.$route.query.verifiedEmail) {
+                this.form.email = this.$route.query.verifiedEmail;
             }
         },
 
@@ -95,11 +105,12 @@ export default {
 
     // watchQuery(["auth-forgot-password-verify-verify"]),
 
-    // watch() {
-    //     this.$router.query.verifiedEmail() {
-    //         this.form.email = $route.query.verifiedEmail;
-    //     }
-    // }
+    watch: {
+        verifiedEmail: function() {
+
+            // this.form.email = $route.query.verifiedEmail;
+        }
+    }
 }
 </script>
 
