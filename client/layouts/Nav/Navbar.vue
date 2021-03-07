@@ -6,9 +6,10 @@
       <div class="relative flex items-center justify-between h-16">
         <div class="hidden sm:flex justify-center items-center">
           <div>
-            <img src="@/assets/default-images/logo.png" alt="Domov">
+            <nuxt-link :to="'/'">
+              <img src="@/assets/default-images/logo.png" alt="Auto Dočista">
+            </nuxt-link>
           </div>
-          <h1 class="text-xl text-white font-bold">Auto Dočista</h1>
         </div>
         <div class="absolute inset-y-0 flex items-center justify-end sm:hidden">
           <!-- Mobile menu button-->
@@ -20,7 +21,7 @@
 
               Menu open: "hidden", Menu closed: "block"
             -->
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <svg class="text-gold-500 block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <!-- Icon when menu is open. -->
@@ -31,33 +32,60 @@
             -->
           </button>
         </div>
+
+        <nuxt-link :to="'/'" class="not-sr-only sm:sr-only mx-auto">
+          <img src="@/assets/default-images/logo.png" alt="Auto Dočista">
+        </nuxt-link>
         
-        <div class="flex items-cente sm:items-stretch">
+        <div class="flex items-center sm:items-stretch">
               
             <div class="hidden sm:block sm:ml-6">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="#" class="text-yellow-300 hover:bg-yellow-300 hover:text-yellow-900 px-3 py-2 rounded-md text-sm font-medium">O nás</a>
-              <a href="#" class="text-yellow-300 hover:bg-yellow-300 hover:text-yellow-900 px-3 py-2 rounded-md text-sm font-medium">Cenník</a>
-              <a href="#" class="text-yellow-300 hover:bg-yellow-300 hover:text-yellow-900 px-3 py-2 rounded-md text-sm font-medium">Objednať sa</a>
-              <a href="#" class="text-yellow-300 hover:bg-yellow-300 hover:text-yellow-900 px-3 py-2 rounded-md text-sm font-medium">Nájdete nás</a>
+              <nuxt-link to="/about" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-b-4 border-gold-500': currentPath == '/about' }"
+
+              >
+                O nás
+              </nuxt-link>
+              <nuxt-link to="/prices" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-b-4 border-gold-500': currentPath == '/prices' }"
+           
+              >
+                Cenník
+              </nuxt-link>
+              <nuxt-link to="/reserve" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-b-4 border-gold-500': currentPath == '/about' }"
+           
+              >
+                Objednať sa
+              </nuxt-link>
+              <nuxt-link to="/prices" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-b-4 border-gold-500': currentPath == '/about' }"
+           
+              >
+                Nájdete nás
+              </nuxt-link>
             </div>
         </div>
 
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+            <button class="p-1 rounded-full text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
               <span class="sr-only">View notifications</span>
               <!-- Heroicon name: outline/bell -->
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
+              <div>
+                  <font-awesome-icon :icon="['fas', 'bell']"  class="align-middle text-xl color-white"/> 
+               </div>
             </button>
 
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
                 <div>
-                    <button id="user-dropdown" @click="userDropdown = !userDropdown" class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-haspopup="true">
+                    <button id="user-dropdown" @click="userDropdown = !userDropdown" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-haspopup="true">
                     <span class="sr-only">Open user menu</span>
-                    <img class="h-8 w-8 rounded-full" src="@/assets/default-images/user.png" alt="">
+                      <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-3xl text-gold-500 align-middle" /> 
                     </button>
                 </div>
                 
@@ -92,12 +120,31 @@
             leave-to-class="-translate-y-1/2 scale-y-0 opacity-0"
     >
       <div v-if="mobileDropdown" class="sm:hidden" id="mobile-menu">
-          <div class="px-2 pt-2 pb-3 space-y-1">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
+          <div class="flex flex-col flex-grow px-2 pt-2 pb-3 space-y-1">
+              <nuxt-link to="/about" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"
+              > 
+                O nás
+              </nuxt-link>
+              <nuxt-link to="/prices" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-l-4 border-gold-500': currentPath == '/prices' }"
+              >
+                Cenník
+              </nuxt-link>
+              <nuxt-link to="/prices" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"
+              >
+                Objednať sa
+              </nuxt-link>
+              <nuxt-link to="/prices" 
+                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"
+              >
+                Nájdete nás
+              </nuxt-link>
           </div>
       </div>
     </transition>
@@ -122,8 +169,13 @@ export default {
           } else {
             return false;
           }
-        }
+        },
+
+      currentPath() {
+        return this.$route.path;
+      },
     },
+
 
     methods: {
 
@@ -148,6 +200,5 @@ export default {
 </script>
 
 <style>
-
-
+    
 </style>
