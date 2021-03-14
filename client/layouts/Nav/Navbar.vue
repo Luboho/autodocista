@@ -54,12 +54,12 @@
               >
                 Cenník
               </nuxt-link>
-              <nuxt-link to="/reserve" 
+              <nuxt-link to="/contact-us" 
                          class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
-                         :class="{ 'border-b-4 border-gold-500': currentPath == '/reserve' }"
+                         :class="{ 'border-b-4 border-gold-500': currentPath == '/contact-us' }"
            
               >
-                Objednať sa
+                Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
                          class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
@@ -85,16 +85,25 @@
                 <div>
                     <button id="user-dropdown" @click="userDropdown = !userDropdown" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-haspopup="true">
                       <span class="sr-only">Otvoriť užívateľské menu</span>
-                      <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-4xl text-gold-500 align-middle" /> 
+                      <div v-if="!this.$auth.loggedIn">
+                        <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-4xl text-gold-500 align-middle" /> 
+                      </div>
+                      <div v-else class="text-gold-500">
+                        {{ $store.state.auth.user.name }}
+                        <font-awesome-icon :icon="['fas', 'caret-down']"  class="text-gold-500 align-middle" /> 
+                      </div>
                     </button>
                 </div>
                 
                   <div v-if="this.$auth.loggedIn">
                     <transition name="dropdown">
                       <div v-if="userDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                          <nuxt-link to="/dashboard" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">
+                              Profil
+                          </nuxt-link>
                           <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Your Profile</a>
                           <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Settings</a>
-                          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Sign out</a>
+                          <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Odhlásiť sa</a>
                       </div>
                     </transition>
                   </div>
@@ -132,11 +141,11 @@
               >
                 Cenník
               </nuxt-link>
-              <nuxt-link to="/reserve" 
+              <nuxt-link to="/contact-us" 
                          class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
-                         :class="{ 'border-l-4 border-gold-500': currentPath == '/reserve' }"
+                         :class="{ 'border-l-4 border-gold-500': currentPath == '/contact-us' }"
               >
-                Objednať sa
+                Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
                          class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
@@ -182,18 +191,10 @@ export default {
             this.userDropdown = false;
             this.mobileDropdown = false;
         },
-
-        // openDropdown = ! : function(e) {
-        //   if(e.currentTarget.id == 'user-dropdown') {
-        //     console.log(e.currentTarget.id);
-
-        //     this.userDropdown = true;
-        //     this.modal = true;
-        //   } else if(e.currentTarget.id == 'mobile-dropdown') {
-        //     this.mobileDropdown = true;
-        //     this.modal = true;
-        //   }
-        // }
+        
+        async logout() {
+          await this.$auth.logout()
+        }
     }
 }
 </script>

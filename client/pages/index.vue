@@ -1,6 +1,6 @@
 <template>
-  <div class="img-bg rounded px-5 py-20 flex flex-col sm:flex-row mx-auto justify-between w-full text-sm z-10 relative">
-    <div class="sm:w-1/3 text-justify my-16 sm:my-32">
+  <div class="img-bg rounded px-5 py-40 flex flex-col sm:flex-row mx-auto justify-between w-full text-sm z-10 relative">
+    <div class="sm:w-1/3 text-justify sm:my-32 my-16">
       <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
         <p> Eaque eius autem facilis omnis dignissimos officia eligendi unde beatae laudantium, cupiditate nam molestiae numquam perspiciatis veniam ab aliquam. Excepturi, a magnam.
                       Libero ab dolorum aliquam, laboriosam, rerum beatae enim voluptate eligendi sit, sint voluptates magni qui quis voluptatem rem quasi ea iusto vero quod eos eaque accusamus laborum magnam est! Veritatis.

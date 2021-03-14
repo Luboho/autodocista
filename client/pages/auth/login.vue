@@ -19,7 +19,7 @@
                             name="email" 
                             value="" 
                             autocomplete="email"
-                            placeholder="imejl@email.sk">
+                        >
 
                         <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p>
 
@@ -81,6 +81,7 @@ export default {
             try {
                 await this.$axios.$get('sanctum/csrf-cookie');
                 await this.$auth.loginWith('local', {data: this.form})
+                    .then(() => this.$router.replace({path: '/dashboard'}))
             } catch (e) {
                 if(e.response.data.errors) {
                     this.errors = e.response.data.errors;

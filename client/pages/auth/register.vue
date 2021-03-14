@@ -40,7 +40,7 @@
                                 size="40"
                                 value="" 
                                 autocomplete="email"
-                                placeholder="imejl@email.sk">
+                            >
 
                             <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p>
         
@@ -144,10 +144,8 @@ export default {
                     password: this.form.password,
                     password_confirmation: this.form.password_confirmation,
                 }).then(function() {
-                    alert('You received a confirmation email. Please verify your email.')
+                    alert('Na váš email bol odoslaný odkaz. Prosím potvrďte ho.')
                 })
-                
-                this.$router.replace({name: 'index'})
             } catch (e) {
                 if(e.response.data.errors) {
                     this.errors = e.response.data.errors;

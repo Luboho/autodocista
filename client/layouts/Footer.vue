@@ -23,12 +23,12 @@
                 >
                     Cenník
                 </nuxt-link>
-                <nuxt-link to="/reserve" 
+                <nuxt-link to="/contact-us" 
                             class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
-                            :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/reserve' }"
+                            :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/contact-us' }"
             
                 >
-                    Objednať sa
+                    Napíšte nám
                 </nuxt-link>
                 <nuxt-link to="/locations" 
                             class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"

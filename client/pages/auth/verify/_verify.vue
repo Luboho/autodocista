@@ -21,8 +21,6 @@
           id: id
         });
 
-        console.log(resp);
-
         if (resp.data.data.success == true) {
           this.$router.replace({name: 'index'});
         } else {

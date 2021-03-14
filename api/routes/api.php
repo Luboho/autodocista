@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -30,8 +32,11 @@ Route::post('/verify', [VerificationController::class, 'verify']);
 Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
 Route::post('/forgot-password-verify', [ForgotPasswordController::class, 'verifyForgot']);
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
+Route::post('/logout', LogoutController::class);
 // end Auth routes
 
 Route::get('/get-branches', [BranchesController::class, 'show']);
+
+Route::post('/contact-us', [ContactUsController::class, 'store']);
 
 
