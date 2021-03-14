@@ -1,5 +1,5 @@
 <template>
-  <div class="img-bg rounded px-5 flex flex-col sm:flex-row mx-auto justify-between w-full container text-sm z-10 p-2 relative">
+  <div class="img-bg rounded px-5 py-20 flex flex-col sm:flex-row mx-auto justify-between w-full text-sm z-10 relative">
     <div class="sm:w-1/3 text-justify my-16 sm:my-32">
       <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
         <p> Eaque eius autem facilis omnis dignissimos officia eligendi unde beatae laudantium, cupiditate nam molestiae numquam perspiciatis veniam ab aliquam. Excepturi, a magnam.

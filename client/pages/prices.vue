@@ -1,6 +1,6 @@
 <template>
   <div class="img-bg p-5">
-      <ul class="container mx-auto pt-32">
+      <ul class="container mx-auto sm:p-10 my-24">
           <li class="mb-8">
             <div class="flex justify-between">
                 <h1 class="mb-2">

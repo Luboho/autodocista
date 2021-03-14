@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -19,16 +20,18 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 
+// Auth routes
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::post('/register', [RegisterUserController::class, 'store']);
 Route::post('/login', LoginController::class);
 Route::post('/verify', [VerificationController::class, 'verify']);
 Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
 Route::post('/forgot-password-verify', [ForgotPasswordController::class, 'verifyForgot']);
-
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
+// end Auth routes
+
+Route::get('/get-branches', [BranchesController::class, 'show']);
 
 

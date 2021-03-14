@@ -1,110 +1,118 @@
 <template>
-    <div>
-        <form @submit.prevent="submit" class="pt-1">
+    <div class="img-bg flex justify-center">
+        <div class="py-64">
 
-                <div class="relative">
-                    <label for="name" class="uppercase text-blue-500 text-xs font-bold absolute pl-3 pt-2">
-                        Meno
-                    </label>
+            <form @submit.prevent="submit" class="py-24 pb-10">
 
-                    <div>
-                        <input id="name"
-                               v-model="form.name"
-                               @click="clearErrors"
-                               type="text" 
-                               class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none border-none focus:bg-blue-700" 
-                               name="name" 
-                               value="" 
-                               autocomplete="name" autofocus>
-
-                        <p class="text-red-600 text-sm" v-text="errors.name ? errors.name[0] : ''"></p>
-
-                    </div>
-                </div>
-                
-                <div class="relative pt-3">
-                    <label for="email" class="absolute uppercase text-blue-500 text-xs font-bold pl-3 pt-2">
-                        E-mail
-                    </label>
+                    <div class="relative">
+                        <label for="name" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                            Meno
+                        </label>
 
                         <div>
-                            <input id="email" 
-                               v-model="form.email"
-                               type="email"
-                               @click="clearErrors"
-                               class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none border-none focus:bg-blue-700"
-                               name="email" 
-                               value="" 
-                               autocomplete="email"
-                               placeholder="imejl@email.sk">
+                            <input id="name"
+                                v-model="form.name"
+                                @click="clearErrors"
+                                type="text" 
+                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
+                                name="name" 
+                                size="40"
+                                value="" 
+                                autocomplete="name" autofocus>
 
-                        <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p>
-    
+                            <p class="text-red-600 text-sm" v-text="errors.name ? errors.name[0] : ''"></p>
+
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="relative pt-3">
+                        <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                            E-mail
+                        </label>
 
-                <div class="relative pt-3">
-                    <label for="city" class="absolute uppercase text-blue-500 text-xs font-bold pl-3 pt-2">
-                        Mesto
-                    </label>
+                            <div>
+                                <input id="email" 
+                                v-model="form.email"
+                                type="email"
+                                @click="clearErrors"
+                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                name="email" 
+                                size="40"
+                                value="" 
+                                autocomplete="email"
+                                placeholder="imejl@email.sk">
 
-                    <div>
-                        <input id="city" 
-                            v-model="form.city"
-                            type="text"
-                            @click="clearErrors"
-                            class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none border-none focus:bg-blue-700"
-                            name="city" 
-                            value="" 
-                            autocomplete="city"
-                            >
-
-                        <p class="text-red-600 text-sm" v-text="errors.city ? errors.city[0] : ''"></p>
-
+                            <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p>
+        
+                        </div>
                     </div>
-                </div>
 
-                <div class="relative pt-3">
-                    <label for="password" class="absolute uppercase text-blue-500 text-xs font-bold pl-3 pt-2">
-                       Heslo
-                    </label>
+                    <div class="relative pt-3">
+                        <label for="city" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                            Mesto
+                        </label>
 
-                    <input id="password" 
-                           v-model="form.password"
-                           @click="clearErrors"
-                           type="password" 
-                           class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none border-none focus:bg-blue-700" 
-                           name="password" 
-                           autocomplete="new-password">
+                        <div>
+                            <input id="city" 
+                                v-model="form.city"
+                                type="text"
+                                @click="clearErrors"
+                                class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                name="city" 
+                                size="40"
+                                value="" 
+                                autocomplete="city"
+                                >
 
-                    <p class="text-red-600 text-sm" v-text="errors.password ? errors.password[0] : ''"></p>
+                            <p class="text-red-600 text-sm" v-text="errors.city ? errors.city[0] : ''"></p>
 
-                </div>
+                        </div>
+                    </div>
 
+                    <div class="relative pt-3">
+                        <label for="password" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        Heslo
+                        </label>
 
-                <div class="relative pt-3">    
-                    <label for="password-confirm" class="absolute uppercase text-blue-500 text-xs font-bold pl-3 pt-2">
-                           Potvrdiť heslo
-                    </label>
-
-                    <input id="password-confirm" 
+                        <input id="password" 
+                            v-model="form.password"
                             @click="clearErrors"
-                            v-model="form.password_confirmation"
                             type="password" 
-                            class="pt-8 w-full rounded p-3 bg-blue-800 text-gray-100 outline-none border-none focus:bg-blue-700" 
-                            name="password_confirmation" 
+                            class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                            name="password" 
+                            size="40"
                             autocomplete="new-password">
 
-                    <p class="text-red-600 text-sm" v-text="errors.password_confirmation ? errors.password_confirmation[0] : ''"></p>
+                        <p class="text-red-600 text-sm" v-text="errors.password ? errors.password[0] : ''"></p>
 
-                </div>
-            
-                <div class="pt-8">
-                    <button type="submit" class="w-full focus:outline-none hover:shadow-xl focus:bg-indigo-700 bg-gray-400 hover:bg-gray-200 py-2 px-3 uppercase rounded text-indigo-700 focus:text-gray-400 font-bold">
-                        Registrovať
-                    </button>
-                </div>
-        </form>
+                    </div>
+
+
+                    <div class="relative pt-3">    
+                        <label for="password-confirm" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                            Potvrdiť heslo
+                        </label>
+
+                        <input id="password-confirm" 
+                                @click="clearErrors"
+                                v-model="form.password_confirmation"
+                                type="password" 
+                                class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                name="password_confirmation" 
+                                size="40"
+                                autocomplete="new-password">
+
+                        <p class="text-red-600 text-sm" v-text="errors.password_confirmation ? errors.password_confirmation[0] : ''"></p>
+
+                    </div>
+                
+                    <div class="pt-8">
+                        <button type="submit" class="border self-center focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
+                            Registrovať
+                        </button>
+                    </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -158,3 +166,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.img-bg {
+  background-image: url('~@/assets/default-images/reg-bg.jpg');
+  background-repeat: repeat-y;
+  background-position: center;
+}
+</style>

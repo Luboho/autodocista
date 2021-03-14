@@ -5,6 +5,9 @@ module.exports = {
   },
   purge: [],
   theme: {
+    maxWidth: {
+      '7xl': '1800px'
+    },
     extend: {
       colors: {
         gray: {
