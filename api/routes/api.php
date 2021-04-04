@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterUserController;
@@ -35,7 +36,10 @@ Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']
 Route::post('/logout', LogoutController::class);
 // end Auth routes
 
-Route::get('/get-branches', [BranchesController::class, 'show']);
+Route::get('/get-branches', [BranchesController::class, 'index']);
+
+Route::get('/get-messages', [DashboardController::class, 'index']);
+Route::post('/get-messages', [DashboardController::class, 'readMessage']);
 
 Route::post('/contact-us', [ContactUsController::class, 'store']);
 

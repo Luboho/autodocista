@@ -4,38 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Mail\MessageMail;
-use App\Models\ContactUs;
 use Illuminate\Http\Request;
+use App\Models\ContactFormMessage;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Resources\ContactUsResource;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContactUsController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, Branch $branch)
     {
-        $request->validate([
+        $data = request()->validate([
             'name' => ['nullable','string', 'max:50'],
             'email' => ['nullable','email'],
             'phone' => ['nullable', 'regex:/^[+]*[0-9]{9,13}/', 'min:9', 'max:13'],
-            'branch_address' => ['required', 'string', 'exists:App\Models\Branch,address'],
-            'message' => ['required', 'string', 'max:255']
+            'message' => ['required', 'string', 'max:255'],
+            'branch_id' => ['required', 'exists:App\Models\Branch,id'],
         ]);
 
-        $message = ContactUs::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'phone' => $request['phone'],
-            'branch' => $request['branch_address'],
-            'message' => $request['message']
-        ]);
+        // Get Branch object marked by User.
+        $branch = Branch::where('id', $request['branch_id'])->first();
 
-        // Get Branch Email 
-        $branchEmail = Branch::where('address', $request['branch_address'])->first();
+        $message = $branch->messages()->create($data);
 
         // Send an Email to Appropriate Branch Receiver
         if ($message) {    
             
-            Mail::to($branchEmail)->send(new MessageMail($message));
+            Mail::to($branch->email)->send(new MessageMail($message));
             return response()
                     ->json(['data' => ['success' => true ]])
                     ->setStatusCode(Response::HTTP_CREATED);

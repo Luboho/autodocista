@@ -18,6 +18,7 @@
                             class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
                             name="email" 
                             value="" 
+                            autofocus
                             autocomplete="email"
                         >
 

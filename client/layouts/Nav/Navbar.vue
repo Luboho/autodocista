@@ -97,7 +97,7 @@
                 
                   <div v-if="this.$auth.loggedIn">
                     <transition name="dropdown">
-                      <div v-if="userDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                      <div v-if="userDropdown" @click="closeDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                           <nuxt-link to="/dashboard" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">
                               Profil
                           </nuxt-link>
@@ -128,7 +128,7 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <transition name="dropdown">
       <div v-if="mobileDropdown" class="sm:hidden" id="mobile-menu">
-          <div class="flex flex-col flex-grow px-2 pt-2 pb-3 space-y-1">
+          <div @click="closeDropdown" class="flex flex-col flex-grow px-2 pt-2 pb-3 space-y-1">
               <nuxt-link to="/about" 
                          class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-4 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"

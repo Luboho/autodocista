@@ -46,7 +46,7 @@
     <!-- Mobile Num Selection -->
                 <div class="relative py-6">
                     <label for="phone" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
-                        Telefon
+                        Telefón
                     </label>
                     <input @click="clearErrors" 
                         id="phone" 
@@ -61,17 +61,17 @@
                         <p class="text-red-600 text-sm" v-text="errors.phone ? errors.phone[0] : ''"></p>
                 </div>
 
-    <!-- City Selection -->
+    <!-- Branch Selection -->
                 <div class="relative py-6">
                     
-                    <select name="city" id="" v-model="form.branch_address"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                    <select name="city" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                         <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
-                        <option v-for="branch in branches" :key="branch.id" :value="branch.address" class="bg-gray-400">{{ branch.city }} , {{ branch.address }}</option>
+                        <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.city }} , {{ branch.address }}</option>
                     </select>
                 </div>
-
+<!-- Message area -->
                 <div class="relative py-6">
-                    <label for="phone" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                    <label for="message" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
                         Správa *
                     </label>
                     <textarea @click="clearErrors" 
@@ -103,15 +103,14 @@
                 name: "",
                 email: "",
                 phone: "",
-                branch_address: "",
-                message: "",
+                branch_id: "",
             },
-            errors:[]
+            errors:[],
         }),
 
         computed: {
             ...mapState({
-                branches: state => state.branches.branches
+                branches: state => state.branches.branches,
             }),
         },
 
@@ -126,11 +125,10 @@
                         name: this.form.name,
                         email: this.form.email,
                         phone: this.form.phone,
-                        branch_address: this.form.branch_address,
+                        branch_id: this.form.branch_id,
                         message: this.form.message
-                    }).then(function() {
-                        alert('Ďakujeme za vašu správu.')
-                    })      
+                    }).then(() => alert('Thank you for the message'))
+                      .then(() => this.$router.replace({path: '/'}));
                 } catch (e) {
                     if(e.response.data.errors) {
                         this.errors = e.response.data.errors;

@@ -9,7 +9,7 @@ use App\Http\Resources\BranchResource;
 
 class BranchesController extends Controller
 {
-    public function show(Request $request) {
+    public function index(Request $request) {
         $branches = Branch::get();
 
         if($branches) {

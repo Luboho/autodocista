@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Branch;
 use App\Models\TempUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,29 +23,38 @@ class VerificationController extends Controller
         $tempUser = TempUser::find($request->id);
 
         if ($tempUser && $request->token == $tempUser->email_verification_code) {
-            $tempUser->email_verification_code = md5(rand(0, 6));
+            $tempUser->email_verification_code = md5(rand(0, 6)); // Change verif.code to make it on once use.
             $tempUser->save();
             
             $userName = $tempUser->name;
-            $userCity = $tempUser->city;
+            $branchId = $tempUser->branch_id;
             $userEmail = $tempUser->email;
+            $userRole = $tempUser->role;
             $userEmailVerifCode = $tempUser->email_verification_code;
             $userPassword = $tempUser->password;
-            
+
+
+            // Find Appropriate Branch to Save New User to It.
+            // $branch = Branch::find($branchId);
         }
+
 
         // Move Temporary User to Verified User table.
         if($tempUser) {
             $user = new User();
             $user->name = $userName;
-            $user->city = $userCity;
+            $user->branch_id = $branchId;
             $user->email = $userEmail;
+            $user->role = $userRole;
             $user->email_verification_code = $userEmailVerifCode;
             $user->email_verified_at = now();
             $user->password = $userPassword;
             $user->save();
+
             // Delete Temp User Row
             $tempUser->delete();
+
+
 
             return response()
                     ->json(['data' => [ 'success' => true ]])

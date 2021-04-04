@@ -4,38 +4,38 @@
 
             <div class="flex flex-col p-10 mt-16 bg-opacity-50">
                 <nuxt-link to="/" 
-                         class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2"
                          :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/' }"
                 >
-                    Domov
+                    <h1>Domov</h1>
                 </nuxt-link>
                 <nuxt-link to="/about" 
                          class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/about' }"
 
                 >
-                    O nás
+                    <h1>O nás</h1>
                 </nuxt-link>
                 <nuxt-link to="/prices" 
                             class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
                             :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/prices' }"
             
                 >
-                    Cenník
+                    <h1>Cenník</h1>
                 </nuxt-link>
                 <nuxt-link to="/contact-us" 
                             class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
                             :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/contact-us' }"
             
                 >
-                    Napíšte nám
+                    <h1>Napíšte nám</h1>
                 </nuxt-link>
                 <nuxt-link to="/locations" 
                             class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2 text-sm font-medium"
                             :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/locations' }"
             
                 >
-                    Nájdete nás
+                    <h1>Nájdete nás</h1>
                 </nuxt-link>
             </div>
 
@@ -55,7 +55,7 @@
             </div>
 
             <div class="p-10 mt-16  bg-opacity-50">
-                <h2 class="text-base font-bold py-2">Otváracie hodiny:</h2>
+                <h1 class="font-bold py-2">Otváracie hodiny:</h1>
                 <div class="flex">
                     <div class="">
                         <p>Pondelok:</p> 

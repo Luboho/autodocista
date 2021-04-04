@@ -18,7 +18,9 @@
                                 name="name" 
                                 size="40"
                                 value="" 
-                                autocomplete="name" autofocus>
+                                autocomplete="name"
+                                autofocus
+                            >
 
                             <p class="text-red-600 text-sm" v-text="errors.name ? errors.name[0] : ''"></p>
 
@@ -47,26 +49,34 @@
                         </div>
                     </div>
 
+    <!-- Branch Selection -->
                     <div class="relative pt-3">
-                        <label for="city" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
-                            Mesto
-                        </label>
+                        <select name="branch" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                            <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
+                            <option v-for="branch in branches" 
+                                    :key="branch.id" 
+                                    :value="branch.id" 
+                                    class="bg-gray-400"
+                            >
+                                {{ branch.city }} , {{ branch.address }}
+                            </option>
+                        </select>
+                    </div>
 
-                        <div>
-                            <input id="city" 
-                                v-model="form.city"
-                                type="text"
-                                @click="clearErrors"
-                                class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
-                                name="city" 
-                                size="40"
-                                value="" 
-                                autocomplete="city"
-                                >
-
-                            <p class="text-red-600 text-sm" v-text="errors.city ? errors.city[0] : ''"></p>
-
-                        </div>
+                    <div class="relative pt-3">
+                        <select name="role" id="" v-model="form.role"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                            <option value="" selected="true" disabled="disabled">Vyberte oprávnenie užívateľa...*</option>
+                            <option value="user"
+                                    class="bg-gray-400"
+                            >
+                                Užívateľ
+                            </option>
+                            <option value="admin"
+                                    class="bg-gray-400"
+                            >
+                                Admin
+                            </option>
+                        </select>
                     </div>
 
                     <div class="relative pt-3">
@@ -117,6 +127,8 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
+
 export default {
     name: "Register",
 
@@ -124,12 +136,19 @@ export default {
         form: {
             name: "",
             email: "",
-            city: "",
+            branch_id: "",
+            role: "",
             password: "",
             password_confirmation: ""
         },
         errors: []
     }),
+
+    computed: {
+            ...mapState({
+                branches: state => state.branches.branches
+            }),
+    },
 
     methods: {
          async submit(e) {
@@ -140,7 +159,8 @@ export default {
                 await this.$axios.post('/api/register', {
                     name: this.form.name,
                     email: this.form.email,
-                    city: this.form.city,
+                    branch_id: this.form.branch_id,
+                    role: this.form.role,
                     password: this.form.password,
                     password_confirmation: this.form.password_confirmation,
                 }).then(function() {

@@ -8,11 +8,14 @@ h1, h2 {
 
 h1 {
     color: #fde047;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 h2 {
     color: #e9e9ea;
+    font-size: 1rem;
+    line-height: 1.7rem;
+
 }
 
 h3 {
@@ -22,5 +25,6 @@ h3 {
 
 p {
     color: #cccccc;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    line-height: 1.7rem;
 }

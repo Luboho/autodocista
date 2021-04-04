@@ -1,9 +1,11 @@
 @component('mail::message')
 <b>Kontaktné údaje zákazníka: </b>
 <br>
+<b>Meno:</b> {{ $data['name']  }} 
+<br>
 <b>Email:</b> {{ $data['email']  }} 
 <br>
-<b>Telefon:</b> {{ $data['phone']  }} 
+<b>Telefón:</b> {{ $data['phone']  }} 
 <br>
 
 
@@ -13,5 +15,4 @@
 
 
 
-<b>Meno:</b> {{ $data['name']  }} 
 @endcomponent

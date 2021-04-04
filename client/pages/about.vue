@@ -1,9 +1,9 @@
 <template>
-  <div class="img-bg rounded px-5 flex flex-col sm:flex-row mx-auto justify-between mt-10 text-sm z-10 relative">
+  <div class="img-bg rounded px-5 flex flex-col sm:flex-row mx-auto justify-between z-10 relative">
     <div>
-      <div class="lg:grid grid-rows-3 grid-flow-col gap-4 place-items-center sm:p-10 lg:pt-20 lg:px-16">
+      <div class="lg:grid grid-rows-3 grid-flow-col gap-4 place-items-center sm:p-10 lg:pt-20 lg:px-16 mt-20">
         <div class="col-span-3">
-          <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+          <h1 class="mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
           <p class="text-justify"> Eaque eius autem facilis omnis dignissimos officia eligendi unde beatae laudantium, cupiditate nam molestiae numquam perspiciatis veniam ab aliquam. Excepturi, a magnam.
                         Libero ab dolorum aliquam, laboriosam, rerum beatae enim voluptate eligendi sit, sint voluptates magni qui quis voluptatem rem quasi ea iusto vero quod eos eaque accusamus laborum magnam est! Veritatis.
                         Maxime corrupti animi qui, accusantium, amet mollitia cupiditate veniam accusamus debitis consectetur ipsa enim laudantium ad obcaecati veritatis dolor facilis delectus. Optio vitae dolor quidem beatae adipisci, animi nostrum sed!
@@ -11,7 +11,7 @@
           </p>
         </div>
         <div class="lg:row-span-2">
-          <h1>Sit amet consectetur adipisicing elit.</h1>
+          <h1 class="mb-2">Sit amet consectetur adipisicing elit.</h1>
           <p class="text-justify"> Eaque eius autem facilis omnis dignissimos officia eligendi unde beatae laudantium, cupiditate nam molestiae numquam perspiciatis veniam ab aliquam. Excepturi, a magnam.
                         Libero ab 
                         upti animi qui, accusantium, amet mollitia cupiditate veniam accusamus debitis consectetur ipsa enim laudantium ad obcaecati veritatis dolor facilis delectus. Optio vitae dolor quidem beatae adipisci, animi nostrum sed!
