@@ -72,28 +72,29 @@
         </div>
 
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button class="p-1 rounded-full text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <span class="sr-only">View notifications</span>
-              <!-- Heroicon name: outline/bell -->
-              <div>
-                  <font-awesome-icon :icon="['fas', 'bell']"  class="align-middle text-2xl color-white"/> 
-               </div>
+            
+          <!-- Notifications Bell/New message counter -->
+            <button v-if="this.$auth.loggedIn" v-show="unreadMsgs.length > 0" class="p-1 text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              <div @click="setTab('messages')" class="flex">
+                <nuxt-link to="/dashboard"  class="text-red-600 align-top font-bold text-xs ml-1" role="menuitem">
+                  <font-awesome-icon :icon="['fas', 'bell']"  class="text-xl text-white"/>
+                  {{ unreadMsgs.length }}
+                </nuxt-link>
+              </div>
             </button>
 
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
-                <div>
                     <button id="user-dropdown" @click="userDropdown = !userDropdown" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-haspopup="true">
                       <span class="sr-only">Otvoriť užívateľské menu</span>
                       <div v-if="!this.$auth.loggedIn">
                         <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-4xl text-gold-500 align-middle" /> 
                       </div>
-                      <div v-else class="text-gold-500">
+                      <div v-else class="text-gold-500">      
                         {{ $store.state.auth.user.name }}
                         <font-awesome-icon :icon="['fas', 'caret-down']"  class="text-gold-500 align-middle" /> 
                       </div>
                     </button>
-                </div>
                 
                   <div v-if="this.$auth.loggedIn">
                     <transition name="dropdown">
@@ -112,9 +113,9 @@
                     <transition name="dropdown">
                       <div v-if="userDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                         <nuxt-link to="/auth/login" 
-                          class="text-gold-500 hover:text-gold-400 hover:font-bold px-3 py-2 text-sm font-medium"
+                          class="text-gold-500 hover:text-gold-400 hover:font-bold flex justify-items-center justify-center py-2 text-sm font-medium"
                         >
-                          <a href="" @click="closeDropdown">Prihlásiť sa</a>
+                          <a href="" @click="closeDropdown" class="">Prihlásiť sa</a>
                         </nuxt-link>                    
                       </div>
                     </transition>
@@ -164,6 +165,8 @@
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex'
+
 export default {
     data: () => ({
         userDropdown: false,
@@ -182,10 +185,21 @@ export default {
       currentPath() {
         return this.$route.path;
       },
+
+      // Notifications
+      ...mapState({
+        messages: state => state.contactForm.messages,
+      }),
+
+      unreadMsgs() {
+        return this.messages.filter(message => message.read == 0);
+      }
     },
 
 
     methods: {
+        ...mapMutations({ setTab : 'dashboardTab/setTab' }),
+
 
         closeDropdown: function(e) {
             this.userDropdown = false;
@@ -194,7 +208,7 @@ export default {
         
         async logout() {
           await this.$auth.logout()
-        }
+        },
     }
 }
 </script>

@@ -3,7 +3,9 @@
 namespace App\Http\Resources;
 
 use Carbon\Carbon;
+use App\Models\Branch;
 use Illuminate\Http\Resources\Json\JsonResource;
+
 
 class ContactUsResource extends JsonResource
 {
@@ -17,6 +19,7 @@ class ContactUsResource extends JsonResource
     {
        return [
            'id' => $this->id,
+           'branch' => Branch::findOrFail($this->branch_id),
            'name' => $this->name,
            'email' => $this->email,
            'phone' => $this->phone,

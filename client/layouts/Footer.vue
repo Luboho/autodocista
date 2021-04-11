@@ -44,12 +44,12 @@
                 <h1 class="font-bold pb-1">Prevádzky</h1>
                 <transition name="dropdown">
                     <div class="absolute z-100 inset-0 flex flex-col justify-center text-gold-500 bg-gray-600" v-if="hover">
-                        <HoverContacts :city="branch[0].city" :phone="branch[0].phone" :email="branch[0].email" />
+                        <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" />
                         <img src="@/assets/default-images/logo200x121.png"  alt="Auto Dočista">
                     </div>
                 </transition>
                 <div v-for="branch in branches" :key="branch.id" class="py-2 whitespace-no-wrap">
-                    <h2 @mouseover="hoverCity(branch.slug)">{{ branch.city }}, {{ branch.address }}  <span class="text-xs text-gold-500 inline-block align-top">?</span></h2>
+                    <h2 @mouseover="hoverCity(branch.id)">{{ branch.name }}  <span class="text-xs text-gold-500 inline-block align-top">?</span></h2>
                 </div>
                 
             </div>
@@ -90,7 +90,7 @@
     export default {
         data: () => ({
             hover: false,
-            slug: "",
+            id: "",
         }),
 
         async mounted() {
@@ -107,12 +107,12 @@
             }),
 
             branch() {
-                return this.branches.filter(branch => branch.slug == this.slug);
+                return this.branches.filter(branch => branch.id == this.id);
             }
         },
         methods: {
-            hoverCity(slug) {
-                this.slug = slug;
+            hoverCity(id) {
+                this.id = id;
                 this.hover = true;
             },
 

@@ -23,10 +23,11 @@ class BranchFactory extends Factory
     public function definition()
     {
         return [
+            'name' => $this->faker->company,
             'city' => $this->faker->country,
             'address' => $this->faker->address,
             'postal_code' => $this->faker->postcode,
-            'phone' => $this->faker->phoneNumber,
+            'phone' => $this->faker->e164PhoneNumber,
             'email' => $this->faker->email,
         ];
     }

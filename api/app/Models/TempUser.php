@@ -20,6 +20,7 @@ class TempUser extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'branch_id',
         'password',
         'is_admin',

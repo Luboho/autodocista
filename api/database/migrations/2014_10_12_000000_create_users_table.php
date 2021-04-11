@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('branch_id')->unsigned()->index();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone');
             $table->string('role');
             $table->boolean('is_admin')->default(false);
             $table->string('password');

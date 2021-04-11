@@ -1,14 +1,23 @@
 <template>
-<div>
-  <!-- Spinner -->fdfasdfasdfsdaf
+<div class="w-full h-full flex justify-items-center justify-center">
+  <div class="my-64">
+    <Spinner :loading="loading" />
+  </div>
 </div>
 </template>
 
 <script>
+import Spinner from './../../../components/Spinner'
   export default {
+
+    data: () => ({
+        loading: true
+    }),
+
     async mounted() {
       await this.verify();
     },
+
     methods: {
       async verify() {
         const id = this.$route.params.verify.split('-').pop();
@@ -22,12 +31,18 @@
         });
 
         if (resp.data.data.success == true) {
-          this.$router.replace({name: 'index'});
+          this.loading = false;
+          this.$router.replace('/auth/login');
         } else {
           alert('You are already been verified, please login.');
-          // this.$router.replace({name: 'auth-login'});
+          this.loading = false;
+          this.$router.replace('/auth/login');
         }
       }
+    },
+
+    components: {
+      Spinner
     }
   }
 </script>;

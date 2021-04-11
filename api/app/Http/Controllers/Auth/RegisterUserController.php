@@ -17,6 +17,7 @@ class RegisterUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'min:9', ],
             'branch_id' => ['required', 'exists:App\Models\Branch,id'],
             'role' => 'required',
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -25,6 +26,7 @@ class RegisterUserController extends Controller
         $tempUser = TempUser::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'phone' => $request['phone'],
             'email_verification_code' => md5(rand(0,6)), 
             'role' => $request['role'],
             'password' => Hash::make($request['password']),

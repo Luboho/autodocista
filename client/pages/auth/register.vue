@@ -49,6 +49,28 @@
                         </div>
                     </div>
 
+                    <div class="relative pt-3">
+                        <label for="phone" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                            Telefón
+                        </label>
+
+                            <div>
+                                <input id="phone" 
+                                v-model="form.phone"
+                                type="text"
+                                @click="clearErrors"
+                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                name="phone" 
+                                size="40"
+                                value="" 
+                                autocomplete="phone"
+                            >
+
+                            <p class="text-red-600 text-sm" v-text="errors.phone ? errors.phone[0] : ''"></p>
+        
+                        </div>
+                    </div>
+
     <!-- Branch Selection -->
                     <div class="relative pt-3">
                         <select name="branch" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
@@ -58,7 +80,7 @@
                                     :value="branch.id" 
                                     class="bg-gray-400"
                             >
-                                {{ branch.city }} , {{ branch.address }}
+                                {{ branch.name }}
                             </option>
                         </select>
                     </div>
@@ -136,6 +158,7 @@ export default {
         form: {
             name: "",
             email: "",
+            phone: "",
             branch_id: "",
             role: "",
             password: "",
@@ -159,6 +182,7 @@ export default {
                 await this.$axios.post('/api/register', {
                     name: this.form.name,
                     email: this.form.email,
+                    phone: this.form.phone,
                     branch_id: this.form.branch_id,
                     role: this.form.role,
                     password: this.form.password,

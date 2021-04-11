@@ -17,7 +17,7 @@ class BranchesController extends Controller
         } else {
             return response()->json(['data' => [
                 'errors' => [
-                    'root' => 'No branches.'
+                    'root' => 'No branches found.'
                 ]
             ]]);
         }
