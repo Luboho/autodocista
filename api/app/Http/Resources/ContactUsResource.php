@@ -4,8 +4,8 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use App\Models\Branch;
+use App\Http\Resources\BranchResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-
 
 class ContactUsResource extends JsonResource
 {
@@ -26,7 +26,18 @@ class ContactUsResource extends JsonResource
            'message' => $this->message,
            'read' => $this->read,
            'created_at' => $this->created_at->diffForHumans(),
-           'updated_at' => $this->updated_at->diffForHumans()
-       ];
+           'updated_at' => $this->updated_at->diffForHumans(),
+           'pagination' => $this->collection 
+        ];
+        // return ['data' => $this->collection];
+        // // return parent::toArray($request);
+
+        // EAger + Lazy loading
+        // $branches = $this->whenLoaded('branch');
+        // return [
+        //     'id' => $this->id,
+        //     'message' => $this->message,
+        //     'branch' => new BranchResource($branches)
+        // ];
     }
 }

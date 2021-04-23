@@ -18,8 +18,9 @@ class RegisterUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'min:9', ],
+            'is_admin' => ['boolean'],
             'branch_id' => ['required', 'exists:App\Models\Branch,id'],
-            'role' => 'required',
+            // 'role' => 'required',
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -27,8 +28,9 @@ class RegisterUserController extends Controller
             'name' => $request['name'],
             'email' => $request['email'],
             'phone' => $request['phone'],
-            'email_verification_code' => md5(rand(0,6)), 
-            'role' => $request['role'],
+            'email_verification_code' => md5(rand(0,6)),
+            'is_admin' => json_encode($request['is_admin']),
+            // 'role' => $request['role'],
             'password' => Hash::make($request['password']),
             'branch_id' => $request['branch_id'],
         ]);

@@ -66,7 +66,7 @@
                     
                     <select name="city" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                         <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
-                        <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.city }} , {{ branch.address }}</option>
+                        <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.name }} , {{ branch.city }}</option>
                     </select>
                 </div>
 <!-- Message area -->

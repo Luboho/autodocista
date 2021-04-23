@@ -53,7 +53,9 @@
             <tbody v-for="branch in branches" :key="branch.id">
                 <tr class="text-gray-200 rounded-xl border-2 border-black transition delay-700 duration-500 ease-in">
                     <td class="w-3/12 pl-2 first:text-gray-800">
-                        {{ branch.name }}
+                        <span class="text-gray-600 font-bold">
+                            {{ branch.name }}
+                        </span>    
                             <br>
                         <a :href="'mailto:' + branch.email">{{ branch.email }}</a>
                             <br>
@@ -66,12 +68,16 @@
             </tbody>
         </table>
     </div>
+    <div v-if="branches">
+        <Pagination store="branches" collection="branches" />
+    </div>
 </div>
 </template>
 
 <script>    
 import {mapState} from 'vuex'
 import Spinner from './Spinner'
+import Pagination from './Pagination'
 
 export default {
     name: "Branches",
@@ -83,13 +89,13 @@ export default {
 
     computed: {
         ...mapState({
-            branches: state => state.branches.branches,
-            loading: state => state.branches.loading
+            branches: state => state.branches.branches.data,
+            loading: state => state.loading
         }),
     },
 
     async mounted() {
-        // await this.$store.dispatch('contactForm/getMessages'),
+        await this.$store.dispatch('branches/getList', 0),
 
         this.fitTableByDeviceWidth();
 
@@ -104,17 +110,20 @@ export default {
 
     methods: {
 
+        // ...mapActions(['deleteBranch']),
+
         fitTableByDeviceWidth() {
             if (window.innerWidth < 768){
                 this.smallDevice = true;
             } else {
                 this.smallDevice = false;
             }
-        }
+        },
     },
 
     components: {
-        Spinner
+        Spinner,
+        Pagination
     }
 }
 </script>

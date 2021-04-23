@@ -24,7 +24,7 @@ class User extends Authenticatable
         'branch_id',
         'password',
         'is_admin',
-        'role',
+        // 'role',
         'email_verified_at',
         'email_verification_code',
     ];

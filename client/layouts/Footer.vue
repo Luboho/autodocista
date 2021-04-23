@@ -40,10 +40,10 @@
             </div>
 
 <!-- Company Branchies -->
-            <div @mouseleave="hover = false" class="p-10 mt-16 border border-gold-500 rounded-md place-items-center relative bg-opacity-50">
+            <div @mouseleave="hover = false" class="px-20 py-5 mt-16 border border-gold-500 rounded-md place-items-center relative bg-opacity-50">
                 <h1 class="font-bold pb-1">Prevádzky</h1>
                 <transition name="dropdown">
-                    <div class="absolute z-100 inset-0 flex flex-col justify-center text-gold-500 bg-gray-600" v-if="hover">
+                    <div class="absolute z-100 inset-0 flex flex-col  justify-center text-gold-500 bg-gray-600" v-if="hover">
                         <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" />
                         <img src="@/assets/default-images/logo200x121.png"  alt="Auto Dočista">
                     </div>
@@ -94,7 +94,7 @@
         }),
 
         async mounted() {
-            await this.$store.dispatch('branches/getBranches')
+            await this.$store.dispatch('branches/getList')
         },
 
         computed: {
@@ -103,7 +103,7 @@
             },
 
             ...mapState({
-                branches: state => state.branches.branches
+                branches: state => state.branches.branches.data
             }),
 
             branch() {

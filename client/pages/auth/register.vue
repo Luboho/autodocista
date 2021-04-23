@@ -86,14 +86,14 @@
                     </div>
 
                     <div class="relative pt-3">
-                        <select name="role" id="" v-model="form.role"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                        <select name="is_admin" id="" v-model="form.is_admin"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                             <option value="" selected="true" disabled="disabled">Vyberte oprávnenie užívateľa...*</option>
-                            <option value="user"
+                            <option value='0'
                                     class="bg-gray-400"
                             >
                                 Užívateľ
                             </option>
-                            <option value="admin"
+                            <option value='1'
                                     class="bg-gray-400"
                             >
                                 Admin
@@ -160,7 +160,7 @@ export default {
             email: "",
             phone: "",
             branch_id: "",
-            role: "",
+            is_admin: '',
             password: "",
             password_confirmation: ""
         },
@@ -184,7 +184,7 @@ export default {
                     email: this.form.email,
                     phone: this.form.phone,
                     branch_id: this.form.branch_id,
-                    role: this.form.role,
+                    is_admin: this.form.is_admin,
                     password: this.form.password,
                     password_confirmation: this.form.password_confirmation,
                 }).then(function() {

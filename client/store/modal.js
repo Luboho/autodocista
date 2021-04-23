@@ -3,13 +3,13 @@ export const state = () => ({
 })
 
 export const mutations = {
-    SET_MODAL(state, value) {
+    setModal(state, value) {
         state.modal = value
     }
 }
 
 export const actions = {
-    changeModal({commit, boolean}) {
-       commit('SET_MODAL', boolean)
+    async changeModal({commit, boolean}) {
+       commit('setModal', boolean)
     }
 }

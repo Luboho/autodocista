@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Branch;
 use App\Mail\MessageMail;
 use Illuminate\Http\Request;
 use App\Models\ContactFormMessage;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\ContactUsResource;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ContactUsCollectionResource;
 
 class ContactUsController extends Controller
 {
     public function index(Request $request, ContactFormMessage $contactFormMessage)
     {
-        if(auth()->check() && auth()->user()->role == 'admin') {
-            $messages = ContactFormMessage::all();
-        } else if(auth()->check() && auth()->user()->role == 'user') {
-            // Get Messages for Authenticated User of specific Branch.
+        // Get All messages.
+        if(auth()->check() && auth()->user()->is_admin == '1') {
+            $page = $request->input('page');
+            $messages = ContactFormMessage::orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+           
+        // Get Messages for Authenticated User of specific Branch.
+        } else if(auth()->check() && auth()->user()->is_admin == '0') {
             $messages = auth()->user()->branch->messages;
         }
-
+        
         if($messages) {
-            // return response()->json(['data' => $messages]);
-
-            return ContactUsResource::collection($messages);
+            return ContactUsResource::collection($messages)->response();
         } else {
             return response()->json(['data' => [
                 'errors' => [

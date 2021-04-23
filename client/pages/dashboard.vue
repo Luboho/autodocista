@@ -36,20 +36,24 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import ContactFormMessages from '../components/ContactFormMessages'
 import Users from '../components/Users'
 import Branches from '../components/Branches'
+import Spinner from '../components/Spinner'
+import Pagination from '../components/Pagination'
  
 export default {
     name: "dashboard",
+    middleware: 'authenticated',
 
     async mounted() {
-        await this.$store.dispatch('contactForm/getMessages')
+        await this.$store.dispatch('contactForm/getList')
     },
 
     computed: {
@@ -66,7 +70,9 @@ export default {
     components: {
         ContactFormMessages,
         Branches,
-        Users
+        Users,
+        Spinner,
+        Pagination
     }
 }
 </script>

@@ -2,6 +2,7 @@
 use Carbon\Carbon;
 namespace App\Http\Resources;
 
+use App\Http\Resources\ContactUsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BranchResource extends JsonResource
@@ -23,6 +24,9 @@ class BranchResource extends JsonResource
             'email' => $this->email,
             'postal_code' => $this->postal_code,
             'created_at' => $this->created_at->diffForHumans(),
+            // Eager + Lazy Loading
+            // 'id' => $this->id,
+            // 'messages' => ContactUsResource::collection($this->whenLoaded('messages')),
         ];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="z-10 relative">
     <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
     
     <div class="absolute w-full flex justify-center">
@@ -70,11 +70,11 @@
                             <br >
                         <a :href="'tel:' + message.phone"> {{ message.phone }}</a>
                     </td>
-                    <td class="text-center w-3/12">{{ message.branch.name }}</td>
+                    <td class="text-center w-3/12 text-gray-600 font-kbold">{{ message.branch.name }}</td>
                     <td class="text-center w-6/12">
-                        <div @click="showMsg(message.message, message.id, $event)" class="hover:text-gold-800 cursor-pointer">
+                        <div @click="showMsg(message.message, message.id, $event)" class="hover:text-gold-500 relative transition duration-500 ease-in-out cursor-pointer">
                             <!-- Show/Hide part of text with VannilaJS  -->
-                            {{ message.message.slice(0, 40) }} . . . 
+                                {{ message.message.slice(0, 40) }} . . . 
                         </div>
                     </td>
                     <td class="w-1/12 pr-1">{{ message.created_at }}</td>
@@ -82,26 +82,31 @@
             </tbody>
         </table>
     </div>
+    <div v-if="messages">
+        <Pagination store="contactForm" collection="messages" />
+    </div>
 </div>
 </template>
 
 <script>    
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import Spinner from './Spinner'
+import Modal from './Modal'
+import Pagination from './Pagination'
 
 export default {
-    name: "DashboardTable",
+    name: "ContactFormMessages",
+
 
     data: () => ({
         smallDevice: true,
         clickedMsg: false,
     }),
 
-
     computed: {
         ...mapState({
-            messages: state => state.contactForm.messages,
-            loading: state => state.contactForm.loading
+            messages: state => state.contactForm.messages.data,
+            loading: state => state.loading.loading,
         }),
     },
 
@@ -119,36 +124,40 @@ export default {
     },
 
     async mounted() {
-        await this.$store.dispatch('contactForm/getMessages')
+        await this.$store.dispatch('contactForm/getList', 0)
     },
 
     methods: {
+        ...mapMutations({
+             setModal: 'modal/setModal'
+        }),
+    
         async showMsg(text, id, event) {
             if(event.target.innerText.length > 46) {
                 //SHORTEN TEXT
                 event.target.innerText = text.slice(0, 40) + ' . . .';
-                // Unmark Unread Message
+                // Unmark Unread Message(FrontEnd)
                 event.target.parentElement.parentElement.classList.remove('bg-gray-200', 'text-gray-700', 'font-bold');
                 
             } else {
                 // Mark message
-                event.target.parentElement.parentElement.classList.add('bg-gray-200', 'text-gray-700', 'font-bold');
+                event.target.parentElement.parentElement.classList.add('bg-gray-200', 'text-gray-700', 'font-bold' );
 
                 // SHOW FULL TEXT
                 event.target.innerText = `${text}  [ . . . čítaj menej ]`;
 
+                // Unmark Unread Message(BackEnd)
                 try {
                     await this.$axios.$get('sanctum/csrf-cookie');
                     await this.$axios.post('api/messages', { 
                         id: id,   
                         messageOpened: true 
                     });
-                    await this.$store.dispatch('contactForm/getMessages')
-
-                        
+                    await this.$store.dispatch('contactForm/getList')
                 } catch (e) {
                     console.log(e.response)
                 }
+                    this.setModal(true)
             }
         },
 
@@ -162,7 +171,9 @@ export default {
     },
 
     components: {
-        Spinner
+        Spinner,
+        Modal,
+        Pagination
     }
 }
 </script>

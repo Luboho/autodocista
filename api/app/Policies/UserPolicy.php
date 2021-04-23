@@ -3,11 +3,9 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Branch;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BranchPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -26,10 +24,10 @@ class BranchPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Branch  $branch
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function view(User $user, Branch $branch)
+    public function view(User $user, User $model)
     {
         //
     }
@@ -49,10 +47,10 @@ class BranchPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Branch  $branch
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function update(User $user, Branch $branch)
+    public function update(User $user, User $model)
     {
         //
     }
@@ -61,22 +59,22 @@ class BranchPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Branch  $branch
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function delete(User $user, Branch $branch)
+    public function delete(User $user)
     {
-        return $user->is_admin === true;
+        return $user->is_admin == 1;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Branch  $branch
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function restore(User $user, Branch $branch)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -85,10 +83,10 @@ class BranchPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Branch  $branch
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Branch $branch)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

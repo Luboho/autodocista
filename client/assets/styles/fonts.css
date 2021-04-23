@@ -1,6 +1,13 @@
 body {
     font-family: 'Montserrat', sans-serif;
 }
+::-moz-selection { /* Code for Firefox */
+    background: #fff;
+  }
+  
+::selection {
+    background: #fff;
+}
 
 h1, h2 {
     font-family: 'Lora', serif;

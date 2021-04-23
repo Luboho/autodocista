@@ -13,7 +13,11 @@
         </div>
         <div class="absolute inset-y-0 flex items-center justify-end sm:hidden">
           <!-- Mobile menu button-->
-          <button id="mobile-dropdown" @click="mobileDropdown = !mobileDropdown " type="button" class="animate inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <button id="mobile-dropdown" @click="mobileDropdown = !mobileDropdown" 
+                  type="button" 
+                  class="animate inline-flex items-center justify-center p-2 rounded-md text-gray-400 
+                       hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset 
+                         focus:ring-white transition duration-500 ease-in-out" aria-controls="mobile-menu" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
             <!-- Icon when menu is closed. -->
             <!--
@@ -41,30 +45,32 @@
               
             <div class="hidden sm:block sm:ml-6">
               <nuxt-link to="/about" 
-                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
+                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium
+                                transition duration-500 ease-in-out"
                          :class="{ 'border-b-4 border-gold-500': currentPath == '/about' }"
 
               >
                 O nás
               </nuxt-link>
               <nuxt-link to="/prices" 
-                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
+                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium
+                                 transition duration-500 ease-in-out"
                          :class="{ 'border-b-4 border-gold-500': currentPath == '/prices' }"
            
               >
                 Cenník
               </nuxt-link>
               <nuxt-link to="/contact-us" 
-                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
+                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium
+                               transition duration-500 ease-in-out"
                          :class="{ 'border-b-4 border-gold-500': currentPath == '/contact-us' }"
-           
               >
                 Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
-                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium"
+                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium
+                                transition duration-500 ease-in-out"
                          :class="{ 'border-b-4 border-gold-500': currentPath == '/locations' }"
-           
               >
                 Nájdete nás
               </nuxt-link>
@@ -74,18 +80,22 @@
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             
           <!-- Notifications Bell/New message counter -->
-            <button v-if="this.$auth.loggedIn" v-show="unreadMsgs.length > 0" class="p-1 text-gray-100 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <div @click="setTab('messages')" class="flex">
-                <nuxt-link to="/dashboard"  class="text-red-600 align-top font-bold text-xs ml-1" role="menuitem">
-                  <font-awesome-icon :icon="['fas', 'bell']"  class="text-xl text-white"/>
+            <!-- <button v-if="this.$auth.loggedIn" v-show="unreadMsgs.length > 0" 
+                    class="p-1 text-gray-100 hover:text-white focus:outline-none focus:ring-2 
+                           transition duration-500 ease-in-out focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              <div @click="setTab('messages')" >
+                <nuxt-link to="/dashboard"  class="flex text-red-600 align-top font-bold text-xs" role="menuitem">
+                  <font-awesome-icon :icon="['fas', 'bell']"  class="mr-1 text-xl text-white"/>
                   {{ unreadMsgs.length }}
                 </nuxt-link>
               </div>
-            </button>
+            </button> -->
 
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
-                    <button id="user-dropdown" @click="userDropdown = !userDropdown" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-haspopup="true">
+                    <button id="user-dropdown" @click="userDropdown = !userDropdown" 
+                            class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" 
+                            aria-haspopup="true">
                       <span class="sr-only">Otvoriť užívateľské menu</span>
                       <div v-if="!this.$auth.loggedIn">
                         <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-4xl text-gold-500 align-middle" /> 
@@ -98,22 +108,27 @@
                 
                   <div v-if="this.$auth.loggedIn">
                     <transition name="dropdown">
-                      <div v-if="userDropdown" @click="closeDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                          <nuxt-link to="/dashboard" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">
+                      <div v-if="userDropdown" @click="closeDropdown" 
+                           class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100 transition duration-500 ease-in-out" 
+                           role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                          <nuxt-link to="/dashboard" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
+                                     role="menuitem">
                               Profil
                           </nuxt-link>
-                          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Your Profile</a>
-                          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Settings</a>
-                          <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm hover:bg-gray-400" role="menuitem">Odhlásiť sa</a>
+                          <a href="#" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Your Profile</a>
+                          <a href="#" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Settings</a>
+                          <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Odhlásiť sa</a>
                       </div>
                     </transition>
                   </div>
 
                   <div v-else>
                     <transition name="dropdown">
-                      <div v-if="userDropdown" class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                      <div v-if="userDropdown" 
+                           class="origin-top-right absolute rounded right-0 mt-2 w-48 border border-gold-500 bg-gray-600 text-gold-500 py-1 z-100" 
+                           role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                         <nuxt-link to="/auth/login" 
-                          class="text-gold-500 hover:text-gold-400 hover:font-bold flex justify-items-center justify-center py-2 text-sm font-medium"
+                                   class="text-gold-500 hover:text-gold-400 transition duration-500 ease-in-out hover:font-bold flex justify-items-center justify-center py-1 text-sm font-medium"
                         >
                           <a href="" @click="closeDropdown" class="">Prihlásiť sa</a>
                         </nuxt-link>                    
@@ -131,25 +146,25 @@
       <div v-if="mobileDropdown" class="sm:hidden" id="mobile-menu">
           <div @click="closeDropdown" class="flex flex-col flex-grow px-2 pt-2 pb-3 space-y-1">
               <nuxt-link to="/about" 
-                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-4 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-4 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"
               > 
                 O nás
               </nuxt-link>
               <nuxt-link to="/prices" 
-                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/prices' }"
               >
                 Cenník
               </nuxt-link>
               <nuxt-link to="/contact-us" 
-                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/contact-us' }"
               >
                 Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
-                         class="text-gold-500 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/locations' }"
               >
                 Nájdete nás
@@ -191,9 +206,9 @@ export default {
         messages: state => state.contactForm.messages,
       }),
 
-      unreadMsgs() {
-        return this.messages.filter(message => message.read == 0);
-      }
+      // unreadMsgs() {
+      //   return this.messages.filter(message => message.read == 0);
+      // }
     },
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div class=" text-gold-500 rounded-sm px-4 py-2">
+    <div class=" text-gold-500 justify-center rounded-sm px-4 py-2">
         <h1 class="text-xl">{{ name }}</h1>
         <div class="whitespace-nowrap text-right text-white hover:text-gold-300 p-1 flex">
             <div>

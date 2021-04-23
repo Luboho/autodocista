@@ -30,7 +30,8 @@ class VerificationController extends Controller
             $branchId = $tempUser->branch_id;
             $userEmail = $tempUser->email;
             $userPhone = $tempUser->phone;
-            $userRole = $tempUser->role;
+            $userIsAdmin = $tempUser->is_admin;
+            // $userRole = $tempUser->role;
             $userEmailVerifCode = $tempUser->email_verification_code;
             $userPassword = $tempUser->password;
 
@@ -47,7 +48,8 @@ class VerificationController extends Controller
             $user->branch_id = $branchId;
             $user->email = $userEmail;
             $user->phone = $userPhone;
-            $user->role = $userRole;
+            $user->is_admin = $userIsAdmin;
+            // $user->role = $userRole;
             $user->email_verification_code = $userEmailVerifCode;
             $user->email_verified_at = now();
             $user->password = $userPassword;
@@ -55,8 +57,6 @@ class VerificationController extends Controller
 
             // Delete Temp User Row
             $tempUser->delete();
-
-
 
             return response()
                     ->json(['data' => [ 'success' => true ]])

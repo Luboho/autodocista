@@ -10,10 +10,12 @@ use App\Http\Resources\BranchResource;
 class BranchesController extends Controller
 {
     public function index(Request $request) {
-        $branches = Branch::get();
+        $page = $request->input('page');
+
+        $branches = Branch::orderBy('name', 'asc')->paginate(10, ['*'], 'page', $page);
 
         if($branches) {
-            return BranchResource::collection($branches);
+            return BranchResource::collection($branches)->response();
         } else {
             return response()->json(['data' => [
                 'errors' => [
@@ -21,5 +23,20 @@ class BranchesController extends Controller
                 ]
             ]]);
         }
+
+        // Eager + Lazy Loading 
+        // $branches = Branch::with(['messages']);
+        // return BranchResource::collection($branches->paginate(10))->response();
+    }
+
+    public function destroy(Branch $branch, Request $request)
+    {
+        $this->authorize('delete', $branch);
+
+        $branch = Branch::find($request->id);
+
+        if($branch) {
+            $branch->delete();
+            }
     }
 }
