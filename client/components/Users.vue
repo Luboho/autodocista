@@ -2,11 +2,9 @@
 <div> 
     
     <h2 class="text-gold-500 py-2 uppercase">Registrovaní užívatelia</h2>
-    <!-- <div class="absolute w-full flex justify-center">
-        <Spinner />
-    </div> -->
+    
      <!-- Confirm Item destroying -->
-        <div v-if="modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
+        <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
             <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
                 <p>Ste si istý, že chcete zmazať záznam  
                 </p>
@@ -15,7 +13,7 @@
                 </p>
 
                 <div class="flex items-center mt-6 justify-end">               <!-- Set modal to opposite to HIDE modal-->
-                    <button @click="setModal(false)" class="text-white pr-4">Zrušiť</button>
+                    <button @click="cancelDeletion" class="text-white pr-4">Zrušiť</button>
                     <button @click="confirmDeletion" class="px-4 py-2 bg-red-500 rounded text-sm font-bold text-white">Zmazať</button>
                 </div>
             </div>
@@ -125,14 +123,9 @@
             </tbody>
         </table>
     </div>
-    <!-- <Modal /> -->
-    <!-- End of Bigger Devices -->
+    
+    <Modal />
 
-    <!-- Modal -->
-    <!-- <transition name="fade">
-        <div v-if="modal" @click="modal = ! modal" class="fixed flex items-center justify-center bg-opacity-50 bg-black z-20 top-0 left-0 right-0 bottom-0"></div>
-    </transition> -->
-    <!-- End of Modal -->
     <div v-if="users" v-show="paginationTotal > 10">
         <Pagination store="users" collection="users" />
     </div>
@@ -142,7 +135,7 @@
 <script>    
 import {mapState, mapActions, mapMutations} from 'vuex'
 // import Spinner from './Spinner'
-// import Modal from './Modal'
+import Modal from './Modal'
 import Pagination from './Pagination'
 
 export default {
@@ -152,6 +145,7 @@ export default {
 
     data: () => ({
         destroyId: '',
+        confirm: false
     }),
 
     computed: {
@@ -163,8 +157,7 @@ export default {
             spin: state => state.spinner.spin
         }),
         userForDestroy() {
-            const destroyName = this.users.filter(user => user.id == this.destroyId);
-            return destroyName;
+            return this.users.filter(user => user.id == this.destroyId);
         }
     },
 
@@ -184,6 +177,7 @@ export default {
         }),
 
         destroy(id){
+            this.confirm = true;
             this.setModal(true);
             this.destroyId = id;
         },
@@ -191,6 +185,11 @@ export default {
             this.setModal(false);
             this.deleteUser(this.destroyId);
             this.destroyId = '';
+        },
+        cancelDeletion() {
+            this.confim = false;
+            this.setModal(false);
+            this.destroyId = 0;
         },
         async showBranch(id, event) {
             await this.$store.dispatch('branches/getSelected', id);
@@ -200,7 +199,7 @@ export default {
 
     components: {
         // Spinner,
-        // Modal,
+        Modal,
         Pagination,
     }
 }

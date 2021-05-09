@@ -7,8 +7,8 @@
         <font-awesome-icon :icon="['fas', 'redo']" class="text-gold-500 hover:text-gold-600" />
         <h2 class="text-gold-500 py-2 ml-2">načítať všetky pobočky</h2>
     </div>
-    <!-- Confirm Item destroying -->
-        <div v-if="branchForDestroy" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
+    <!-- Confirm Item deletion -->
+        <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
             <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
                 <p>Ste si istý, že chcete zmazať záznam? 
                 </p>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div> 
-     <!--End of Confirm Item destroying -->
+     <!--End of Confirm Item deletion -->
     <!-- Small Device -->
     <div v-if="smallDevice">
         <div v-for="branch in branches" :key="branch.id">
@@ -113,6 +113,9 @@
             </tbody>
         </table>
     </div>
+
+    <Modal />
+    
     <div v-if="branches" v-show="paginationTotal > 10">
         <Pagination store="branches" collection="branches" />
     </div>
@@ -122,6 +125,7 @@
 <script>    
 import {mapState, mapActions, mapMutations} from 'vuex'
 // import Spinner from './Spinner'
+import Modal from './Modal'
 import Pagination from './Pagination'
 
 export default {
@@ -131,6 +135,7 @@ export default {
 
     data: () => ({
         destroyId: '',
+        confirm: false,
     }),
 
     computed: {
@@ -142,14 +147,14 @@ export default {
             paginationTotal: state => state.branches.branches.meta.total
             // spin: state => state.spinner.spin
         }),
-        branchForDestroy() {
-            const destroyName = this.branches.filter(branch => branch.id == this.destroyId);
-            return destroyName[0];
+        branchForDestroy:  {
+            get: function() {
+                return this.branches.filter(branch => branch.id == this.destroyId);
+            },
         }
     },
 
     async fetch() {
-        // await this.$store.dispatch('branches/getList', 0)
         await this.refreshData(0)
     },
 
@@ -164,21 +169,26 @@ export default {
         }),
 
         destroy(id) {
-            console.log(id)
+            this.confirm = true;
+            this.setModal(true);
             this.destroyId = id;
         },
         confirmDeletion(){
+            this.setModal(false);
             this.deleteBranch(this.destroyId);
             this.destroyId = '';
         },
         cancelDeletion() {
-            this.branchForDestroy = {};
+            this.confirm = false;
+            this.setModal(false);
+            this.destroyId = 0;
         }
         
     },
 
     components: {
         // Spinner,
+        Modal,
         Pagination
     }
 }

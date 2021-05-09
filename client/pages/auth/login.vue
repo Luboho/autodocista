@@ -1,7 +1,7 @@
 <template>
     <div class="img-bg flex justify-center">
 
-        <div class="py-64">
+        <div class="pt-44 pb-64">
             <form @submit.prevent="submit" class="pt-24 pb-10">
                         
                 <div class="relative">
