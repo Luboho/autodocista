@@ -12,10 +12,11 @@ class UsersController extends Controller
 {
     public function index(Request $request, User $user, Branch $branch)
     {
+        $page = $request->input('page');
+        
         if(auth()->check() && auth()->user()->is_admin == '1') {
-            $page = $request->input('page');
             $users = User::orderBy('branch_id', 'asc')->paginate(10, ['*'], 'page', $page);
-        }
+        } 
 
         if($users) {
             return UserResource::collection($users)->response();
@@ -32,10 +33,10 @@ class UsersController extends Controller
     {
         $this->authorize('delete', $user);
 
-        $userOnDelete = User::find($request->id);
+        $user = User::find($request->id);
 
-        if($userOnDelete) {
-            $userOnDelete->delete();
+        if($user) {
+            $user->delete();
         }
     }
 }

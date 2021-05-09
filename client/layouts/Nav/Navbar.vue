@@ -5,11 +5,9 @@
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="hidden sm:flex justify-center items-center">
-          <div>
             <nuxt-link :to="'/'">
               <img src="@/assets/default-images/logo200x121.png" alt="Auto Dočista">
             </nuxt-link>
-          </div>
         </div>
         <div class="absolute inset-y-0 flex items-center justify-end sm:hidden">
           <!-- Mobile menu button-->
@@ -37,8 +35,8 @@
           </button>
         </div>
 
-        <nuxt-link :to="'/'" class="not-sr-only sm:sr-only mx-auto">
-          <img src="@/assets/default-images/logo.png" alt="Auto Dočista">
+        <nuxt-link :to="'/'" class="ml-16 not-sr-only sm:sr-only ">
+            <img src="@/assets/default-images/logo.png" alt="Auto Dočista">
         </nuxt-link>
         
         <div class="flex items-center sm:items-stretch">
@@ -77,20 +75,19 @@
             </div>
         </div>
 
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="absolute inset-y-0 flex right-0 justify-end items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             
           <!-- Notifications Bell/New message counter -->
-            <!-- <button v-if="this.$auth.loggedIn" v-show="unreadMsgs.length > 0" 
+            <button v-if="this.$auth.loggedIn" v-show="notificationNum > 0" 
                     class="p-1 text-gray-100 hover:text-white focus:outline-none focus:ring-2 
                            transition duration-500 ease-in-out focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <div @click="setTab('messages')" >
+              <div @click="setTab('messages')">
                 <nuxt-link to="/dashboard"  class="flex text-red-600 align-top font-bold text-xs" role="menuitem">
-                  <font-awesome-icon :icon="['fas', 'bell']"  class="mr-1 text-xl text-white"/>
-                  {{ unreadMsgs.length }}
+                  <font-awesome-icon :icon="['fas', 'bell']"  class="mr-1 text-xl text-white rounded"/>
+                  <span class="px-2 py-1 border border-white rounded-full">{{ notificationNum }}</span>
                 </nuxt-link>
               </div>
-            </button> -->
-
+            </button>
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
                     <button id="user-dropdown" @click="userDropdown = !userDropdown" 
@@ -98,7 +95,7 @@
                             aria-haspopup="true">
                       <span class="sr-only">Otvoriť užívateľské menu</span>
                       <div v-if="!this.$auth.loggedIn">
-                        <font-awesome-icon :icon="['fas', 'user-circle']"  class=" text-4xl text-gold-500 align-middle" /> 
+                        <font-awesome-icon :icon="['fas', 'user-circle']"  class="text-4xl text-gold-500 align-middle" /> 
                       </div>
                       <div v-else class="text-gold-500">      
                         {{ $store.state.auth.user.name }}
@@ -180,13 +177,17 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
 
 export default {
     data: () => ({
         userDropdown: false,
         mobileDropdown: false,
     }),
+
+   async fetch() {
+      await this.getNoticationsNum();
+    },
 
     computed: {
       modal() {
@@ -202,19 +203,15 @@ export default {
       },
 
       // Notifications
-      ...mapState({
-        messages: state => state.contactForm.messages,
-      }),
-
-      // unreadMsgs() {
-      //   return this.messages.filter(message => message.read == 0);
-      // }
+       ...mapState({
+          // messages: state => state.contactForm.messages.data,
+          notificationNum: state => state.contactForm.notificationNum
+        }),
     },
 
-
     methods: {
-        ...mapMutations({ setTab : 'dashboardTab/setTab' }),
-
+        ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
+        ...mapActions({ getNoticationsNum: 'contactForm/getNotificationsNum'}),
 
         closeDropdown: function(e) {
             this.userDropdown = false;

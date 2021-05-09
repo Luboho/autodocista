@@ -2,9 +2,9 @@
 <div class="z-10 relative">
     <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
     
-    <div class="absolute w-full flex justify-center">
-        <Spinner :loading="loading" />
-    </div>
+    <!-- <div class="absolute w-full flex justify-center">
+        <Spinner />
+    </div> -->
     <!-- Small Device -->
     <div v-if="smallDevice">
 
@@ -19,23 +19,25 @@
                             <p class="ml-2 text-gray-700">
                                 {{ message.name }}
                                     <br>
-                                <a :href="'mailto:' + message.email">{{ message.email }}</a>
+                                <a :href="'mailto:' + message.email" class="hover:text-gray-100">{{ message.email }}</a>
                                     <br >
-                                <a :href="'tel:' + message.phone"> {{ message.phone }}</a>
+                                <a :href="'tel:' + message.phone" class="hover:text-gray-100"> {{ message.phone }}</a>
                             </p>
                     </div>
                     
                     <div class="flex flex-col">
                         <p class="text-gray-100">Pre pobočku: </p> 
-                            <p class="ml-2 text-gray-700">
+                            <a href="" @click.prevent="showBranch(message.branch.id, $event)" class="ml-2 text-gray-700 hover:text-gray-900">
                                 {{ message.branch.name }}                                
-                            </p>
+                            </a>
                     </div>
                 </div>
 
                     <p class="text-gray-100">Správa: </p>
                         <div>
-                            <div @click="showMsg(message.message, message.id, $event)" class="ml-2 text-gray-700 cursor-pointer">
+                            <div @click="showMsg(message.message, message.id, $event)" 
+                                  class="ml-2 text-gray-700 cursor-pointer"
+                                  :class="{'underline' : fullMsgText === false}">
                                 <!-- Show/Hide part of text with VannilaJS  -->
                                     {{ message.message.slice(0, 40) }} . . . 
                             </div>
@@ -66,78 +68,80 @@
                     <td class="pl-2 w-3/12">
                         {{ message.name }}
                             <br>
-                        <a :href="'mailto:' + message.email">{{ message.email }}</a>
+                        <a :href="'mailto:' + message.email" class="hover:text-gray-800">{{ message.email }}</a>
                             <br >
-                        <a :href="'tel:' + message.phone"> {{ message.phone }}</a>
+                        <a :href="'tel:' + message.phone" class="hover:text-gray-800"> {{ message.phone }}</a>
                     </td>
-                    <td class="text-center w-3/12 text-gray-600 font-kbold">{{ message.branch.name }}</td>
-                    <td class="text-center w-6/12">
-                        <div @click="showMsg(message.message, message.id, $event)" class="hover:text-gold-500 relative transition duration-500 ease-in-out cursor-pointer">
+                    <td class="text-center w-3/12 text-gray-600 hover:text-gray-900 hover:font-bold">
+                        <a href="" @click.prevent="showBranch(message.branch.id, $event)">{{ message.branch.name }}</a>
+                    </td>
+                    <td title="Otvoriť správu" class="text-center w-6/12">
+                        <div @click="showMsg(message.message, message.id, $event)" 
+                              class="hover:text-gold-500 relative transition duration-500 ease-in-out cursor-pointer"
+                              :class="{'underline': fullMsgText === false }">
                             <!-- Show/Hide part of text with VannilaJS  -->
                                 {{ message.message.slice(0, 40) }} . . . 
                         </div>
                     </td>
-                    <td class="w-1/12 pr-1">{{ message.created_at }}</td>
+                    <td class="w-1/12 pr-1 text-gray-800">{{ message.created_at }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div v-if="messages">
+    <div v-if="messages" v-show="paginationTotal > 10">
         <Pagination store="contactForm" collection="messages" />
     </div>
 </div>
 </template>
 
 <script>    
-import {mapState, mapMutations} from 'vuex'
-import Spinner from './Spinner'
-import Modal from './Modal'
+import {mapState, mapMutations, mapActions} from 'vuex'
 import Pagination from './Pagination'
 
 export default {
     name: "ContactFormMessages",
 
+    props: ['smallDevice'],
 
     data: () => ({
-        smallDevice: true,
-        clickedMsg: false,
+        fullMsgText: false,
     }),
 
     computed: {
         ...mapState({
             messages: state => state.contactForm.messages.data,
-            loading: state => state.loading.loading,
+            paginationTotal: state => state.contactForm.messages.meta.total
         }),
     },
 
-    beforeMount() {
-    
-        this.fitTableByDeviceWidth();
-
-        window.onresize = () => {
-            if (window.innerWidth < 768){
-                this.smallDevice = true;
-            } else {
-                this.smallDevice = false;
-            }
-        }        
-    },
-
-    async mounted() {
-        await this.$store.dispatch('contactForm/getList', 0)
+    async fetch(){
+        await this.$store.dispatch('contactForm/getList', 0),
+        await this.getNoticationsNum();
     },
 
     methods: {
-        ...mapMutations({
-             setModal: 'modal/setModal'
-        }),
+        // ...mapMutations({
+        //     //  setModal: 'modal/setModal',
+        //     //  setSpinner: 'spinner/SET_SPINNER'
+        // }),
+
+        ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
+        ...mapActions({ getNoticationsNum: 'contactForm/getNotificationsNum'}),
     
+        async showBranch(id, event) {
+            await this.$store.dispatch('branches/getSelected', id);
+            this.setTab('branches')
+        },
+
+
         async showMsg(text, id, event) {
+                
             if(event.target.innerText.length > 46) {
                 //SHORTEN TEXT
                 event.target.innerText = text.slice(0, 40) + ' . . .';
                 // Unmark Unread Message(FrontEnd)
                 event.target.parentElement.parentElement.classList.remove('bg-gray-200', 'text-gray-700', 'font-bold');
+                this.fullMsgText = false;
                 
             } else {
                 // Mark message
@@ -145,7 +149,7 @@ export default {
 
                 // SHOW FULL TEXT
                 event.target.innerText = `${text}  [ . . . čítaj menej ]`;
-
+                this.fullMsgText = true;
                 // Unmark Unread Message(BackEnd)
                 try {
                     await this.$axios.$get('sanctum/csrf-cookie');
@@ -153,26 +157,18 @@ export default {
                         id: id,   
                         messageOpened: true 
                     });
-                    await this.$store.dispatch('contactForm/getList')
+                    // await this.$store.dispatch('contactForm/getList')
+                    await this.$store.dispatch('contactForm/getNotificationsNum')
                 } catch (e) {
                     console.log(e.response)
                 }
-                    this.setModal(true)
             }
         },
-
-        fitTableByDeviceWidth() {
-            if (window.innerWidth < 768){
-                this.smallDevice = true;
-            } else {
-                this.smallDevice = false;
-            }
-        }
     },
 
     components: {
-        Spinner,
-        Modal,
+        // Spinner,
+        // Modal,
         Pagination
     }
 }

@@ -31,7 +31,7 @@ class BranchPolicy
      */
     public function view(User $user, Branch $branch)
     {
-        //
+        return true;
     }
 
     /**
@@ -66,7 +66,7 @@ class BranchPolicy
      */
     public function delete(User $user, Branch $branch)
     {
-        return $user->is_admin === true;
+        return $user->is_admin == 1;
     }
 
     /**

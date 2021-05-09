@@ -9,7 +9,7 @@ export const mutations = {
 }
 
 export const actions = {
-    async changeModal({commit, boolean}) {
+    async changeModal({commit}, boolean) {
        commit('setModal', boolean)
     }
 }

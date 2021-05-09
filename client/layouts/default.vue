@@ -13,7 +13,6 @@
   import Footer from './Footer';
 
   export default {
-    
 
     components: {
       Navbar,

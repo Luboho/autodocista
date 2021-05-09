@@ -1,24 +1,26 @@
 <template>
 <div class="w-full h-full flex justify-items-center justify-center">
   <div class="my-64">
-    <Spinner :loading="loading" />
+    <Spinner />
   </div>
 </div>
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 import Spinner from './../../../components/Spinner'
   export default {
 
-    data: () => ({
-        loading: true
-    }),
-
     async mounted() {
       await this.verify();
+      this.spin(true);
     },
 
     methods: {
+      ...mapMutations({
+          spin: 'spinner/SET_SPINNER'
+      }),
+
       async verify() {
         const id = this.$route.params.verify.split('-').pop();
         const token = this.$route.params.verify.split('-')[0];
@@ -31,11 +33,11 @@ import Spinner from './../../../components/Spinner'
         });
 
         if (resp.data.data.success == true) {
-          this.loading = false;
+          this.spin(false);
           this.$router.replace('/auth/login');
         } else {
           alert('You are already been verified, please login.');
-          this.loading = false;
+          this.spin(false);
           this.$router.replace('/auth/login');
         }
       }

@@ -17,14 +17,16 @@ class ContactUsController extends Controller
 {
     public function index(Request $request, ContactFormMessage $contactFormMessage)
     {
+        $page = $request->input('page');
         // Get All messages.
         if(auth()->check() && auth()->user()->is_admin == '1') {
-            $page = $request->input('page');
             $messages = ContactFormMessage::orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
            
         // Get Messages for Authenticated User of specific Branch.
         } else if(auth()->check() && auth()->user()->is_admin == '0') {
-            $messages = auth()->user()->branch->messages;
+            // $messages = auth()->user()->branch->messages;
+            $branchOfAuthUser = auth()->user()->branch_id;
+            $messages = ContactFormMessage::where('branch_id', $branchOfAuthUser)->orderBy('created_at', 'desc')->paginate(10, ['*'], $page);
         }
         
         if($messages) {
@@ -88,6 +90,28 @@ class ContactUsController extends Controller
         } else {
             return response()->json(['errors' => [
                 'root' => 'Cannot save message.'
+            ]]);
+        }
+    }
+
+    public function countNotifications(Request $request)
+    {
+      // Get All messages.
+      if(auth()->check() && auth()->user()->is_admin == '1') {
+        $messages = ContactFormMessage::where('read', 0)->pluck('id');
+       
+        // Get Messages for Authenticated User of specific Branch.
+        } else if(auth()->check() && auth()->user()->is_admin == '0') {
+            $messages = auth()->user()->branch->messages->where('read', 0)->pluck('id');
+        }  
+
+        if($messages) {
+            return response()
+                    ->json(['data' => [count($messages)]]);
+        } else {
+            return response() 
+                    ->json(['data' => [
+                        'root' => 'No unread messages'
             ]]);
         }
     }

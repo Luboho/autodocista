@@ -9,13 +9,13 @@ export const getters = {
 }
 
 export const mutations = {
-    setTab(state, value) {
+    SET_TAB(state, value) {
         state.tab = value
     }
 }
 
 export const actions = {
     changeTab({commit, value}) {
-       commit('setTab', value)
+       commit('SET_TAB', value)
     }
 }

@@ -1,6 +1,6 @@
 <template>
-    <div v-if="loading">
-        <Modal />
+    <div v-if="spin">
+        <!-- <Modal /> -->
         <div class="spring-spinner z-30 relative">
         <div class="spring-spinner-part top">
             <div class="spring-spinner-rotator"></div>
@@ -18,7 +18,11 @@ import Modal from './Modal'
 export default {
   name: "Spinner",
 
-  props: ['loading'],
+  computed: {
+    ...mapState({
+        spin: state => state.spinner.spin,
+    })
+  },
   
   components: {
     Modal

@@ -24,19 +24,18 @@
 
             <div class="rounded-b rounded-r bg-gray-400">
                 <div class="relative mb-5 mx-auto px-4 py-8 rounded-b">
-                    <div v-if="tab == 'messages'">
-                        <ContactFormMessages />
+                    <div v-show="tab == 'messages'">
+                        <ContactFormMessages :smallDevice="smallDevice" />
                     </div>
-                    <div v-else-if="tab == 'users'">
-                        <Users />
+                    <div v-show="tab == 'users'">
+                        <Users :smallDevice="smallDevice" />
                     </div>
-                    <div v-else-if="tab == 'branches'">
-                        <Branches />
+                    <div v-show="tab == 'branches'">
+                        <Branches :smallDevice="smallDevice" />
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -45,34 +44,56 @@ import { mapGetters, mapMutations } from 'vuex'
 import ContactFormMessages from '../components/ContactFormMessages'
 import Users from '../components/Users'
 import Branches from '../components/Branches'
-import Spinner from '../components/Spinner'
 import Pagination from '../components/Pagination'
  
 export default {
     name: "dashboard",
     middleware: 'authenticated',
 
-    async mounted() {
+    data: () => ({
+        smallDevice: true
+    }),
+
+    async fetch() {
         await this.$store.dispatch('contactForm/getList')
     },
 
-    computed: {
+    async mounted() {
 
+        this.fitTableByDeviceWidth();
+
+        window.onresize = () => {
+            if (window.innerWidth < 768){
+                this.smallDevice = true;
+            } else {
+                this.smallDevice = false;
+            }
+        };
+    },
+
+    computed: {
         ...mapGetters({
-            tab: 'dashboardTab/tab'
+            tab: 'dashboardTab/tab',
         })
     },
 
     methods: {
-        ...mapMutations({ setTab : 'dashboardTab/setTab' }),
+        ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
+
+        fitTableByDeviceWidth() {
+            if (window.innerWidth < 768){
+                this.smallDevice = true;
+            } else {
+                this.smallDevice = false;
+            }
+        },
     },
 
     components: {
         ContactFormMessages,
         Branches,
         Users,
-        Spinner,
-        Pagination
+        Pagination,
     }
 }
 </script>
