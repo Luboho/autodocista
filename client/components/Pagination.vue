@@ -14,7 +14,16 @@
 
 <script>
   export default {
-    props: ['store', 'collection'],
+    name: "Pagination",
+    // props: ['store', 'collection', 'filter'],
+    props: {
+      store: {},
+      collection: {},
+      filter: {
+            sortByUnread: false,
+            filterByBranch: []
+        }
+    },
 
     watch: {
       currentPage(newVal, oldVal) {
@@ -42,7 +51,7 @@
   
   methods: {
     paginatePage(pageNumber) {
-      this.$store.dispatch(this.store + '/getList', pageNumber);
+      this.$store.dispatch(this.store + '/getList', { pageNumber: pageNumber, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
       this.scrollToTopSmooth();
     },
 

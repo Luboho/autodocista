@@ -1,9 +1,9 @@
 <template>
 <div>
-    <div v-if="branches.length > 1">
+    <div v-if="branches.length > 1"> 
         <h2 class="text-gold-500 py-2 uppercase">Naše pobočky</h2>
     </div>
-    <div v-else @click="refreshData(0)" class="flex items-center cursor-pointer">
+    <div v-else @click="refreshData()" class="flex items-center cursor-pointer">
         <font-awesome-icon :icon="['fas', 'redo']" class="text-gold-500 hover:text-gold-600" />
         <h2 class="text-gold-500 py-2 ml-2">načítať všetky pobočky</h2>
     </div>
@@ -117,7 +117,7 @@
     <Modal />
     
     <div v-if="branches" v-show="paginationTotal > 10">
-        <Pagination store="branches" collection="branches" />
+        <Pagination store="branches" collection="branches" :filter="filter" />
     </div>
 </div>
 </template>
@@ -136,6 +136,10 @@ export default {
     data: () => ({
         destroyId: '',
         confirm: false,
+        filter: {
+            sortByUnread: Boolean,
+            filterByBranch: []
+        }
     }),
 
     computed: {
@@ -155,7 +159,7 @@ export default {
     },
 
     async fetch() {
-        await this.refreshData(0)
+        await this.$store.dispatch('branches/getList', { pageNumber: 0});
     },
 
     methods: {
@@ -167,6 +171,10 @@ export default {
              setModal : 'modal/setModal',
             //  setSpinner: 'spinner/SET_SPINNER'
         }),
+
+        refreshData() {
+            this.$store.dispatch('branches/getList', { pageNumber: 0});
+        },
 
         destroy(id) {
             this.confirm = true;
@@ -184,6 +192,20 @@ export default {
             this.destroyId = 0;
         }
         
+    },
+
+    watch: {
+
+            filter: {
+                deep: true,
+
+                handler(newVal, oldVal) {
+                    if(newVal) {
+                        // this.getList(0, true)
+                        this.$store.dispatch('branches/getList', { pageNumber: 0})
+                    }
+                }
+            }
     },
 
     components: {

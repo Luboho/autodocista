@@ -26,16 +26,13 @@ export const state = () => ({
   
   export const actions = {
 
-    async getList({commit}, pageNumber) {
+    async getList({commit}, {pageNumber, sortByUnread, filterByBranch}) {
       // await this.dispatch('spinner/setSpinner', true, { root: true })
-      if(pageNumber == undefined) {
-        pageNumber = 0;
-      }
       try {
         
         await this.$axios.$get('sanctum/csrf-cookie');
         
-        let resp = await this.$axios.get('/api/messages?page=' + pageNumber)
+        let resp = await this.$axios.get(`/api/messages?page=${pageNumber}&unreadMsgs=${sortByUnread}&branch_id=${filterByBranch}`)
         .then(function(resp) {
                 commit('SET_MESSAGES', resp.data)
         })

@@ -18,17 +18,42 @@ class ContactUsController extends Controller
     public function index(Request $request, ContactFormMessage $contactFormMessage)
     {
         $page = $request->input('page');
-        // Get All messages.
-        if(auth()->check() && auth()->user()->is_admin == '1') {
-            $messages = ContactFormMessage::orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
-           
-        // Get Messages for Authenticated User of specific Branch.
-        } else if(auth()->check() && auth()->user()->is_admin == '0') {
-            // $messages = auth()->user()->branch->messages;
-            $branchOfAuthUser = auth()->user()->branch_id;
-            $messages = ContactFormMessage::where('branch_id', $branchOfAuthUser)->orderBy('created_at', 'desc')->paginate(10, ['*'], $page);
+        $unreadFirst = $request->get('unreadMsgs');
+        // Get an array of selected filters excluded unread Messages.
+        $filterByBranchArr = explode(",", $request->get('branch_id'));
+        // If filter is used
+        if($filterByBranchArr[0] != ""){
+             $filterByBranchArr = $filterByBranchArr;
+        } else {
+            $filterByBranchArr = false;
         }
-        
+        // All messages for Admin
+        if(auth()->check() && auth()->user()->is_admin == '1') {
+
+            $messages = ContactFormMessage::select('*')
+                ->orderBy('created_at', 'desc')
+                ->when($unreadFirst == 'true', function ($messages) {
+                    return $messages->orderBy('read', 'asc');
+                })
+                ->when($filterByBranchArr, function($messages, $filterByBranchArr) {
+                    return $messages->whereIn('branch_id', $filterByBranchArr);
+                })
+                ->paginate(10, ['*'], 'page', $page);
+
+        // USER messages
+        } else if(auth()->check() && auth()->user()->is_admin == '0') {
+
+            $branchOfAuthUser = auth()->user()->branch_id;
+
+            $messages = ContactFormMessage::select('*')
+                ->where('branch_id', $branchOfAuthUser)
+                ->orderBy('created_at', 'desc')
+                ->when($unreadFirst == 'true', function($messages) {
+                    return $messages->orderBy('read', 'asc');
+                })
+                ->paginate(10, ['*'], 'page', $page);
+        }
+
         if($messages) {
             return ContactUsResource::collection($messages)->response();
         } else {
@@ -40,7 +65,7 @@ class ContactUsController extends Controller
         }
     }
 
-    public function shownMessage(Request $request) 
+    public function shownMessage(Request $request)
     {
         $request->validate([
             'id' => ['required', 'exists:App\Models\ContactFormMessage,id'],
@@ -52,10 +77,10 @@ class ContactUsController extends Controller
         if($message) {
             $message->read = true;
             $message->save();
-            
+
             return response()->json(['data' => [
                 'success' => true
-            ]]); 
+            ]]);
         } else {
             return response()->json(['data' => [
                 'errors' => [
@@ -81,8 +106,8 @@ class ContactUsController extends Controller
         $message = $branch->messages()->create($data);
 
         // Send an Email to Appropriate Branch Receiver
-        if ($message) {    
-            
+        if ($message) {
+
             Mail::to($branch->email)->send(new MessageMail($message));
             return response()
                     ->json(['data' => ['success' => true ]])
@@ -99,17 +124,17 @@ class ContactUsController extends Controller
       // Get All messages.
       if(auth()->check() && auth()->user()->is_admin == '1') {
         $messages = ContactFormMessage::where('read', 0)->pluck('id');
-       
+
         // Get Messages for Authenticated User of specific Branch.
         } else if(auth()->check() && auth()->user()->is_admin == '0') {
             $messages = auth()->user()->branch->messages->where('read', 0)->pluck('id');
-        }  
+        }
 
         if($messages) {
             return response()
                     ->json(['data' => [count($messages)]]);
         } else {
-            return response() 
+            return response()
                     ->json(['data' => [
                         'root' => 'No unread messages'
             ]]);

@@ -127,7 +127,7 @@
     <Modal />
 
     <div v-if="users" v-show="paginationTotal > 10">
-        <Pagination store="users" collection="users" />
+        <Pagination store="users" collection="users" :filter="filter" />
     </div>
 </div>
 </template>
@@ -145,7 +145,11 @@ export default {
 
     data: () => ({
         destroyId: '',
-        confirm: false
+        confirm: false,
+        filter: {
+            sortByUnread: Boolean,
+            filterByBranch: []
+        }
     }),
 
     computed: {
@@ -162,7 +166,7 @@ export default {
     },
 
     async fetch() {
-        await this.$store.dispatch('users/getList', 0)
+        await this.$store.dispatch('users/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
     },
 
     methods: {

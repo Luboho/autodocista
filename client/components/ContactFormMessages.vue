@@ -1,6 +1,7 @@
 <template>
 <div class="z-10 relative">
     <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
+    <FilterNav @sortByUnread = "filter.sortByUnread = $event" @filterByBranch = "filter.filterByBranch = $event" />
     
     <!-- <div class="absolute w-full flex justify-center">
         <Spinner />
@@ -89,7 +90,7 @@
         </table>
     </div>
     <div v-if="messages" v-show="paginationTotal > 10">
-        <Pagination store="contactForm" collection="messages" />
+        <Pagination store="contactForm" collection="messages" :filter="filter" />
     </div>
 </div>
 </template>
@@ -97,6 +98,7 @@
 <script>    
 import {mapState, mapMutations, mapActions} from 'vuex'
 import Pagination from './Pagination'
+import FilterNav from './FilterNav'
 
 export default {
     name: "ContactFormMessages",
@@ -105,6 +107,10 @@ export default {
 
     data: () => ({
         fullMsgText: false,
+        filter: {
+            sortByUnread: Boolean,
+            filterByBranch: []
+        }
     }),
 
     computed: {
@@ -115,7 +121,7 @@ export default {
     },
 
     async fetch(){
-        await this.$store.dispatch('contactForm/getList', 0),
+        await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
         await this.getNoticationsNum();
     },
 
@@ -126,7 +132,9 @@ export default {
         // }),
 
         ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
-        ...mapActions({ getNoticationsNum: 'contactForm/getNotificationsNum'}),
+        ...mapActions({
+             getNoticationsNum: 'contactForm/getNotificationsNum',
+        }),
     
         async showBranch(id, event) {
             await this.$store.dispatch('branches/getSelected', id);
@@ -157,7 +165,6 @@ export default {
                         id: id,   
                         messageOpened: true 
                     });
-                    // await this.$store.dispatch('contactForm/getList')
                     await this.$store.dispatch('contactForm/getNotificationsNum')
                 } catch (e) {
                     console.log(e.response)
@@ -166,10 +173,25 @@ export default {
         },
     },
 
+    watch: {
+
+            filter: {
+                deep: true,
+
+                handler(newVal, oldVal) {
+                    if(newVal) {
+                        // this.getList(0, true)
+                        this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
+                    }
+                }
+            }
+    },
+
     components: {
         // Spinner,
         // Modal,
-        Pagination
+        Pagination,
+        FilterNav
     }
 }
 </script>

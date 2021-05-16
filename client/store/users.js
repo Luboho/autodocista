@@ -14,15 +14,12 @@ export const mutations = {
 
 export const actions = {
 
-        async getList({commit}, pageNumber) {
+        async getList({commit}, {pageNumber, sortByUnread, filterByBranch}) {
             // this.dispatch('spinner/setSpinner', true, { root: true });
-            if(pageNumber == undefined) {
-              pageNumber = 0;
-            }
             try {
                 await this.$axios.$get('sanctum/csrf-cookie');
     
-                let resp = await this.$axios.get('/api/users?page=' + pageNumber)
+                let resp = await this.$axios.get(`/api/users?page=${pageNumber}&unreadMsgs${sortByUnread}&branch_id=${filterByBranch}`)
                 .then(function(resp) {
                     commit('SET_USERS', resp.data)
                 })

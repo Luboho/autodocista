@@ -14,15 +14,12 @@ export const state = () => ({
   }
   
   export const actions = {
-    async getList({commit}, pageNumber) {
+    async getList({commit}, {pageNumber}) {
         // this.dispatch('spinner/setSpinner', true, { root: true });
-        if(pageNumber == undefined) {
-          pageNumber = 0;
-        }
         try {
             await this.$axios.$get('sanctum/csrf-cookie');
 
-            let resp = await this.$axios.get('/api/branches?page=' + pageNumber)
+            let resp = await this.$axios.get(`/api/branches?page=${pageNumber}`)
             .then(function(resp) {
                 commit('SET_BRANCHES', resp.data)
             })

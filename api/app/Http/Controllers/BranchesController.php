@@ -13,7 +13,10 @@ class BranchesController extends Controller
     {
         $page = $request->input('page');
 
-        $branches = Branch::orderBy('name', 'asc')->paginate(10, ['*'], 'page', $page);
+        $branches = Branch::select('*')
+            ->orderBy('name', 'asc')
+            ->paginate(10, ['*'], 'page', $page);
+        // $branches = Branch::orderBy('name', 'asc')->paginate(10, ['*'], 'page', $page);
 
         if($branches) {
             return BranchResource::collection($branches)->response();
