@@ -93,9 +93,9 @@
             id: "",
         }),
 
-        // async mounted() {
-        //     await this.$store.dispatch('branches/getList', {pageNumber: 0})
-        // },
+        async mounted() {
+            await this.$store.dispatch('branches/getList', {pageNumber: 0})
+        },
 
         computed: {
             currentPath() {

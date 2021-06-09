@@ -66,7 +66,7 @@
                 Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
-                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium
+                         class="text-gold-500 leading-10 hover:bg-gold-500 hover:text-yellow-900 hover:font-bold px-3 py-2 font-medium whitespace-no-wrap
                                 transition duration-500 ease-in-out"
                          :class="{ 'border-b-4 border-gold-500': currentPath == '/locations' }"
               >
@@ -127,7 +127,7 @@
                         <nuxt-link to="/auth/login" 
                                    class="text-gold-500 hover:text-gold-400 transition duration-500 ease-in-out hover:font-bold flex justify-items-center justify-center py-1 text-sm font-medium"
                         >
-                          <a href="" @click="closeDropdown" class="">Prihlásiť sa</a>
+                          <a href="" @click="closeDropdown" class="whitespace-no-wrap px-1">Prihlásiť sa</a>
                         </nuxt-link>                    
                       </div>
                     </transition>
@@ -161,7 +161,7 @@
                 Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
-                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium whitespace-no-wrap"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/locations' }"
               >
                 Nájdete nás

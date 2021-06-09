@@ -1,12 +1,12 @@
 <template>
 <div>
-    <div v-if="branches.length > 1"> 
-        <h2 class="text-gold-500 py-2 uppercase">Naše pobočky</h2>
-    </div>
-    <div v-else @click="refreshData()" class="flex items-center cursor-pointer">
+    <!-- <div v-if="branches.length > 1">  -->
+    <h2 class="text-gold-500 py-2 uppercase">Naše pobočky</h2>
+    <!-- </div> -->
+    <!-- <div v-else @click="refreshData()" class="flex items-center cursor-pointer">
         <font-awesome-icon :icon="['fas', 'redo']" class="text-gold-500 hover:text-gold-600" />
         <h2 class="text-gold-500 py-2 ml-2">načítať všetky pobočky</h2>
-    </div>
+    </div> -->
     <!-- Confirm Item deletion -->
         <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
             <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
@@ -201,7 +201,6 @@ export default {
 
                 handler(newVal, oldVal) {
                     if(newVal) {
-                        // this.getList(0, true)
                         this.$store.dispatch('branches/getList', { pageNumber: 0})
                     }
                 }

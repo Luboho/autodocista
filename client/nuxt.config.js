@@ -20,8 +20,9 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "@/assets/styles/fonts.css",
-    "@/assets/styles/index.css"
+    "~/assets/styles/fonts.css",
+    "~/assets/styles/index.css",
+    "~/assets/styles/inputs.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -38,7 +39,7 @@ export default {
     '@nuxtjs/tailwindcss',
   ],
   vuetify: {
-    /* module options */
+    customVariables: ['~/assets/variables.scss']
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

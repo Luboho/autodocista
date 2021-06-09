@@ -54,10 +54,6 @@ export default {
         smallDevice: true
     }),
 
-    // async fetch() {
-    //     await this.$store.dispatch('contactForm/getList')
-    // },
-
     async mounted() {
 
         this.fitTableByDeviceWidth();

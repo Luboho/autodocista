@@ -1,8 +1,7 @@
 <template>
 <div> 
-    
     <h2 class="text-gold-500 py-2 uppercase">Registrovaní užívatelia</h2>
-    
+    <FilterNav store="users" @sortByUnread = "filter.sortByUnread = $event" @filterByBranch = "filter.filterByBranch = $event" />
      <!-- Confirm Item destroying -->
         <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
             <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
@@ -135,6 +134,7 @@
 <script>    
 import {mapState, mapActions, mapMutations} from 'vuex'
 // import Spinner from './Spinner'
+import FilterNav from './FilterNav'
 import Modal from './Modal'
 import Pagination from './Pagination'
 
@@ -166,7 +166,7 @@ export default {
     },
 
     async fetch() {
-        await this.$store.dispatch('users/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
+        await this.$store.dispatch('users/getList', { pageNumber: 0, filterByBranch: this.filter.filterByBranch})
     },
 
     methods: {
@@ -201,8 +201,23 @@ export default {
         },
     },
 
+    watch: {
+
+        filter: {
+            deep: true,
+
+            handler(newVal, oldVal) {
+                if(newVal) {
+                    // this.getList(0, true)
+                    this.$store.dispatch('users/getList', { pageNumber: 0, filterByBranch: this.filter.filterByBranch})
+                }
+            }
+        }
+    },
+
     components: {
         // Spinner,
+        FilterNav,
         Modal,
         Pagination,
     }

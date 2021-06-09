@@ -18,6 +18,21 @@ class UsersController extends Controller
             $users = User::orderBy('branch_id', 'asc')->paginate(10, ['*'], 'page', $page);
         } 
 
+        $filterByBranchArr = explode(",", $request->get('branch_id'));
+        // If filter is active
+        if($filterByBranchArr[0] != ""){
+            $filterByBranchArr = $filterByBranchArr;
+        } else {
+            $filterByBranchArr = false;
+        }
+
+        $users = User::select('*')
+            ->orderBy('name', 'asc')
+            ->when($filterByBranchArr, function($users, $filterByBranchArr) {
+                return $users->whereIn('branch_id', $filterByBranchArr);
+            })
+            ->paginate(10, ['*'], 'page', $page);
+
         if($users) {
             return UserResource::collection($users)->response();
         } else {

@@ -11,12 +11,18 @@ class BranchesController extends Controller
 {
     public function index(Request $request) 
     {
-        $page = $request->input('page');
+        // Return not Paginated Object
+        if($request->input('all-branches') == 'true') {
+            $branches = Branch::orderBy('name', 'asc')
+                ->get()
+                ->collect();
+            return BranchResource::collection($branches)->response();
+        } else {
+        // Return Paginated Object
+            $page = $request->input('page');
 
-        $branches = Branch::select('*')
-            ->orderBy('name', 'asc')
-            ->paginate(10, ['*'], 'page', $page);
-        // $branches = Branch::orderBy('name', 'asc')->paginate(10, ['*'], 'page', $page);
+            $branches = Branch::orderBy('name', 'asc')->paginate(10, ['*'], 'page', $page);
+        }
 
         if($branches) {
             return BranchResource::collection($branches)->response();
@@ -27,6 +33,7 @@ class BranchesController extends Controller
                 ]
             ]]);
         }
+
 
         // Eager + Lazy Loading 
         // $branches = Branch::with(['messages']);

@@ -15,7 +15,6 @@
 <script>
   export default {
     name: "Pagination",
-    // props: ['store', 'collection', 'filter'],
     props: {
       store: {},
       collection: {},

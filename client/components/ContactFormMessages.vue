@@ -1,8 +1,10 @@
 <template>
-<div class="z-10 relative">
-    <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
-    <FilterNav @sortByUnread = "filter.sortByUnread = $event" @filterByBranch = "filter.filterByBranch = $event" />
-    
+<div class="z-30 relative">
+        <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
+        
+        <FilterNav store="contactForm" 
+                @sortByUnread = "filter.sortByUnread = $event" 
+                @filterByBranch = "filter.filterByBranch = $event" />
     <!-- <div class="absolute w-full flex justify-center">
         <Spinner />
     </div> -->
@@ -103,7 +105,10 @@ import FilterNav from './FilterNav'
 export default {
     name: "ContactFormMessages",
 
-    props: ['smallDevice'],
+    props: {
+        smallDevice: {},
+        store: {}
+    },
 
     data: () => ({
         fullMsgText: false,
@@ -123,6 +128,8 @@ export default {
     async fetch(){
         await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
         await this.getNoticationsNum();
+        await this.$store.dispatch('branches/getNotPaginatedList');
+
     },
 
     methods: {

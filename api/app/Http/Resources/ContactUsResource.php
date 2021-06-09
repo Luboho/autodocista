@@ -19,6 +19,7 @@ class ContactUsResource extends JsonResource
     {
        return [
            'id' => $this->id,
+           'branch_id' => $this->branch_id,
            'branch' => Branch::findOrFail($this->branch_id),
            'name' => $this->name,
            'email' => $this->email,

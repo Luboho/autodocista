@@ -13,7 +13,7 @@
                             id="name" 
                             v-model="form.name"
                             type="name" 
-                            class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
                             name="name" 
                             value="" 
                             size="40"
@@ -33,7 +33,7 @@
                             id="email" 
                             v-model="form.email"
                             type="email" 
-                            class="pt-8 rounded w-72 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
                             name="email" 
                             value="" 
                             size="40"
@@ -52,10 +52,9 @@
                         id="phone" 
                         v-model="form.phone"
                         type="number" 
-                        class="pt-8 rounded w-72 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 w-101 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
                         name="phone" 
                         value="" 
-                        size="40"
                         autocomplete="email"
                     >
                         <p class="text-red-600 text-sm" v-text="errors.phone ? errors.phone[0] : ''"></p>
@@ -64,7 +63,7 @@
     <!-- Branch Selection -->
                 <div class="relative py-6">
                     
-                    <select name="city" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                    <select name="city" id="" v-model="form.branch_id" class=" border border-gold-500 rounded w-101 p-5 hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                         <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
                         <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.name }} , {{ branch.city }}</option>
                     </select>
@@ -77,7 +76,7 @@
                     <textarea @click="clearErrors" 
                         id="message" 
                         v-model="form.message"
-                        class="pt-8 rounded w-72 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
                         name="message" 
                         rows="3" 
                         cols="41"

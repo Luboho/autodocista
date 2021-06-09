@@ -1,6 +1,6 @@
 export const state = () => ({
     messages: {},
-    notificationNum: 0
+    // notificationNum: 0
   })
 
   export const getters = {
