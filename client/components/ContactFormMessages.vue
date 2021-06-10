@@ -1,5 +1,5 @@
 <template>
-<div class="z-30 relative">
+<div class="z-10 relative">
         <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
         
         <FilterNav store="contactForm" 
@@ -91,6 +91,7 @@
             </tbody>
         </table>
     </div>
+
     <div v-if="messages" v-show="paginationTotal > 10">
         <Pagination store="contactForm" collection="messages" :filter="filter" />
     </div>
@@ -101,6 +102,7 @@
 import {mapState, mapMutations, mapActions} from 'vuex'
 import Pagination from './Pagination'
 import FilterNav from './FilterNav'
+import Modal from './Modal'
 
 export default {
     name: "ContactFormMessages",
@@ -121,6 +123,7 @@ export default {
     computed: {
         ...mapState({
             messages: state => state.contactForm.messages.data,
+            modal: state => state.modal.modal,
             paginationTotal: state => state.contactForm.messages.meta.total
         }),
     },
@@ -182,21 +185,21 @@ export default {
 
     watch: {
 
-            filter: {
-                deep: true,
+        filter: {
+            deep: true,
 
-                handler(newVal, oldVal) {
-                    if(newVal) {
-                        // this.getList(0, true)
-                        this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
-                    }
+            handler(newVal, oldVal) {
+                if(newVal) {
+                    // this.getList(0, true)
+                    this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
                 }
             }
+        }
     },
 
     components: {
         // Spinner,
-        // Modal,
+        Modal,
         Pagination,
         FilterNav
     }

@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-if="modal" @click="setModal(false)" class="fixed flex items-center justify-center bg-opacity-50 bg-black z-20 top-0 left-0 right-0 bottom-0"></div>
+        <div v-if="modal" @click="setModal(false)" class="fixed flex items-center justify-center bg-opacity-50 bg-black z-40 top-0 left-0 right-0 bottom-0"></div>
     </transition>
 </template>
 

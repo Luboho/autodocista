@@ -1,10 +1,10 @@
 <template>
   <div>
+    <!-- Filter Window -->
       <div v-if="clickedFilter"
-        class="absolute w-full left-0 right-0 flex justify-center">
+        class="absolute z-50 left-0 right-0 flex justify-center">
 
-
-        <div class="relative z-40 w-80 rounded-md bg-gray-300 px-5">
+        <div class="relative z-30 w-80 rounded-md bg-gray-300 px-5">
           <!-- Buttons -->
           <div class="sticky flex center justify-center py-4 z-50">
             <button @click="cancelFilter" class="text-gray-400 mr-3 bg-gold-200 hover:bg-gold-300 focus:outline-none shadow-lg hover:shadow-xs rounded pr-4 px-4 py-2 text-sm">
@@ -47,8 +47,8 @@
             </div>
 
         </div>
-      <!-- Make Absolute window with Branch filter && UNread msgs with modal-->
       </div>
+    <!-- End of Filter Window -->
       
       <div class="flex">
         <!-- Filter Button -->
@@ -68,7 +68,7 @@
 
       <!-- Categories -->
           <div class="flex flex-wrap">
-            <div v-for="category in showedCategories" :key="category.index" class="p-1 text-xs text-black whitespace-no-wrap">
+            <div v-for="category in showedCategories" :key="category.index" class="mx-1 mb-1 text-xs text-black whitespace-no-wrap">
               <button class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110" @click="removeCategory(category)">
                 <span class="flex items-center justify-between bg-white hover:bg-gray-200 hover:text-red-600 bg-opacity-25 hover:text-bold p-1 rounded center">
                   {{ category.branch.name }}
@@ -78,12 +78,13 @@
             </div>
           </div>
       </div>
-
+    <Modal />
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapMutations, mapGetters} from 'vuex'
+import Modal from './Modal'
 
 export default {
     name: 'FilterNav',
@@ -108,17 +109,19 @@ export default {
     computed: {
         ...mapState({
             authUser: state => state.auth.user,
+            modal: state => state.modal.modal,
             notPaginatedBranches: state => state.branches.notPaginatedBranches.data,
         }),
         ...mapGetters({
             tab: 'dashboardTab/tab',
             filtratedMessages: 'contactForm/messages'
         }),
+        
         showedCategories() {
           if(this.filtratedMessages.data) {
             return this.uniqByForeignKey(this.filtratedMessages.data, message => message.branch_id);
           }
-        }
+        },
     },
 
     methods: {
@@ -130,9 +133,13 @@ export default {
               ).values()
             ]
         },
-
+        ...mapMutations({
+             setModal : 'modal/setModal',
+            //  setSpinner: 'spinner/SET_SPINNER'
+        }),
         sortByUnread() {
             this.unread = ! this.unread;
+            this.setModal(false);
             this.$emit('sortByUnread', this.unread);
         },
 
@@ -142,20 +149,7 @@ export default {
           this.filter.filterByBranch = categoryObjs.map(cat => cat.branch_id);
           
           this.$emit('filterByBranch', this.filter.filterByBranch);
-          // const index = this.removedCategories.indexOf(category);
-
-          // // if( index > -1 ) {
-          //  let founded = this.removedCategories.splice(index, 1);
-           
-          //  this.filterList(463)
-          // let foundIds = this.filtratedMessages.data.filter(message => message.branch_id == category.branch_id)
-          //   this.removedCategories.filter((category, index) => this.removedCategories.splice())
-            // this.filterList(this.filter.filterByBranch);
-          // }
-
-          // let removedCategories = this.showedCategories.filter(category => category.branch_id == category.branch_id);
-          // console.log(founded)
-
+          
         },
        
         filterList(id) {
@@ -174,14 +168,41 @@ export default {
         },
 
         async cancelFilter() {
-         this.clickedFilter = false;
+          this.clickedFilter = false;
+          this.setModal(false);
           this.filter.sortByUnread = false;
           this.filter.filterByBranch = [];
           await this.$store.dispatch(this.store + '/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
         }
+    },
+
+    watch: {
+      clickedFilter: {
+        handler(newVal, oldVal){
+          if(newVal == true) {
+              this.setModal(true);
+          } else {
+            this.setModal(false);
+          }
+        },
+      },
+      modal: {
+        handler(newVal, oldVal){
+          if(newVal == false) {
+            this.clickedFilter = false;
+          }
+        }
+      },
+    },  
+
+    components: {
+      Modal
     }
+
+
 }
 </script>
+
 <style scoped>
 .yellow--text /deep/ label {
     color: #fff7d1;

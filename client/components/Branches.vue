@@ -196,15 +196,15 @@ export default {
 
     watch: {
 
-            filter: {
-                deep: true,
+        filter: {
+            deep: true,
 
-                handler(newVal, oldVal) {
-                    if(newVal) {
-                        this.$store.dispatch('branches/getList', { pageNumber: 0})
-                    }
+            handler(newVal, oldVal) {
+                if(newVal) {
+                    this.$store.dispatch('branches/getList', { pageNumber: 0})
                 }
             }
+        }
     },
 
     components: {
