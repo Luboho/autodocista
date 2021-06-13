@@ -51,6 +51,7 @@
   methods: {
     paginatePage(pageNumber) {
       this.$store.dispatch(this.store + '/getList', { pageNumber: pageNumber, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
+      this.$store.dispatch('spinner/setSpinner', true);
       this.scrollToTopSmooth();
     },
 

@@ -44,6 +44,10 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    ['nuxt-gmaps', {
+    key: '<API-Key>',
+    //you can use libraries: ['places']
+    }],
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',

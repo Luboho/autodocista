@@ -27,7 +27,7 @@ export const state = () => ({
   export const actions = {
 
     async getList({commit}, {pageNumber, sortByUnread, filterByBranch}) {
-      // await this.dispatch('spinner/setSpinner', true, { root: true })
+      await this.dispatch('spinner/setSpinner', true, { root: true })
       try {
         
         await this.$axios.$get('sanctum/csrf-cookie');

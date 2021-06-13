@@ -11,5 +11,6 @@ export const mutations = {
 export const actions = {
     async setSpinner({commit}, boolean) {
         commit('SET_SPINNER', boolean)
+        await this.dispatch('modal/changeModal', boolean, {root:true})
     }
 }

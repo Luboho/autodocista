@@ -1,13 +1,14 @@
 <template>
 <div class="z-10 relative">
-        <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
         
-        <FilterNav store="contactForm" 
+    <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
+
+    <FilterNav store="contactForm" 
                 @sortByUnread = "filter.sortByUnread = $event" 
                 @filterByBranch = "filter.filterByBranch = $event" />
-    <!-- <div class="absolute w-full flex justify-center">
-        <Spinner />
-    </div> -->
+
+    <Spinner />
+
     <!-- Small Device -->
     <div v-if="smallDevice">
 
@@ -91,7 +92,7 @@
             </tbody>
         </table>
     </div>
-
+    <Modal />
     <div v-if="messages" v-show="paginationTotal > 10">
         <Pagination store="contactForm" collection="messages" :filter="filter" />
     </div>
@@ -103,6 +104,7 @@ import {mapState, mapMutations, mapActions} from 'vuex'
 import Pagination from './Pagination'
 import FilterNav from './FilterNav'
 import Modal from './Modal'
+import Spinner from './Spinner'
 
 export default {
     name: "ContactFormMessages",
@@ -117,8 +119,12 @@ export default {
         filter: {
             sortByUnread: Boolean,
             filterByBranch: []
-        }
+        },
     }),
+
+    mounted() {
+        this.setSpinner(true);
+    },
 
     computed: {
         ...mapState({
@@ -132,18 +138,13 @@ export default {
         await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
         await this.getNoticationsNum();
         await this.$store.dispatch('branches/getNotPaginatedList');
-
     },
 
     methods: {
-        // ...mapMutations({
-        //     //  setModal: 'modal/setModal',
-        //     //  setSpinner: 'spinner/SET_SPINNER'
-        // }),
-
         ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
         ...mapActions({
              getNoticationsNum: 'contactForm/getNotificationsNum',
+             setSpinner: 'spinner/setSpinner'
         }),
     
         async showBranch(id, event) {
@@ -151,9 +152,8 @@ export default {
             this.setTab('branches')
         },
 
-
         async showMsg(text, id, event) {
-                
+
             if(event.target.innerText.length > 46) {
                 //SHORTEN TEXT
                 event.target.innerText = text.slice(0, 40) + ' . . .';
@@ -187,18 +187,26 @@ export default {
 
         filter: {
             deep: true,
-
             handler(newVal, oldVal) {
                 if(newVal) {
-                    // this.getList(0, true)
                     this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
+                }
+            }
+        },
+
+        // Turn off Spinner when data changed.
+        messages: {
+            deep: true,
+            handler(newVal, oldVal) {
+                if(newVal.length > 0) {
+                    this.setSpinner(false);
                 }
             }
         }
     },
 
     components: {
-        // Spinner,
+        Spinner,
         Modal,
         Pagination,
         FilterNav

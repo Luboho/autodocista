@@ -133,7 +133,6 @@
 
 <script>    
 import {mapState, mapActions, mapMutations} from 'vuex'
-// import Spinner from './Spinner'
 import FilterNav from './FilterNav'
 import Modal from './Modal'
 import Pagination from './Pagination'
@@ -158,7 +157,6 @@ export default {
             authUser: state => state.auth.user,
             paginationTotal: state => state.users.users.meta.total,
             modal: state => state.modal.modal,
-            spin: state => state.spinner.spin
         }),
         userForDestroy() {
             return this.users.filter(user => user.id == this.destroyId);
@@ -173,7 +171,6 @@ export default {
         ...mapMutations({
              setModal : 'modal/setModal',
              setTab: 'dashboardTab/SET_TAB',
-            //  setSpinner: 'spinner/SET_SPINNER'
         }),
         ...mapActions({
             deleteUser: 'users/deleteUser',
@@ -216,7 +213,6 @@ export default {
     },
 
     components: {
-        // Spinner,
         FilterNav,
         Modal,
         Pagination,

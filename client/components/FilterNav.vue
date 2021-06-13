@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapGetters} from 'vuex'
+import {mapState, mapMutations, mapGetters, mapActions} from 'vuex'
 import Modal from './Modal'
 
 export default {
@@ -135,8 +135,11 @@ export default {
         },
         ...mapMutations({
              setModal : 'modal/setModal',
-            //  setSpinner: 'spinner/SET_SPINNER'
         }),
+        ...mapActions({
+          setSpinner : 'spinner/setSpinner'
+        }),
+
         sortByUnread() {
             this.unread = ! this.unread;
             this.setModal(false);
@@ -170,6 +173,7 @@ export default {
         async cancelFilter() {
           this.clickedFilter = false;
           this.setModal(false);
+          // this.setSpinner(true);
           this.filter.sortByUnread = false;
           this.filter.filterByBranch = [];
           await this.$store.dispatch(this.store + '/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
