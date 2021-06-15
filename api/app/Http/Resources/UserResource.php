@@ -19,6 +19,7 @@ class UserResource extends JsonResource
         $arrayData = [
             'id' => $this->id,
             'branch' => Branch::findOrFail($this->branch_id),
+            'branch_id' => $this->branch_id,
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,

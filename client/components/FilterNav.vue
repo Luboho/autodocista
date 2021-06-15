@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <!-- Filter Window -->
       <div v-if="clickedFilter"
         class="absolute z-50 left-0 right-0 flex justify-center">
@@ -14,7 +15,7 @@
               <button @click="clickedFilter = false"  v-if="true" class="px-4 py-2 ml-3 bg-gold-500 hover:bg-gold-400 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm font-bold text-gray-700">
                   Zobraziť
                   &nbsp;
-                  ( {{ filtratedMessages.data.length > 0 ? filtratedMessages.data.length : null }} )
+                  ( {{ dataList.length > 0 ? dataList.length : null }} )
               </button>
              <button v-else @click="clickedFilter = false"  disabled="disabled" class="border disabled:border-gray-900 px-4 py-2 ml-3 rounded text-sm text-gray-700">
                 Zobraziť
@@ -39,7 +40,7 @@
             <div class="border-l border-t rounded-tl-md border-gray-400 font-semibold  p-1 overflow-y-scroll bg-gray-300 max-h-250px">
               <form v-for="branch in notPaginatedBranches" :key="branch.id" class="px-1">
                   <label class="custom-checkbox-container w-80 pb-4 text-gray-900 cursor-pointer">
-                    <input @click="filterList(branch.id)" type="checkbox" name="branch" :value="branch.id">
+                    <input @click="filterList(branch.id)" type="checkbox" :checked="checked" name="branch" :value="branch.id">
                       <span class="mt-0.5">{{ branch.name }}</span>
                       <span class="checkmark"></span>
                   </label>
@@ -89,9 +90,7 @@ import Modal from './Modal'
 export default {
     name: 'FilterNav',
 
-    props: {
-        store: {}
-    },
+    props: ['store', 'dataList'],
 
     data: () => ({
         filter: {
@@ -118,8 +117,8 @@ export default {
         }),
         
         showedCategories() {
-          if(this.filtratedMessages.data) {
-            return this.uniqByForeignKey(this.filtratedMessages.data, message => message.branch_id);
+          if(this.dataList) {
+            return this.uniqByForeignKey(this.dataList, message => message.branch_id);
           }
         },
     },
@@ -155,6 +154,12 @@ export default {
           
         },
        
+        // checked() {
+        //   this.notPaginatedBranches.map(function(branch) {
+        //     return 
+        //   })
+        // },
+
         filterList(id) {
             if(this.filter.filterByBranch){
                 var idExists = this.filter.filterByBranch.find(branchId => branchId == id);
@@ -217,5 +222,6 @@ export default {
 .v-application v-radio {
   background-color: #00a86b;
 }
+
 
 </style>

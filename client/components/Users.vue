@@ -1,10 +1,13 @@
 <template>
 <div> 
     <h2 class="text-gold-500 py-2 uppercase">Registrovaní užívatelia</h2>
-    <FilterNav store="users" @sortByUnread = "filter.sortByUnread = $event" @filterByBranch = "filter.filterByBranch = $event" />
+    <FilterNav store="users" 
+               @sortByUnread = "filter.sortByUnread = $event" 
+               @filterByBranch = "filter.filterByBranch = $event"
+               :dataList="this.users" />
      <!-- Confirm Item destroying -->
         <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
-            <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
+            <div class="fixed text-white rounded-lg z-50 p-8 bg-gray-800">
                 <p>Ste si istý, že chcete zmazať záznam  
                 </p>
                 <p v-show="userForDestroy" class="text-gold-500 font-bold">

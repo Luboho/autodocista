@@ -56,7 +56,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the model && prevent User from delete self. 
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\User  $model
@@ -64,7 +64,7 @@ class UserPolicy
      */
     public function delete(User $user)
     {
-        return $user->is_admin == 1;
+        return $user->is_admin == 1 && $user !== $user;
     }
 
     /**

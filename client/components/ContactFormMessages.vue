@@ -5,7 +5,8 @@
 
     <FilterNav store="contactForm" 
                 @sortByUnread = "filter.sortByUnread = $event" 
-                @filterByBranch = "filter.filterByBranch = $event" />
+                @filterByBranch = "filter.filterByBranch = $event"
+                :dataList="messages" />
 
     <Spinner />
 

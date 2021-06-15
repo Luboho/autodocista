@@ -73,7 +73,7 @@
 
     <!-- Branch Selection -->
                     <div class="relative pt-3">
-                        <select name="branch" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                        <select name="branch" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-101.5 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                             <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
                             <option v-for="branch in branches" 
                                     :key="branch.id" 
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="relative pt-3">
-                        <select name="is_admin" id="" v-model="form.is_admin"  class=" border border-gold-500 rounded w-44 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                        <select name="is_admin" id="" v-model="form.is_admin"  class=" border border-gold-500 rounded w-101.5 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                             <option value="" selected="true" disabled="disabled">Vyberte oprávnenie užívateľa...*</option>
                             <option value='0'
                                     class="bg-gray-400"
@@ -110,7 +110,7 @@
                             v-model="form.password"
                             @click="clearErrors"
                             type="password" 
-                            class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                            class="pt-8 rounded w-101.5 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
                             name="password" 
                             size="40"
                             autocomplete="new-password">
@@ -129,7 +129,7 @@
                                 @click="clearErrors"
                                 v-model="form.password_confirmation"
                                 type="password" 
-                                class="pt-8 rounded w-44 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                class="pt-8 rounded w-101.5 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
                                 name="password_confirmation" 
                                 size="40"
                                 autocomplete="new-password">
@@ -153,6 +153,7 @@
 
 export default {
     name: "Register",
+    middleware: 'authenticated',
 
     data: () => ({
         form: {
@@ -167,10 +168,14 @@ export default {
         errors: []
     }),
 
+    async fetch(){
+        await this.$store.dispatch('branches/getNotPaginatedList');
+    },
+
     computed: {
-            ...mapState({
-                branches: state => state.branches.branches
-            }),
+        ...mapState({
+            branches: state => state.branches.notPaginatedBranches.data
+        }),
     },
 
     methods: {

@@ -110,10 +110,20 @@
                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                           <nuxt-link to="/dashboard" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
                                      role="menuitem">
-                              Profil
+                              Správca
                           </nuxt-link>
-                          <a href="#" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Your Profile</a>
-                          <a href="#" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Settings</a>
+                          <nuxt-link to="agsdfg" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
+                                     role="menuitem">
+                              Môj profil
+                          </nuxt-link>
+                          <nuxt-link to="asd" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
+                                     role="menuitem">
+                              Nastavenia
+                          </nuxt-link>
+                          <nuxt-link to="dsds" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
+                                     role="menuitem">
+                              Zariadenia
+                          </nuxt-link>
                           <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Odhlásiť sa</a>
                       </div>
                     </transition>

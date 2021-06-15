@@ -39,7 +39,7 @@ export const state = () => ({
         } catch (e) {
             console.log(e);
         }
-        // await this.dispatch('spinner/setSpinner', false, { root: true })
+        this.dispatch('spinner/setSpinner', false, { root: true })
     },
 
     async getNotificationsNum({commit}) {

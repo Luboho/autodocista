@@ -12,9 +12,20 @@ module.exports = {
       '250px': '250px',
       '400px': '400px'
     },
-    // width: {
-    //   '400px': '400px',
-    // },
+    fontSize: {
+      'xs': '.75rem',
+      'sm': '.875rem',
+      'tiny': '.875rem',
+      'base': '1rem',
+      'lg': '1.125rem',
+      'xl': '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '4rem',
+      '7xl': '5rem',
+    },
     extend: {
       spacing: {
         '0.5': '0.125rem',
@@ -51,7 +62,8 @@ module.exports = {
         '80': '20rem',
         '96': '24rem',
         '100': '25rem',
-        '101': '25.25rem'
+        '101': '25.25rem',
+        '101.5': '25.35rem'
       },
       colors: {
         gray: {

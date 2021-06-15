@@ -68,7 +68,7 @@
                         <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.name }} , {{ branch.city }}</option>
                     </select>
                 </div>
-<!-- Message area -->
+    <!-- Message area -->
                 <div class="relative py-6">
                     <label for="message" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
                         Správa *
@@ -107,9 +107,13 @@
             errors:[],
         }),
 
+        async fetch(){
+            await this.$store.dispatch('branches/getNotPaginatedList');
+        },
+
         computed: {
             ...mapState({
-                branches: state => state.branches.branches,
+                branches: state => state.branches.notPaginatedBranches.data,
             }),
         },
 
