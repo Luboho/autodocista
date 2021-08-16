@@ -29,6 +29,7 @@ class BranchFactory extends Factory
             'postal_code' => $this->faker->postcode,
             'phone' => $this->faker->e164PhoneNumber,
             'email' => $this->faker->email,
+            'ico' => $this->faker->numerify('SK############')
         ];
     }
 }

@@ -25,15 +25,26 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            // 'name' => $this->faker->name,
+            // 'email' => $this->faker->unique()->safeEmail,
+            // 'phone' => $this->faker->e164PhoneNumber,
+            // 'email_verified_at' => now(),
+            // 'is_admin' => (bool)random_int(0, 1),
+            // // 'role' => 'user',
+            // 'branch_id' => Branch::factory(),
+            // 'password' => Hash::make('password'),//$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            // 'remember_token' => Str::random(10),
+
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
             'phone' => $this->faker->e164PhoneNumber,
             'email_verified_at' => now(),
-            'is_admin' => (bool)random_int(0, 1),
+            'is_admin' => 1,
             // 'role' => 'user',
             'branch_id' => Branch::factory(),
             'password' => Hash::make('password'),//$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            
         ];
     }
 

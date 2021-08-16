@@ -4,10 +4,10 @@
     <h2 class="text-gold-500 py-2 uppercase">Správy od zákazníkov</h2>
 
     <FilterNav store="contactForm" 
-                @sortByUnread = "filter.sortByUnread = $event" 
+                @sortByUnread = "filter.unread = $event" 
                 @filterByBranch = "filter.filterByBranch = $event"
-                :dataList="messages" />
-
+                :dataList="messages"
+                :notPaginatedItems="notPaginatedItems" />
     <Spinner />
 
     <!-- Small Device -->
@@ -118,25 +118,27 @@ export default {
     data: () => ({
         fullMsgText: false,
         filter: {
-            sortByUnread: Boolean,
+            unread: "",
             filterByBranch: []
         },
     }),
 
     mounted() {
         this.setSpinner(true);
+        this.clickedBell();
     },
 
     computed: {
         ...mapState({
             messages: state => state.contactForm.messages.data,
             modal: state => state.modal.modal,
-            paginationTotal: state => state.contactForm.messages.meta.total
+            paginationTotal: state => state.contactForm.messages.meta.total,
+            notPaginatedItems: state => state.branches.notPaginatedBranches.data,
         }),
     },
 
     async fetch(){
-        await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch});
+        await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch});
         await this.getNoticationsNum();
         await this.$store.dispatch('branches/getNotPaginatedList');
     },
@@ -145,14 +147,19 @@ export default {
         ...mapMutations({ setTab : 'dashboardTab/SET_TAB' }),
         ...mapActions({
              getNoticationsNum: 'contactForm/getNotificationsNum',
-             setSpinner: 'spinner/setSpinner'
+             setSpinner: 'spinner/setSpinner',
         }),
     
         async showBranch(id, event) {
             await this.$store.dispatch('branches/getSelected', id);
             this.setTab('branches')
         },
-
+        clickedBell(){
+            this.filter.unread = true;
+            if(this.$route.params.unreadMsg){
+                this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch})
+            }
+        },
         async showMsg(text, id, event) {
 
             if(event.target.innerText.length > 46) {
@@ -190,7 +197,7 @@ export default {
             deep: true,
             handler(newVal, oldVal) {
                 if(newVal) {
-                    this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.sortByUnread, filterByBranch: this.filter.filterByBranch})
+                    this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch})
                 }
             }
         },

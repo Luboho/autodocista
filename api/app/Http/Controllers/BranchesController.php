@@ -6,6 +6,7 @@ use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Http\Resources\BranchResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class BranchesController extends Controller
 {
@@ -40,6 +41,17 @@ class BranchesController extends Controller
         // return BranchResource::collection($branches->paginate(10))->response();
     }
 
+    public function store(Branch $branch, Request $request) 
+    {
+        $this->authorize('create', $branch);
+
+            $branch->create($this->validateRequest());
+
+            return response()
+                ->json(['data' => ['success' => true ]])
+                ->setStatusCode(Response::HTTP_CREATED);
+    }
+
     public function show(Branch $branch, Request $request) 
     {
         $this->authorize('view', $branch);
@@ -47,8 +59,30 @@ class BranchesController extends Controller
         $branch = Branch::where('id',$request->id)->paginate();
 
         if($branch) {
-            // return response()->json(['data' => $branch]);
-            return BranchResource::collection($branch)->response();
+            return response()->json(['data' => $branch]);
+            // return BranchResource::collection($branch)->response();
+        } else {
+            return response()->json(['data' => [
+                'errors' => [
+                    'root' => 'No branch found.'
+                ]
+            ]]);
+        }
+    }
+
+    public function update(Branch $branch, Request $request) 
+    {
+        $this->authorize('update', $branch);
+
+        $branch = Branch::where('id', intval($request->id))->first();
+
+        if($branch) {
+
+            $branch->update($this->validateRequest());
+
+            return response()->json(['data' => [
+                'success' => 'Údaje boli úspešne upravené.'
+            ]]);
         } else {
             return response()->json(['data' => [
                 'errors' => [
@@ -69,5 +103,18 @@ class BranchesController extends Controller
             $branch->users()->delete();
             $branch->delete();
         }
+    }
+
+    private function validateRequest()
+    {
+       return request()->validate([
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'email'],
+            'phone' => ['required', 'regex:/^[+]*[0-9]{9,14}/', 'min:9', 'max:14'],
+            'city' => ['required', 'string', 'max:80'],
+            'address' => ['required', 'string', 'max:150'],
+            'postal_code' => ['required', 'string', 'min:5', 'max:7'],
+            'ico' => ['required', 'regex:/^[SK]*[0-9]{9,14}/', 'min:9', 'max:14']
+        ]);
     }
 }

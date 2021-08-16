@@ -21,6 +21,7 @@ class CreateBranchesTable extends Migration
             $table->string('postal_code');
             $table->string('phone');
             $table->string('email');
+            $table->string('ico');
             $table->timestamps();
         });
     }

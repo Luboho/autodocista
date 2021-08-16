@@ -44,7 +44,7 @@
                 <h1 class="font-bold pb-1">Prevádzky</h1>
                 <transition name="dropdown">
                     <div class="absolute z-100 inset-0 flex flex-col  justify-center text-gold-500 bg-gray-600" v-if="hover">
-                        <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" />
+                        <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" :ico="branch[0].ico" />
                         <img src="@/assets/default-images/logo200x121.png"  alt="Auto Dočista">
                     </div>
                 </transition>
@@ -88,13 +88,16 @@
     import {mapState} from 'vuex'
     import HoverContacts from "../components/HoverContacts"
     export default {
+
+        name: "Footer",
+        
         data: () => ({
             hover: false,
             id: "",
         }),
 
         async mounted() {
-            await this.$store.dispatch('branches/getList', {pageNumber: 0})
+            await this.$store.dispatch('branches/getNotPaginatedList');
         },
 
         computed: {
@@ -103,7 +106,7 @@
             },
 
             ...mapState({
-                branches: state => state.branches.branches.data
+                branches: state => state.branches.notPaginatedBranches.data
             }),
 
             branch() {

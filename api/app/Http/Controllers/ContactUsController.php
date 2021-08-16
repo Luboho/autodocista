@@ -31,13 +31,13 @@ class ContactUsController extends Controller
         if(auth()->check() && auth()->user()->is_admin == '1') {
 
             $messages = ContactFormMessage::select('*')
-                ->orderBy('created_at', 'desc')
                 ->when($unreadFirst == 'true', function ($messages) {
                     return $messages->orderBy('read', 'asc');
                 })
                 ->when($filterByBranchArr, function($messages, $filterByBranchArr) {
                     return $messages->whereIn('branch_id', $filterByBranchArr);
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate(10, ['*'], 'page', $page);
 
         // USER messages
@@ -47,10 +47,10 @@ class ContactUsController extends Controller
 
             $messages = ContactFormMessage::select('*')
                 ->where('branch_id', $branchOfAuthUser)
-                ->orderBy('created_at', 'desc')
                 ->when($unreadFirst == 'true', function($messages) {
                     return $messages->orderBy('read', 'asc');
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate(10, ['*'], 'page', $page);
         }
 
@@ -96,7 +96,7 @@ class ContactUsController extends Controller
             'name' => ['nullable','string', 'max:50'],
             'email' => ['nullable','email'],
             'phone' => ['nullable', 'regex:/^[+]*[0-9]{9,13}/', 'min:9', 'max:13'],
-            'message' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'max:500'],
             'branch_id' => ['required', 'exists:App\Models\Branch,id'],
         ]);
 
@@ -121,9 +121,9 @@ class ContactUsController extends Controller
 
     public function countNotifications(Request $request)
     {
-      // Get All messages.
-      if(auth()->check() && auth()->user()->is_admin == '1') {
-        $messages = ContactFormMessage::where('read', 0)->pluck('id');
+        // Get All messages.
+        if(auth()->check() && auth()->user()->is_admin == '1') {
+            $messages = ContactFormMessage::where('read', 0)->pluck('id');
 
         // Get Messages for Authenticated User of specific Branch.
         } else if(auth()->check() && auth()->user()->is_admin == '0') {
@@ -137,6 +137,34 @@ class ContactUsController extends Controller
             return response()
                     ->json(['data' => [
                         'root' => 'No unread messages'
+            ]]);
+        }
+    }
+
+    public function allMsgs(Request $request)
+    {
+        // All messages for Admin
+        if(auth()->check() && auth()->user()->is_admin == '1') {
+
+            $messages = ContactFormMessage::all();
+
+        // USER messages
+        } else if(auth()->check() && auth()->user()->is_admin == '0') {
+
+            $branchOfAuthUser = auth()->user()->branch_id;
+
+            $messages = ContactFormMessage::select('*')
+                ->where('branch_id', $branchOfAuthUser)
+                ->all();
+        }
+
+        if($messages) {
+            return ContactUsResource::collection($messages)->response();
+        } else {
+            return response()->json(['data' => [
+                'errors' => [
+                    'root' => 'No messages.'
+                ]
             ]]);
         }
     }

@@ -2,7 +2,10 @@
     <div class="img-bg flex justify-center">
 
         <div class="pt-44 pb-64">
-            <form @submit.prevent="submit" class="pt-24 pb-10">
+
+            <h1 class="text-xl">Prihlásiť</h1>
+
+            <form @submit.prevent="submit" class="py-10">
                         
                 <div class="relative">
                     <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">

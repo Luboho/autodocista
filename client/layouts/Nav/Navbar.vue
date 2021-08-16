@@ -1,7 +1,7 @@
 <template>
 
 <div>
-  <nav class="bg-gray-800 py-8 relative z-30">
+  <nav class="bg-gray-900 py-8 relative z-30">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="hidden sm:flex justify-center items-center">
@@ -82,7 +82,7 @@
                     class="p-1 text-gray-100 hover:text-white focus:outline-none focus:ring-2 
                            transition duration-500 ease-in-out focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
               <div @click="setTab('messages')">
-                <nuxt-link to="/dashboard"  class="flex text-red-600 align-top font-bold text-xs" role="menuitem">
+                <nuxt-link :to="{name: 'dashboard', params: {unreadMsg: true }}"  class="flex text-red-600 align-top font-bold text-xs" role="menuitem">
                   <font-awesome-icon :icon="['fas', 'bell']"  class="mr-1 text-xl text-white rounded"/>
                   <span class="px-2 py-1 border border-white rounded-full">{{ notificationNum }}</span>
                 </nuxt-link>
@@ -120,11 +120,22 @@
                                      role="menuitem">
                               Nastavenia
                           </nuxt-link>
-                          <nuxt-link to="dsds" class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" 
-                                     role="menuitem">
-                              Zariadenia
+                          <div @click="setTab('branches')">
+                            <nuxt-link  to="/dashboard"  class="block px-4 py-2 text-sm hover:bg-gray-400 transition duration-500 ease-in-out" role="menuitem">
+                                Prevádzky  
+                            </nuxt-link>
+                          </div>
+                          <nuxt-link v-if="this.$auth.user.is_admin == 1" to="/branch/create" role="menuitem" class="block pl-6 pr-4 py-2 text-xs hover:bg-gray-400 transition duration-500 ease-in-out">
+                            Pridať prevádzku
                           </nuxt-link>
-                          <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">Odhlásiť sa</a>
+                          <div @click="setTab('branches')">
+                            <nuxt-link v-if="this.$auth.user.is_admin == 1" to="/dashboard" role="menuitem" class="block pl-6 pr-4 py-2 text-xs hover:bg-gray-400 transition duration-500 ease-in-out">
+                                Upraviť údaje prevádzky
+                            </nuxt-link>
+                          </div>
+                          <a href="#" @click.prevent="logout" class="block px-4 py-2 text-sm border-t border-gray-400  text-red-500 transition duration-500 ease-in-out hover:bg-gray-400" role="menuitem">
+                            Odhlásiť sa
+                          </a>
                       </div>
                     </transition>
                   </div>
@@ -235,7 +246,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .dropdown-enter,
 .dropdown-leave-to {
   transform: scaleY(0.1);

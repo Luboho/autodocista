@@ -13,12 +13,18 @@
             </div>
             <a :href="'mailto:' + email">{{ email }}</a>
         </div>
+        <div class="whitespace-nowrap text-right text-white hover:text-gold-300 p-1 flex">
+            <div>
+                <font-awesome-icon :icon="['fas', 'star']"  class="text-gold-500 mr-2 align-middle" /> 
+            </div>
+            <p>IČO: {{ ico }}</p>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['name', 'phone', 'email' ],
+        props: ['name', 'phone', 'email', 'ico' ],
     }
 </script>
 

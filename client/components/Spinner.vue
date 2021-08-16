@@ -1,7 +1,6 @@
 <template>
   <div class="fixed z-50 right-0 left-0 flex justify-center">
     <div v-if="spin">
-        <!-- <Modal /> -->
         <div class="spring-spinner  relative">
         <div class="spring-spinner-part top">
             <div class="spring-spinner-rotator"></div>

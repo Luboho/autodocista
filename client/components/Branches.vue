@@ -40,11 +40,19 @@
                             </p>
                     </div>
                     
-                    <div class="flex flex-col">
-                        <p class="text-gray-100">Mesto:  </p> 
+                    <div class="ml-2">
+                        <div class="flex flex-col">
+                            <p class="text-gray-100">Mesto:  </p> 
+                                <p class="ml-2 text-gray-800 font-semibold">
+                                    {{ branch.city }}                                
+                                </p>
+                        </div>
+                        <div class="flex flex-col">
+                        <p class="text-gray-100">IČO:  </p> 
                             <p class="ml-2 text-gray-800 font-semibold">
-                                {{ branch.city }}                                
+                                {{ branch.ico }}                                
                             </p>
+                        </div>
                     </div>
                 </div>
                 <p class="text-gray-100">Adresa:  </p>
@@ -62,6 +70,10 @@
                     <p>
                         &nbsp;
                     </p>
+                    <!-- Edit Button -->
+                    <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}">
+                        <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-1 text-xl text-white rounded"/>
+                    </NuxtLink>
                     <button 
                         v-show="authUser.is_admin == '1'"  
                         @click="destroy(branch.id)"
@@ -97,24 +109,30 @@
                         <a :href="'mailto:' + branch.email" class="hover:text-gray-800">{{ branch.email }}</a>
                             <br>
                         <a :href="'tel:' + branch.phone" class="hover:text-gray-800">{{ branch.phone }}</a>
+                        <p>IČO: <span class="text-gray-500">{{ branch.ico }}</span></p>
                     </td>
-                    <td class="text-center w-3/12 text-gray-800 font-semibold">{{ branch.city }}</td>
+                    <td class="text-center w-2/12 text-gray-800 font-semibold">{{ branch.city }}</td>
                     <td class="text-center w-5/12">{{ branch.address }}</td>
-                    <td class="text-center w-1/12 pr-1 text-gray-800">{{ branch.created_at }}</td>
-                    <td>
+                    <td class="text-center w-2/12 pr-1 text-gray-800">{{ branch.created_at }}</td>
+                    <td class="px-1">
+                        <!-- Edit Button -->
+                        <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}">
+                            <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-1 text-xl text-white rounded"/>
+                        </NuxtLink>
                         <button 
                             v-show="authUser.is_admin == '1'"  
                             @click="destroy(branch.id)"
                             class="text-2xl font-black mr-2 focus:outline-none align-items-middle text-red-800 hover:text-red-600">
                             x 
                         </button>
+
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <Modal />
+    <!-- <Modal /> -->
     
     <div v-if="branches" v-show="paginationTotal > 10">
         <Pagination store="branches" collection="branches" :filter="filter" />

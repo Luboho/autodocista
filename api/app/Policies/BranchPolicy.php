@@ -42,7 +42,7 @@ class BranchPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_admin == 1;
     }
 
     /**
@@ -54,7 +54,7 @@ class BranchPolicy
      */
     public function update(User $user, Branch $branch)
     {
-        //
+        return $user->is_admin == 1;
     }
 
     /**

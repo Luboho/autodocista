@@ -22,6 +22,7 @@ class BranchResource extends JsonResource
             'address' => $this->address,
             'phone' => $this->phone,
             'email' => $this->email,
+            'ico' => $this->ico,
             'postal_code' => $this->postal_code,
             'created_at' => $this->created_at->diffForHumans(),
             // Eager + Lazy Loading

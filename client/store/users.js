@@ -15,7 +15,7 @@ export const mutations = {
 export const actions = {
 
         async getList({commit}, {pageNumber, sortByUnread, filterByBranch}) {
-            // this.dispatch('spinner/setSpinner', true, { root: true });
+            this.dispatch('spinner/setSpinner', true, { root: true });
             try {
                 await this.$axios.$get('sanctum/csrf-cookie');
     
@@ -26,7 +26,7 @@ export const actions = {
             } catch (e) {
                 console.log(e);
             }
-            // this.dispatch('spinner/setSpinner', false, { root: true });
+            this.dispatch('spinner/setSpinner', false, { root: true });
         },
     async deleteUser({commit}, id) {
         try {

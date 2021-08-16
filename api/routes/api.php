@@ -38,7 +38,9 @@ Route::post('/logout', LogoutController::class);
 // end Auth routes
 
 Route::get('/branches', [BranchesController::class, 'index']);
+Route::post('/branch/create', [BranchesController::class, 'store']);
 Route::post('/branches/{id}', [BranchesController::class, 'show']);
+Route::patch('/branch/edit', [BranchesController::class, 'update']);
 Route::delete('/branches/{id}', [BranchesController::class, 'destroy']);
 // Dashboard
 Route::get('/users', [UsersController::class, 'index']);
@@ -48,6 +50,7 @@ Route::delete('/users/{id}', [UsersController::class, 'destroy']);
 Route::get('/messages', [ContactUsController::class, 'index']);
 Route::get('/notifications-num', [ContactUsController::class, 'countNotifications']);
 Route::post('/messages', [ContactUsController::class, 'shownMessage']);
+Route::get('/all-msgs', [ContactUsController::class, 'allMsgs']);
 // End Dashboard
 
 Route::post('/contact-us', [ContactUsController::class, 'store']);

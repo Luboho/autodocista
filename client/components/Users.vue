@@ -5,6 +5,9 @@
                @sortByUnread = "filter.sortByUnread = $event" 
                @filterByBranch = "filter.filterByBranch = $event"
                :dataList="this.users" />
+
+    <Spinner />
+
      <!-- Confirm Item destroying -->
         <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
             <div class="fixed text-white rounded-lg z-50 p-8 bg-gray-800">
@@ -178,6 +181,7 @@ export default {
         ...mapActions({
             deleteUser: 'users/deleteUser',
             getList: 'users/getList',
+            setSpinner: 'spinner/setSpinner',
         }),
 
         destroy(id){
@@ -210,6 +214,16 @@ export default {
                 if(newVal) {
                     // this.getList(0, true)
                     this.$store.dispatch('users/getList', { pageNumber: 0, filterByBranch: this.filter.filterByBranch})
+                }
+            }
+        },
+
+        // Turn off Spinner when data changed.
+        users: {
+            deep: true,
+            handler(newVal, oldVal) {
+                if(newVal.length > 0) {
+                    this.setSpinner(false);
                 }
             }
         }

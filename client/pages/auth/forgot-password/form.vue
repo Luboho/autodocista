@@ -88,7 +88,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 .img-bg {
   background-image: url('~@/assets/default-images/forgotten_password.jpg');
   background-repeat: repeat-y;

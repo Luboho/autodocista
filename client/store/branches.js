@@ -1,6 +1,7 @@
 export const state = () => ({
     branches: {},
-    notPaginatedBranches: {}
+    notPaginatedBranches: {},
+    branchForEdit: {}
   })
   
   export const mutations = {
@@ -9,6 +10,10 @@ export const state = () => ({
     },
     SET_NOT_PAGINATED(state, value) {
       state.notPaginatedBranches = value
+    },
+
+    SET_BRANCH_FOR_EDIT(state, value) {
+      state.brachForEdit = value
     },
     
     SET_CURRENT_PAGE(state, data) {
@@ -19,7 +24,6 @@ export const state = () => ({
   
   export const actions = {
     async getList({commit}, {pageNumber}) {
-        // this.dispatch('spinner/setSpinner', true, { root: true });
         try {
             await this.$axios.$get('sanctum/csrf-cookie');
 
@@ -30,7 +34,6 @@ export const state = () => ({
         } catch (e) {
             console.log(e);
         }
-        // this.dispatch('spinner/setSpinner', false, { root: true });
     },
 
     // Calls FilterNav.vue

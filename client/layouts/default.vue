@@ -2,6 +2,7 @@
   <div class="bg-gray-800">
     <div class="max-w-7xl mx-auto">
       <Navbar />
+      <UiMessages />
       <Nuxt />
       <Footer />
     </div>
@@ -10,12 +11,14 @@
 
 <script>
   import Navbar from './Nav/Navbar';
+  import UiMessages from '../components/UiMessages';
   import Footer from './Footer';
 
   export default {
 
     components: {
       Navbar,
+      UiMessages,
       Footer
     }
   }

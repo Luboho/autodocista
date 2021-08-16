@@ -1,6 +1,7 @@
 export const state = () => ({
-    messages: {},
+    messages: {},   // also filtrated or sorted
     // notificationNum: 0
+    allMessages: {}
   })
 
   export const getters = {
@@ -9,6 +10,9 @@ export const state = () => ({
     },
     notificationNum (state) {
       return state.notificationNum
+    },
+    allMessages (state) {
+      return state.allMessages
     }
   }
   
@@ -21,6 +25,9 @@ export const state = () => ({
     },
     SET_NOTIFICATIONS_NUM(state, value) {
       state.notificationNum = value
+    },
+    SET_ALL_MESSAGES(state, value) {
+      state.allMessages = value
     }
   }
   
@@ -53,6 +60,19 @@ export const state = () => ({
       } catch (e) {
           console.log(e);
       }
-    }
+    },
+
+    async getAllMessages({commit}) {
+      try {
+        await this.$axios.$get('sanctum/csrf-cookie');
+
+        let resp = await this.$axios.get('api/all-msgs')
+          .then(function(resp) {
+            commit('SET_ALL_MESSAGES', resp.data)
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
   }
