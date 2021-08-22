@@ -1,16 +1,15 @@
 <template>
   <div class="fixed z-50 right-0 left-0 flex justify-center">
     <div v-if="spin">
-        <div class="spring-spinner  relative">
-        <div class="spring-spinner-part top">
-            <div class="spring-spinner-rotator"></div>
-        </div>
-        <div class="spring-spinner-part bottom">
-            <div class="spring-spinner-rotator"></div>
-        </div>
+        <div class="spring-spinner relative">
+          <div class="spring-spinner-part top">
+              <div class="spring-spinner-rotator"></div>
+          </div>
+          <div class="spring-spinner-part bottom">
+              <div class="spring-spinner-rotator"></div>
+          </div>
         </div>
     </div>
-    
   </div>
 </template>
 

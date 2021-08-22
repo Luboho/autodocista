@@ -18,18 +18,18 @@ class UsersController extends Controller
             $users = User::orderBy('branch_id', 'asc')->paginate(10, ['*'], 'page', $page);
         } 
 
-        $filterByBranchArr = explode(",", $request->get('branch_id'));
+        $filterByCategoryArr = explode(",", $request->get('branch_id'));
         // If filter is active
-        if($filterByBranchArr[0] != ""){
-            $filterByBranchArr = $filterByBranchArr;
+        if($filterByCategoryArr[0] != ""){
+            $filterByCategoryArr = $filterByCategoryArr;
         } else {
-            $filterByBranchArr = false;
+            $filterByCategoryArr = false;
         }
 
         $users = User::select('*')
             ->orderBy('name', 'asc')
-            ->when($filterByBranchArr, function($users, $filterByBranchArr) {
-                return $users->whereIn('branch_id', $filterByBranchArr);
+            ->when($filterByCategoryArr, function($users, $filterByCategoryArr) {
+                return $users->whereIn('branch_id', $filterByCategoryArr);
             })
             ->paginate(10, ['*'], 'page', $page);
 
@@ -39,6 +39,24 @@ class UsersController extends Controller
             return response()->json(['data' => [
                 'errors' => [
                     'root' => 'No users found.'
+                ]
+            ]]);
+        }
+    }
+
+    public function allUsers(Request $request) 
+    {
+        // Provided that All Users Can See Each Other, even Users Can See Admins
+        if(auth()->check()) {
+            $users = User::all();
+        }
+
+        if($users) {
+            return UserResource::collection($users)->response();
+        } else {
+            return response()->json(['data' => [
+                'errors' => [
+                    'root' => 'No Users.'
                 ]
             ]]);
         }

@@ -156,7 +156,7 @@ export default {
         confirm: false,
         filter: {
             sortByUnread: Boolean,
-            filterByBranch: []
+            filterByCategory: []
         }
     }),
 

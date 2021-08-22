@@ -3,8 +3,9 @@
     <h2 class="text-gold-500 py-2 uppercase">Registrovaní užívatelia</h2>
     <FilterNav store="users" 
                @sortByUnread = "filter.sortByUnread = $event" 
-               @filterByBranch = "filter.filterByBranch = $event"
-               :dataList="this.users" />
+               @filterByCategory = "filter.filterByCategory = $event"
+               :dataList="this.users"
+               :allUsers="allUsers" />
 
     <Spinner />
 
@@ -153,9 +154,13 @@ export default {
         confirm: false,
         filter: {
             sortByUnread: Boolean,
-            filterByBranch: []
+            filterByCategory: []
         }
     }),
+
+    mounted(){
+        this.getAllUsers();
+    },
 
     computed: {
         ...mapState({
@@ -163,6 +168,7 @@ export default {
             authUser: state => state.auth.user,
             paginationTotal: state => state.users.users.meta.total,
             modal: state => state.modal.modal,
+            allUsers: state => state.users.allUsers.data,
         }),
         userForDestroy() {
             return this.users.filter(user => user.id == this.destroyId);
@@ -170,7 +176,7 @@ export default {
     },
 
     async fetch() {
-        await this.$store.dispatch('users/getList', { pageNumber: 0, filterByBranch: this.filter.filterByBranch})
+        await this.$store.dispatch('users/getList', { pageNumber: 0, filterByCategory: this.filter.filterByCategory})
     },
 
     methods: {
@@ -182,6 +188,7 @@ export default {
             deleteUser: 'users/deleteUser',
             getList: 'users/getList',
             setSpinner: 'spinner/setSpinner',
+            getAllUsers: 'users/getAllUsers'
         }),
 
         destroy(id){
@@ -213,7 +220,7 @@ export default {
             handler(newVal, oldVal) {
                 if(newVal) {
                     // this.getList(0, true)
-                    this.$store.dispatch('users/getList', { pageNumber: 0, filterByBranch: this.filter.filterByBranch})
+                    this.$store.dispatch('users/getList', { pageNumber: 0, filterByCategory: this.filter.filterByCategory})
                 }
             }
         },

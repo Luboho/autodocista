@@ -33,13 +33,13 @@ export const state = () => ({
   
   export const actions = {
 
-    async getList({commit}, {pageNumber, sortByUnread, filterByBranch}) {
+    async getList({commit}, {pageNumber, sortByUnread, filterByCategory}) {
       await this.dispatch('spinner/setSpinner', true, { root: true })
       try {
         
         await this.$axios.$get('sanctum/csrf-cookie');
         
-        let resp = await this.$axios.get(`/api/messages?page=${pageNumber}&unreadMsgs=${sortByUnread}&branch_id=${filterByBranch}`)
+        let resp = await this.$axios.get(`/api/messages?page=${pageNumber}&unreadMsgs=${sortByUnread}&branch_id=${filterByCategory}`)
         .then(function(resp) {
                 commit('SET_MESSAGES', resp.data)
         })
@@ -73,6 +73,8 @@ export const state = () => ({
       } catch (e) {
         console.log(e);
       }
+      this.dispatch('spinner/setSpinner', false, { root: true });
+
     },
 
   }

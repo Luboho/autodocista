@@ -5,9 +5,9 @@
 
     <FilterNav store="contactForm" 
                 @sortByUnread = "filter.unread = $event" 
-                @filterByBranch = "filter.filterByBranch = $event"
+                @filterByCategory = "filter.filterByCategory = $event"
                 :dataList="messages"
-                :notPaginatedItems="notPaginatedItems" />
+                :allMessages="allMessages" />
     <Spinner />
 
     <!-- Small Device -->
@@ -118,29 +118,29 @@ export default {
     data: () => ({
         fullMsgText: false,
         filter: {
-            unread: "",
-            filterByBranch: []
+            unread: false,
+            filterByCategory: []
         },
     }),
 
     mounted() {
         this.setSpinner(true);
-        this.clickedBell();
     },
 
     computed: {
         ...mapState({
             messages: state => state.contactForm.messages.data,
+            allMessages: state => state.contactForm.allMessages.data,
             modal: state => state.modal.modal,
             paginationTotal: state => state.contactForm.messages.meta.total,
-            notPaginatedItems: state => state.branches.notPaginatedBranches.data,
         }),
     },
 
     async fetch(){
-        await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch});
+        await this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByCategory: this.filter.filterByCategory});
         await this.getNoticationsNum();
         await this.$store.dispatch('branches/getNotPaginatedList');
+        await this.$store.dispatch('contactForm/getAllMessages');
     },
 
     methods: {
@@ -157,7 +157,7 @@ export default {
         clickedBell(){
             this.filter.unread = true;
             if(this.$route.params.unreadMsg){
-                this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch})
+                this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByCategory: this.filter.filterByCategory})
             }
         },
         async showMsg(text, id, event) {
@@ -197,7 +197,7 @@ export default {
             deep: true,
             handler(newVal, oldVal) {
                 if(newVal) {
-                    this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.filterByBranch})
+                    this.$store.dispatch('contactForm/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByCategory: this.filter.filterByCategory})
                 }
             }
         },
@@ -210,6 +210,16 @@ export default {
                     this.setSpinner(false);
                 }
             }
+        },
+
+        "$route.params" : {
+            handler: function(val) {
+                if(val.unreadMsg == true) {
+                    this.clickedBell();
+                }
+            },
+            deep: true,
+            immediate: true
         }
     },
 

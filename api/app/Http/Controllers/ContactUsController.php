@@ -20,12 +20,12 @@ class ContactUsController extends Controller
         $page = $request->input('page');
         $unreadFirst = $request->get('unreadMsgs');
         // Get an array of selected filters excluded unread Messages.
-        $filterByBranchArr = explode(",", $request->get('branch_id'));
+        $filterByCategoryArr = explode(",", $request->get('branch_id'));
         // If filter is used
-        if($filterByBranchArr[0] != ""){
-             $filterByBranchArr = $filterByBranchArr;
+        if($filterByCategoryArr[0] != ""){
+             $filterByCategoryArr = $filterByCategoryArr;
         } else {
-            $filterByBranchArr = false;
+            $filterByCategoryArr = false;
         }
         // All messages for Admin
         if(auth()->check() && auth()->user()->is_admin == '1') {
@@ -34,8 +34,8 @@ class ContactUsController extends Controller
                 ->when($unreadFirst == 'true', function ($messages) {
                     return $messages->orderBy('read', 'asc');
                 })
-                ->when($filterByBranchArr, function($messages, $filterByBranchArr) {
-                    return $messages->whereIn('branch_id', $filterByBranchArr);
+                ->when($filterByCategoryArr, function($messages, $filterByCategoryArr) {
+                    return $messages->whereIn('branch_id', $filterByCategoryArr);
                 })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10, ['*'], 'page', $page);

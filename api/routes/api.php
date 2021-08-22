@@ -45,6 +45,7 @@ Route::delete('/branches/{id}', [BranchesController::class, 'destroy']);
 // Dashboard
 Route::get('/users', [UsersController::class, 'index']);
 Route::delete('/users/{id}', [UsersController::class, 'destroy']);
+Route::get('/all-users', [UsersController::class, 'allUsers']);
 
 
 Route::get('/messages', [ContactUsController::class, 'index']);

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <!-- Filter Window -->
       <div v-if="filterWinActive"
         class="absolute z-50 left-0 right-0 flex justify-center">
@@ -12,12 +11,13 @@
               Zrušiť
               <font-awesome-icon :icon="['fas', 'window-close']" class="ml-2 text-red-500 hover:text-red-600" />
             </button>
-              <button @click="filterByCategory(undefined)"  v-if="true" class="px-4 py-2 ml-3 bg-gold-500 hover:bg-gold-400 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm font-bold text-gray-700">
+              <button @click="runFilter(undefined)"  v-if="true" class="px-4 py-2 ml-3 bg-gold-500 hover:bg-gold-400 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm font-bold text-gray-700">
                   Zobraziť
                   &nbsp;
-                  ( {{ checkedMsgs.length > 0 ? checkedMsgs.length : null }} )
+                  <span class="font-light">({{ countAllMsgsQty() }})</span>
+                  <!-- ( {{ checkedItems.length > 0 ? checkedItems.length : null }} ) -->
               </button>
-             <button v-else @click="filterByCategory(undefined)"  disabled="disabled" class="border disabled:border-gray-900 px-4 py-2 ml-3 rounded text-sm text-gray-700">
+             <button v-else @click="runFilter(undefined)"  disabled="disabled" class="border disabled:border-gray-900 px-4 py-2 ml-3 rounded text-sm text-gray-700">
                 Zobraziť
              </button>
           </div>
@@ -38,16 +38,16 @@
             </div>
 
             <div class=" border-t border-gray-400 font-semibold  p-1 overflow-y-scroll bg-gray-300 max-h-250px">
-              <form v-for="item in notPaginatedItems" :key="item.id" class="px-1">
+              <form v-for="category in showedCategories" :key="category.id" class="px-1">
                   <label class="custom-checkbox-container w-64 pb-4 text-gray-900 cursor-pointer">
-                    <input @click="countAllMsgsQty(item.id)"
+                    <input 
                         type="checkbox"
-                        name="item"
-                        :value="item.id"
+                        name="category"
+                        :value="category.id"
                         v-model="filter.checkedCategories">
                         <div class="flex justify-between">
-                          <div  class="mt-0.5 font-light">{{ item.name }}</div>
-                          <div v-if="allMessages">({{ countMsgsForEach(item.id) }}) </div>
+                          <div  class="mt-0.5 font-light">{{ category.name }}</div>
+                          <div class="font-light" v-if="showedCategories">({{ countMsgsForEach(category.id) }}) </div> 
                         </div>
                       <span class="checkmark"></span>
                   </label>
@@ -61,25 +61,28 @@
         <!-- Filter Button -->
         <div class="mb-4 mx-2 float-right">
           <div v-if="filterIsActive">
-            <button @click="selectCategory" class="float-left px-4 whitespace-no-wrap py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
+            <button @click="openFilterMenu" 
+                    class="float-left px-4 whitespace-no-wrap py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
               <span class="text-sm">Upraviť filter</span>
                 <font-awesome-icon :icon="['fas', 'pencil-alt']" class="ml-2" />
             </button>
           </div>
           <div v-else class="flex justify-start">
-            <button @click="selectCategory" class="transition duration-300 ease-in-out px-4 py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
-              Filtrovať
+            <button @click="openFilterMenu" class="transition duration-300 ease-in-out px-4 py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
+              Filtrovať 
             </button>
           </div>
         </div>
 
-      <!-- Categories -->
+      <!-- Categories in this case Categories are Branches related to Messages & Users also. -->
           <div class="flex flex-wrap">
-            <div v-for="category in showedCategories" :key="category.index" class="mx-1 mb-1 text-xs text-black whitespace-no-wrap">
+            <div v-for="cat in showedCategories" :key="cat.index" class="mx-1 mb-1 text-xs text-black whitespace-no-wrap">
               <button class="transition duration-500 ease-in-out transform hover:scale-90"
-              @click="filterByCategory(category.branch_id)">
-                <span class="category-btn flex items-center justify-between bg-gray-200 hover:font-bold hover:bg-opacity-50 p-1 rounded center">
-                  {{ category.branch.name }}
+                      @click="runFilter(cat.id)"
+              >
+                <span class="category-btn flex items-center justify-between bg-gray-200 hover:font-bold hover:bg-opacity-50 p-1 rounded center"
+                      :class="{'bg-gold-400' : filter.checkedCategories.includes(cat.id)}">
+                  {{cat.name}}
                 </span>
               </button>
             </div>
@@ -96,7 +99,7 @@ import Modal from './Modal'
 export default {
     name: 'FilterNav',
 
-    props: ['store', 'dataList', 'notPaginatedItems'],
+    props: ['store', 'dataList', 'allMessages', 'allUsers'],
 
     data: () => ({
         filter: {
@@ -105,30 +108,28 @@ export default {
         },
         filterWinActive: false,
         filterIsActive: false,
-        removedCategories: [],
-        checkedMsgs: []
     }),
-
-    async fetch() {
-        await this.$store.dispatch('branches/getNotPaginatedList')
-    },
 
     computed: {
         ...mapState({
-            authUser: state => state.auth.user,
             modal: state => state.modal.modal,
-            // notPaginatedBranches: state => state.branches.notPaginatedBranches.data,
-            messages: state => state.contactForm.messages.data,
-            allMessages: state => state.contactForm.allMessages.data
+            categories: state => state.branches.notPaginatedBranches.data, // Branches bcs. are related to Msgs and Users also.
         }),
         ...mapGetters({
             tab: 'dashboardTab/tab',
-            filtratedItems: 'contactForm/messages'
         }),
         showedCategories() {
-          if(this.dataList) {
-            return this.uniqByForeignKey(this.dataList, message => message.branch_id);
+          if(this.notPagList) {
+            // Return Only the Categories which contain at least one item.
+            return this.categories.filter(cat => this.notPagList.some(item => cat.id == item.branch_id))
           }
+        },
+        notPagList() {
+          if(this.store === "users"){
+            return this.allUsers;
+          } else if(this.store === "contactForm") {
+            return this.allMessages;
+          } 
         },
     },
 
@@ -146,63 +147,99 @@ export default {
         }),
         ...mapActions({
           setSpinner : 'spinner/setSpinner',
-          getAllMsgs: 'contactForm/getAllMessages'
         }),
 
+        openFilterMenu() {
+          this.setCheckedCategories();
+          this.filterWinActive = true;
+        },
+
+        setCheckedCategories() {
+          // if(this.checkedCategories == undefined){
+          //   this.filter.checkedCategories = this.showedCategories.map((showedCat) => showedCat.id);
+          // }    
+          const checked = this.dataList.map((item) => parseInt(item.branch_id));
+          this.filter.checkedCategories = checked.filter((value, index) => checked.indexOf(value) === index);
+        },
+
+        markChecked(id) {
+          if(id){
+            this.showedCategories.map(function(cat) {
+              if(cat.id === id) {
+                return true;
+              }
+            })
+          }
+        },
+
        countMsgsForEach(id) {
-          const qty = this.allMessages.filter(msg => msg.branch_id == id);
+          const qty = this.notPagList.filter(item => item.branch_id == id);
           return qty.length;
       },
 
-      countAllMsgsQty(id) {
-        const idExists = this.checkedMsgs.filter(el => el.branch_id == id)
-        
-        if(idExists[0] != undefined){
-          // REmove obj If exists
-          this.checkedMsgs.forEach((el) => {
-            if(el.branch_id == id) {
-              this.checkedMsgs = this.checkedMsgs.filter(msg => msg.branch_id != id);
-            } 
-          });
-        } else {
-          // Push Msg without Arr's Bracket to CheckedMsgs
-          const arrOfMsgs = this.allMessages.filter(msg => msg.branch_id == id);
-          arrOfMsgs.forEach(el => {this.checkedMsgs.push(el)})
+      countAllMsgsQty() {
+          const findCategoryById = this.notPagList.map((item) => this.filter.checkedCategories.filter(cat => cat == item.branch_id));
+         const ids = findCategoryById.map((el) => el[0] )
+         let counted = this.count_duplicate(ids);
+         let vals = ids.filter(function(val) {
+           if(val != undefined) {
+             return true;
+           } else {
+             return false
+           }
+         }).length
+         return vals;
+       },
+
+       count_duplicate(a){
+        let counts = []
+
+        for(let i =0; i < a.length; i++){ 
+          if (counts[a[i]]){
+          counts[a[i]] += 1
+          } else {
+          counts[a[i]] = 1
+          }
         }
-
+        return counts;  
       },
-        selectCategory() {
-          // Call All Msgs bcs of counting of each msg by branch.
-          this.getAllMsgs();
-          this.checkedMsgs = this.filtratedItems.data;
-          this.filterWinActive = true;
 
-          //notPaginatedBranches ids array
-          let notPaginatedItemsArr = this.notPaginatedItems.map(function(branch) {
-            return branch.id;
-          });
+      // },
+      //   chooseFilter() {
+      //     // Call All Msgs bcs of counting of each msg by branch.
+      //     // this.allMessages;
+      //     this.checkedItems = this.filtratedCategories.data;
+      //     this.filterWinActive = true;
 
-          // All msgs branch_id array
-          let showedMsgBranchIdArr = this.messages.map(function(msg) {
-            return msg.branch_id;
-          });
+      //     //notPaginatedBranches ids array
+      //     let allItemsArr = this.allItems.map(function(item) {
+      //       return item.id;
+      //     });
 
-          // Make an Array of checked categories
-          const unduplicateMyValues = showedMsgBranchIdArr.map(function(branch_id) {
-            const checked = notPaginatedItemsArr.filter(msg_id => msg_id == branch_id);
-            return checked[0];
-          });
-          // Unduplicate values
-          this.filter.checkedCategories = this.unduplicate(unduplicateMyValues);
-        },
+      //     // All msgs branch_id array
+      //     let showedCategoriesIdArr = this.notPaginatedBranches.map(function(item) {
+      //       return item.branch_id;
+      //     });
 
-        filterByCategory(category) {
-          if(category != undefined){
+      //     // Make an Array of checked categories
+      //     const unduplicateMyValues = showedCategoriesIdArr.map(function(branch_id) {  // branch_id is a foreign key
+      //       const checked = allItemsArr.filter(item_id => item_id == branch_id);
+      //       return checked[0];
+      //     });
+      //     // Unduplicate values
+      //     this.filter.checkedCategories = this.unduplicate(unduplicateMyValues);
+      //   },
+
+        runFilter(id) {
+          if(id != undefined){
+            this.filter.checkedCategories = [];
+            this.filter.checkedCategories.push(id)
+            this.filter.unread = false;
             this.$emit('sortByUnread', this.filter.unread);
-            this.$emit('filterByBranch', category);
+            this.$emit('filterByCategory', this.filter.checkedCategories);
           } else {
             this.$emit('sortByUnread', this.filter.unread);
-            this.$emit('filterByBranch', this.filter.checkedCategories);
+            this.$emit('filterByCategory', this.filter.checkedCategories);
           }
           this.filterIsActive = true;
         },
@@ -213,14 +250,14 @@ export default {
           this.filter.unread = false;
           this.filter.checkedCategories = [];
           this.filterIsActive = false;
-          await this.$store.dispatch(this.store + '/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByBranch: this.filter.checkedCategories});
+          await this.$store.dispatch(this.store + '/getList', { pageNumber: 0, sortByUnread: this.filter.unread, filterByCategory: this.filter.checkedCategories});
         },
 
         unduplicate(arr){
           if(arr !== undefined) {
             return arr.filter((item, index) => arr.indexOf(item) == index);
           }
-        }
+        },
     },
 
     watch: {
