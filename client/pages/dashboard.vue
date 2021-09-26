@@ -1,37 +1,48 @@
 <template>
     <div>
-        <div class="p-4 mt-20 relative">
-            <div class="-mt-10 absolute flex flex-row text-gray-100 ">
+        <div class="p-4 mt-28 mb-2 relative mx-auto max-w-1024">
+            <div class="-mt-9.5 absolute flex flex-row text-gray-100 ">
                 <button @click="setTab('messages')" 
-                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md  p-2"
+                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md  px-3 py-2"
                         :class="{ 'bg-gray-400 ' : tab == 'messages' }"
                 >
                     Správy
                 </button>
                 <button @click="setTab('users')" 
-                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md p-2"
+                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md px-3 py-2"
                         :class="{ 'bg-gray-400 ' : tab == 'users' }"
                 >
                     Užívatelia
                 </button>
                 <button @click="setTab('branches')" 
-                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md p-2"
+                        class="focus:outline-none bg-gray-300 mr-1 rounded-t-md px-3 py-2"
                         :class="{ 'bg-gray-400 ' : tab == 'branches' }"
                 >
                     Pobočky
                 </button>
             </div>
 
-            <div class="rounded-b rounded-r bg-gray-400">
-                <div class="relative mb-5 mx-auto px-4 py-8 rounded-b">
-                    <div v-show="tab == 'messages'">
-                        <ContactFormMessages :smallDevice="smallDevice" />
-                    </div>
-                    <div v-show="tab == 'users'">
-                        <Users :smallDevice="smallDevice" />
-                    </div>
-                    <div v-show="tab == 'branches'">
-                        <Branches :smallDevice="smallDevice" />
+            <div class="relative mb-1 mr-1 border-b-4 border-r-4 border-gray-400">
+                <div class="mb-1 mr-1 border-b-1 border-r-1 border-gray-200">
+                    <div class="mb-1 mr-1 border-b-1 border-r-1 border-gray-200">
+                        <div class="relative mb-1 mr-1 bg-gray-400 mx-auto p-10">
+                            <transition name="fade">
+                                <div v-show="tab == 'messages'">
+                                    <ContactFormMessages :smallDevice="smallDevice" />
+                                </div>
+                            </transition>
+                            <transition name="fade">
+                                <div v-show="tab == 'users'">
+                                    <Users :smallDevice="smallDevice" />
+                                </div>
+                            </transition>
+                            <transition name="fade">
+                                <div v-show="tab == 'branches'">
+                                    <Branches :smallDevice="smallDevice" />
+                                </div>
+                            </transition>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -99,6 +110,6 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 </style>

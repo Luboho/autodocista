@@ -21,7 +21,7 @@
                                 v-model="form.email"
                                 type="email" 
                                 size="40"
-                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
+                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-gray-800"
                                 name="email" 
                                 value="" 
                                 autofocus
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="pt-8">
-                        <button type="submit" class="border self-center focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
+                        <button type="submit" class="border self-center transition duration-500 ease-in-out transform active:scale-75 focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
                             Odoslať
                         </button>
                     </div>
@@ -64,14 +64,17 @@
                     await this.$axios.$get('sanctum/csrf-cookie');
                     await this.$axios.post('/api/forgot-password', {
                         email: this.form.email,
-                    }).then(function() {
-                        alert('You received a confirmation email. Please verify your email.')
-                    })
-                    
-                    // this.$router.replace({name: 'index'})
+                    }).then((this.form.email != "") ? 
+                                    this.$store.dispatch('uiMessages/getUiMessage',  {data: {warning: 'Na váš email bol odoslaný odkaz. Na zmenu hesla je nutné potvrdiť ho. '}}) :
+                                    this.$store.dispatch('uiMessages/getUiMessage',  {data: {errors: 'Prosím zadajte svoju emailovú adresu do poľa a odošlite. '}}) 
+                    )               
+                    this.$router.replace({path: '/'});
                 } catch (e) {
                     if(e.response.data.errors) {
-                        this.errors = e.response.data.errors;
+                    this.errors = e.response.data.errors;
+                    } else if(e.response.data.errors.message) {
+                        this.$store.dispatch('uiMessages/getUiMessage', {data: {errors: e.response.data.message}});
+                        this.$router.replace({path: '/'});
                     }
                 }
             },

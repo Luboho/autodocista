@@ -26,8 +26,8 @@ class ContactUsResource extends JsonResource
            'phone' => $this->phone,
            'message' => $this->message,
            'read' => $this->read,
-           'created_at' => $this->created_at->diffForHumans(),
-           'updated_at' => $this->updated_at->diffForHumans(),
+           'created_at' => $this->created_at->format('d.m. Y'),
+           'updated_at' => $this->created_at->format('d.m. Y'),
            'pagination' => $this->collection 
         ];
         // return ['data' => $this->collection];

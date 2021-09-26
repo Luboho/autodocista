@@ -24,6 +24,7 @@ export const state = () => ({
   
   export const actions = {
     async getList({commit}, {pageNumber}) {
+      this.dispatch('spinner/setSpinner', true, { root: true });
         try {
             await this.$axios.$get('sanctum/csrf-cookie');
 
@@ -34,11 +35,11 @@ export const state = () => ({
         } catch (e) {
             console.log(e);
         }
+      this.dispatch('spinner/setSpinner', false, { root: true});
     },
 
     // Calls FilterNav.vue
     async getNotPaginatedList({commit}) {
-      // this.dispatch('spinner/setSpinner', true, { root: true });
       try {
         await this.$axios.$get('sanctum/csrf-cookie');
         
@@ -49,10 +50,10 @@ export const state = () => ({
       } catch (e) {
         console.log(e);
       }
-      // this.dispatch('spinner/setSpinner', false, { root: true });
     },
     
     async getSelected({commit}, id) {
+      this.dispatch('spinner/setSpinner', true, { root: true });
       try {
         await this.$axios.$get('sanctum/csrf-cookie');
         let resp = await this.$axios.post(`/api/branches/${id}`)
@@ -62,6 +63,7 @@ export const state = () => ({
       } catch (e) {
         console.log(e);
       }
+      this.dispatch('spinner/setSpinner', false, { root: true });
     },
 
     async deleteBranch({commit}, id) {

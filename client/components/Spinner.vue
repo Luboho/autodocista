@@ -15,7 +15,6 @@
 
 <script>
 import {mapState} from 'vuex'
-import Modal from './Modal'
 export default {
   name: "Spinner",
 
@@ -24,11 +23,6 @@ export default {
         spin: state => state.spinner.spin,
     })
   },
-  
-  components: {
-    Modal
-  }
-
 }
 </script>
 

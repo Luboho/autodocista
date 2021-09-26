@@ -4,7 +4,7 @@
                 <h1 class="py-5 text-xl">Kontaktný formulár</h1>
     <!-- Name Input -->
                 <div class="relative mx-auto py-6">
-                    <label for="name" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                    <label for="name" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                         Meno
                     </label>
                     <div>
@@ -13,7 +13,7 @@
                             id="name" 
                             v-model="form.name"
                             type="name" 
-                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 text-white outline-none focus:shadow-inner focus:bg-opacity-75 focus:text-gold-500"
                             name="name" 
                             value="" 
                             size="40"
@@ -26,14 +26,14 @@
                 </div>
     <!-- Email Input -->
                 <div class="relative py-6">
-                    <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
-                        E-mail
+                    <label for="email" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
+                        E-mail &nbsp; *
                     </label>
                         <input @click="clearErrors" 
                             id="email" 
                             v-model="form.email"
                             type="email" 
-                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                             name="email" 
                             value="" 
                             size="40"
@@ -45,14 +45,13 @@
 
     <!-- Mobile Num Selection -->
                 <div class="relative py-6">
-                    <label for="phone" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                    <label for="phone" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                         Telefón
                     </label>
                     <input @click="clearErrors" 
                         id="phone" 
                         v-model="form.phone"
-                        type="number" 
-                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 w-101 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 w-101 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="phone" 
                         value="" 
                         autocomplete="email"
@@ -63,20 +62,22 @@
     <!-- Branch Selection -->
                 <div class="relative py-6">
                     
-                    <select name="city" id="" v-model="form.branch_id" class=" border border-gold-500 rounded w-101 p-5 hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
-                        <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
+                    <select name="city" id="" v-model="form.branch_id" class="cursor-pointer w-101 rounded p-5 text-gold-300 text-xs bg-opacity-50 focus:bg-opacity-75 bg-gray-400 outline-none focus:text-gold-500">
+                        <option value="" selected="true" disabled="disabled" >
+                            <span class="trancking-widest text-xs text-gold-300">Vyberte prevádzku... &nbsp;* </span>
+                        </option>
                         <option v-for="branch in branches" :key="branch.id" :value="branch.id" class="bg-gray-400">{{ branch.name }} , {{ branch.city }}</option>
                     </select>
                 </div>
     <!-- Message area -->
                 <div class="relative py-6">
-                    <label for="message" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
-                        Správa *
+                    <label for="message" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
+                        Správa &nbsp;*
                     </label>
                     <textarea @click="clearErrors" 
                         id="message" 
                         v-model="form.message"
-                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-800 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="message" 
                         rows="3" 
                         cols="41"
@@ -86,7 +87,7 @@
                 </div>
 
                 <div class="pt-8">
-                    <button type="submit" class="border focus:outline-none hover:shadow-xl focus:bg-gr800400 bg-gold-500 py-3 px-4 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
+                    <button type="submit" class="border text-sm self-center focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold transition duration-500 ease-in-out transform active:scale-75">
                         Odoslať
                     </button>
                 </div>
@@ -130,7 +131,7 @@
                         phone: this.form.phone,
                         branch_id: this.form.branch_id,
                         message: this.form.message
-                    }).then(() => alert('Thank you for the message'))
+                    }).then(() => console.log)
                       .then(() => this.$router.replace({path: '/'}));
                 } catch (e) {
                     if(e.response.data.errors) {

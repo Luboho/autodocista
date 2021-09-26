@@ -94,7 +94,7 @@ class ContactUsController extends Controller
     {
         $data = request()->validate([
             'name' => ['nullable','string', 'max:50'],
-            'email' => ['nullable','email'],
+            'email' => ['required','email'],
             'phone' => ['nullable', 'regex:/^[+]*[0-9]{9,13}/', 'min:9', 'max:13'],
             'message' => ['required', 'string', 'max:500'],
             'branch_id' => ['required', 'exists:App\Models\Branch,id'],
@@ -110,12 +110,12 @@ class ContactUsController extends Controller
 
             Mail::to($branch->email)->send(new MessageMail($message));
             return response()
-                    ->json(['data' => ['success' => true ]])
+                    ->json(['data' => ['success' => 'Ďakujeme za vašu správu.' ]])
                     ->setStatusCode(Response::HTTP_CREATED);
         } else {
-            return response()->json(['errors' => [
-                'root' => 'Cannot save message.'
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Správu sa nepodarilo odoslať. Prosím skúste to neskôr.']])
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -161,11 +161,8 @@ class ContactUsController extends Controller
         if($messages) {
             return ContactUsResource::collection($messages)->response();
         } else {
-            return response()->json(['data' => [
-                'errors' => [
-                    'root' => 'No messages.'
-                ]
-            ]]);
+            return response()
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
 }

@@ -30,7 +30,7 @@ class BranchesController extends Controller
         } else {
             return response()->json(['data' => [
                 'errors' => [
-                    'root' => 'No branches found.'
+                    'root' => 'Nebola nájdená žiadna pobočka.'
                 ]
             ]]);
         }
@@ -48,7 +48,7 @@ class BranchesController extends Controller
             $branch->create($this->validateRequest());
 
             return response()
-                ->json(['data' => ['success' => true ]])
+                ->json(['data' => ['success' => 'Nová pobočka bola vytvorená.' ]])
                 ->setStatusCode(Response::HTTP_CREATED);
     }
 
@@ -59,14 +59,11 @@ class BranchesController extends Controller
         $branch = Branch::where('id',$request->id)->paginate();
 
         if($branch) {
-            return response()->json(['data' => $branch]);
-            // return BranchResource::collection($branch)->response();
+            return BranchResource::collection($branch)->response();
         } else {
-            return response()->json(['data' => [
-                'errors' => [
-                    'root' => 'No branch found.'
-                ]
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Ups, niečo sa pokazilo. Skúste opakovať požiadavku znova.']])
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -84,11 +81,9 @@ class BranchesController extends Controller
                 'success' => 'Údaje boli úspešne upravené.'
             ]]);
         } else {
-            return response()->json(['data' => [
-                'errors' => [
-                    'root' => 'No branch found.'
-                ]
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Ups, niečo sa pokazilo. Skúste opakovať požiadavku znova.']])
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
 

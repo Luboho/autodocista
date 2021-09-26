@@ -43,13 +43,15 @@
             <div @mouseleave="hover = false" class="px-20 py-5 mt-16 border border-gold-500 rounded-md place-items-center relative bg-opacity-50">
                 <h1 class="font-bold pb-1">Prevádzky</h1>
                 <transition name="dropdown">
-                    <div class="absolute z-100 inset-0 flex flex-col  justify-center text-gold-500 bg-gray-600" v-if="hover">
+                    <div class="absolute z-100 inset-0 flex flex-col justify-center text-gold-500 bg-gray-600" v-if="hover">
                         <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" :ico="branch[0].ico" />
                         <img src="@/assets/default-images/logo200x121.png"  alt="Auto Dočista">
                     </div>
                 </transition>
                 <div v-for="branch in branches" :key="branch.id" class="py-2 whitespace-no-wrap">
-                    <h2 @mouseover="hoverCity(branch.id)">{{ branch.name }}  <span class="text-xs text-gold-500 inline-block align-top">?</span></h2>
+                    <h2 @mouseover="hoverCity(branch.id)">{{ branch.name }}  
+                        <font-awesome-icon :icon="['fas', 'info']" class="text-xs ml-1 align-baseline text-gold-500 inline-block" />
+                    </h2>
                 </div>
                 
             </div>

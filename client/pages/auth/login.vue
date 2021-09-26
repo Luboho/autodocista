@@ -8,7 +8,7 @@
             <form @submit.prevent="submit" class="py-10">
                         
                 <div class="relative">
-                    <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                    <label for="email" class="absolute uppercase text-gold-300 text-xs font-bold pl-3 pt-2">
                         E-mail
                     </label>
 
@@ -18,7 +18,7 @@
                             v-model="form.email"
                             type="email" 
                             size="40"
-                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
+                            class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                             name="email" 
                             value="" 
                             autofocus
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="relative pt-3">
-                    <label for="password" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                    <label for="password" class="absolute uppercase text-gold-300 text-xs font-bold pl-3 pt-2">
                     Heslo
                     </label>
 
@@ -40,7 +40,7 @@
                         v-model="form.password"
                         type="password"
                         size="40"
-                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
+                        class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="password" 
                         autocomplete="new-password">
 
@@ -49,14 +49,15 @@
                 </div>
 
                 <div class="pt-8">
-                    <button type="submit" class="border self-center focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
+                    <button type="submit" class="border self-center transition duration-500 ease-in-out transform active:scale-75 focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
                         Prihlásiť
                     </button>
                 </div>
             </form>
 
-            <div class="py-1">
-                <NuxtLink to="/auth/forgot-password/form" class="mt-4 text-sm text-gray-400">Zabudol som heslo <span class="sr-only"></span></NuxtLink>
+            <div class="py-1 flex justify-between">
+                <NuxtLink to="/auth/forgot-password/form" class="mt-4 text-sm text-gray-400 hover:text-gray-300 ">Zabudol som heslo <span class="sr-only"></span></NuxtLink>
+                <NuxtLink to="/auth/forgot-password/form" class="mt-4 text-sm text-gray-400 hover:text-gray-300 ">Zmeniť heslo <span class="sr-only"></span></NuxtLink>
             </div>
         </div>
     </div>

@@ -16,6 +16,8 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $role;
+
         $arrayData = [
             'id' => $this->id,
             'branch' => Branch::findOrFail($this->branch_id),
@@ -24,14 +26,13 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'is_admin' => $this->is_admin,
-            // 'role' => $this->role,
-            'created_at' => $this->created_at->diffForHumans(),
+            'created_at' => $this->created_at->format('d.m. Y'),
         ];
 
         if($this->is_admin == '1') {
-            $arrayData['is_admin'] = 'Admin';
+            $arrayData['role'] = 'Admin';
         } elseif($this->is_admin == '0') {
-            $arrayData['is_admin'] = 'Užívateľ';
+            $arrayData['role'] = 'Užívateľ';
         }
 
         return $arrayData;

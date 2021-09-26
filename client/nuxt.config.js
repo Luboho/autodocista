@@ -23,7 +23,10 @@ export default {
     "~/assets/styles/fonts.css",
     "~/assets/styles/index.css",
     "~/assets/styles/inputs.css",
+    "~/assets/styles/transitions.css"
   ],
+  pageTransition: "fade", // to Override Nuxt.js default transition name "fade"
+  //there are also to override transition: & layoutTransition:
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

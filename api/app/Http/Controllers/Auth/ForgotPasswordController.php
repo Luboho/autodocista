@@ -39,13 +39,12 @@ class ForgotPasswordController extends Controller
         if ($forgotUser) {    
             
             Mail::to($forgotUser['email'])->send(new ForgotPasswordMail($forgotUser));
-            return response()->json(['data' => [
-                'success' => true
-            ]]);
+            return response()
+                    ->json(['data' => [ 'success' => 'Na váš email bola odoslaná odkaz. Prosím potvrďte ho.' ]]);
         } else {
-            return response()->json(['errors' => [
-                'root' => 'Verification mail was not been sent.'
-            ]]);
+            return response()->json(['data' => [
+                'error' => 'Ups, niečo sa pokazilo. Skúste prosím opakovať akciu neskôr.']])
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
 
     }
@@ -64,14 +63,16 @@ class ForgotPasswordController extends Controller
             $resetUserPassword->email_verified_at = now();
             $resetUserPassword->save();
 
-            return response()->json(['data' => [
-                'success' => true,
-                'email' => $resetUserPassword->email
-            ]]);
+            return response()
+                ->json(['data' => [
+                    'success' => 'Email overený. Prosím nastavte si nové heslo.',
+                    'email' => $resetUserPassword->email
+                    ]]);
+
         } else {
-            return response()->json(['errors' => [
-                'root' => 'Cannot verify user.'
-            ]]);
+            return response()->json(['data' => [
+                'error' => 'Ups, niečo sa pokazilo. Skúste prosím opakovať akciu neskôr.']])
+                ->setStatusCode(Response::HTTP_NOT_FOUND);
         }  
     }
 }

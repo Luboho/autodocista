@@ -36,7 +36,7 @@ class VerificationController extends Controller
             $userPassword = $tempUser->password;
 
 
-            // Find Appropriate Branch to Save New User to It.
+            // Find Appropriate Branch to Save New User into It.
             // $branch = Branch::find($branchId);
         }
 
@@ -59,11 +59,11 @@ class VerificationController extends Controller
             $tempUser->delete();
 
             return response()
-                    ->json(['data' => [ 'success' => true ]])
+                    ->json(['data' => [ 'success' => 'Email bol úspešne overený. Prosím prihláste sa.' ]])
                     ->setStatusCode(Response::HTTP_CREATED);
         } else {
             return response()->json(['data' => [
-                'success' => false
+                'warning' => 'Email už je overený. Prosím prihláste sa.'
             ]]);
         }
     }

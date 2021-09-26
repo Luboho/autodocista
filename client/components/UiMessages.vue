@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="w-screen">
         <transition name="show">
             <div v-if="uiMessage">
-                <div class="flex justify-center items-center absolute w-full"> 
-                    <div class="fixed text-white rounded-lg z-30 p-8"
+                <div class="flex justify-center absolute z-50 w-full"> 
+                    <div class="fixed text-white text-center rounded-lg text-xs z-30 px-48 py-3 bg-opacity-75"
                         :class="bgColor">
                         {{ msg }}
                     </div>
@@ -35,11 +35,13 @@ export default {
             if(this.uiMessage) {
                 
                 if(this.uiMessage.errors) {
-                    return this.uiMessage.errors.root
+                    return this.uiMessage.errors
                 } else if (this.uiMessage.success) {
                     return this.uiMessage.success
                 } else if (this.uiMessage.warning) {
                     return this.uiMessage.warning
+                } else if (this.uiMessage.message) {
+                    return this.uiMessage.message
                 }
             }
         }
@@ -50,7 +52,7 @@ export default {
             if(true) {
                 setTimeout(() => {
                     this.$store.dispatch('uiMessages/getUiMessage', {})
-                }, 5000);
+                }, 7000);
             }
         }
     },
@@ -65,9 +67,11 @@ export default {
                     if(this.uiMessage.errors) {
                         this.bgColor = "bg-red-600";
                     } else if (this.uiMessage.success) {
-                        this.bgColor = "bg-green-600"
+                        this.bgColor = "bg-green-600" ;
                     } else if (this.uiMessage.warning) {
-                        this.bgColor = "bg-yellow-600"
+                        this.bgColor = "bg-yellow-500";
+                    } else if(this.uiMessage.message) {
+                        this.bgColor = "bg-red-500";
                     }
 
                     // Remove Message

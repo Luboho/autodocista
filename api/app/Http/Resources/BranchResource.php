@@ -24,7 +24,7 @@ class BranchResource extends JsonResource
             'email' => $this->email,
             'ico' => $this->ico,
             'postal_code' => $this->postal_code,
-            'created_at' => $this->created_at->diffForHumans(),
+            'created_at' => $this->created_at->format('d.m. Y'),
             // Eager + Lazy Loading
             // 'id' => $this->id,
             // 'messages' => ContactUsResource::collection($this->whenLoaded('messages')),

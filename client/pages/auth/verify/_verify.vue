@@ -1,50 +1,54 @@
 <template>
-<div class="w-full h-full flex justify-items-center justify-center">
-  <div class="my-64">
-    <Spinner />
+<div class="w-screen h-screen flex ">
+  <div class="h-screen w-screen flex justify-center items-center -mt-20">
+    <div class="">
+      <Spinner />
+    </div>
   </div>
 </div>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapActions} from 'vuex'
 import Spinner from './../../../components/Spinner'
   export default {
 
-    async mounted() {
-      await this.verify();
-      this.spin(true);
+     mounted() {
+        this.$store.dispatch('spinner/setSpinner', true);
+        this.verify();
     },
 
     methods: {
       ...mapMutations({
           spin: 'spinner/SET_SPINNER'
       }),
+      ...mapActions({
+          setSpinner: 'spinner/setSpinner',
+      }),
 
       async verify() {
         const id = this.$route.params.verify.split('-').pop();
         const token = this.$route.params.verify.split('-')[0];
-        
         await this.$axios.$get('sanctum/csrf-cookie');
 
         let resp = await this.$axios.post('/api/verify', {
           token: token,
           id: id
+        }).then((resp) => {
+          if(resp.data.data.success) {
+            this.$store.dispatch('uiMessages/getUiMessage', resp.data);
+          } else {
+            this.$store.dispatch('uiMessages/getUiMessage', resp.data);
+          }
+        }).then((resp) => {
+          this.$store.dispatch('spinner/setSpinner', false);
+          this.$router.replace('/auth/login');
         });
-
-        if (resp.data.data.success == true) {
-          this.spin(false);
-          this.$router.replace('/auth/login');
-        } else {
-          alert('You are already been verified, please login.');
-          this.spin(false);
-          this.$router.replace('/auth/login');
-        }
       }
     },
 
     components: {
-      Spinner
+      Spinner,
     }
   }
 </script>;

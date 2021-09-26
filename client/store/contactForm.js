@@ -1,6 +1,5 @@
 export const state = () => ({
-    messages: {},   // also filtrated or sorted
-    // notificationNum: 0
+    messages: {},
     allMessages: {}
   })
 
@@ -28,6 +27,9 @@ export const state = () => ({
     },
     SET_ALL_MESSAGES(state, value) {
       state.allMessages = value
+    },
+    UPDATE_MESSAGES(state, {id, value}) {
+      state.messages.data[id] = value;
     }
   }
   

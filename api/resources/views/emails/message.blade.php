@@ -1,4 +1,6 @@
 @component('mail::message')
+<h1>Správa od zákazníka</h1>
+
 <b>Kontaktné údaje zákazníka: </b>
 <br>
 <b>Meno:</b> {{ $data['name']  }} 
@@ -13,6 +15,7 @@
 <br> 
 {{ $data['message'] }}
 
-
+<hr />
+{{ config('app.name') }}
 
 @endcomponent

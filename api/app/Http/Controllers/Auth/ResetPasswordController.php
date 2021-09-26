@@ -46,12 +46,11 @@ class ResetPasswordController extends Controller
             $newUserPassword->save();
 
             return response()
-                    ->json(['data' => ['success' => true ]])
+                    ->json(['data' =>['success' => 'Vaše heslo bolo zmenené, prosím prihláste sa.']])
                     ->setStatusCode(Response::HTTP_CREATED);
         } else {
-            return response()->json(['error' => [
-                'root' => 'Something wrong, password not been changed.'
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Ups, niečo sa pokazilo. Skúste opakovať požiadavku znova.']]);
         }
     }
 }

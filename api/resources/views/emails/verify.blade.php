@@ -1,14 +1,15 @@
 @component('mail::message')
-Hi, {{ $data['name']  }}
+Ahoj, {{ $data['name']  }}
 
-Please verify your E-mail address by clicking the link below.
+Prosím potvrďte svoj email kliknutím na odkaz.
 
 @component('mail::button', ["url" => "http://localhost:3000/auth/verify/" . $data['email_verification_code'] . '-' . $data['id']])
-Verify E-mail
+Overiť email
 @endcomponent
 
-{{-- If the button not work, please click on this url: {{ "http://localhost:3000/auth/verify/" . $data['email_verification_code'] . '-' . $data['id']] }} --}}
-
-Thanks,<br>
+<br />
+<small>Ak odkaz vyššie nefunguje, prosím kliknite na tento odkaz: <a href="{{ "http://localhost:3000/auth/verify/" . $data['email_verification_code'] . '-' . $data['id'] }}">Overiť email</a></small>
+<br />
+Ďakujeme,<br>
 {{ config('app.name') }}
 @endcomponent

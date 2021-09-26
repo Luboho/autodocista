@@ -4,25 +4,25 @@
       <div v-if="filterWinActive"
         class="absolute z-50 left-0 right-0 flex justify-center">
 
-        <div class="relative z-30 w-80 rounded-md bg-gray-300 px-5">
+        <div class="relative z-30 w-80 rounded-md bg-gray-300 px-2">
           <!-- Buttons -->
           <div class="sticky flex center justify-center py-4 z-50">
-            <button @click="cancelFilter" class="text-gray-400 mr-3 bg-gold-200 hover:bg-gold-300 focus:outline-none shadow-lg hover:shadow-xs rounded pr-4 px-4 py-2 text-sm">
-              Zrušiť
+            <button @click="cancelFilter" class="text-gray-400 mr-3 bg-gold-200 hover:bg-gold-300 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none shadow-lg hover:shadow-xs rounded pr-4 px-4 py-2 text-sm">
+              Zrušiť filter
               <font-awesome-icon :icon="['fas', 'window-close']" class="ml-2 text-red-500 hover:text-red-600" />
             </button>
-              <button @click="runFilter(undefined)"  v-if="true" class="px-4 py-2 ml-3 bg-gold-500 hover:bg-gold-400 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm font-bold text-gray-700">
+              <button @click="runFilter(undefined)"  v-if="true" class="px-4 py-2 ml-3 bg-gold-500 hover:bg-gold-400 shadow-lg hover:shadow-xs transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded text-sm font-bold text-gray-700">
                   Zobraziť
                   &nbsp;
                   <span class="font-light">({{ countAllMsgsQty() }})</span>
                   <!-- ( {{ checkedItems.length > 0 ? checkedItems.length : null }} ) -->
               </button>
-             <button v-else @click="runFilter(undefined)"  disabled="disabled" class="border disabled:border-gray-900 px-4 py-2 ml-3 rounded text-sm text-gray-700">
+             <button v-else @click="runFilter(undefined)"  disabled="disabled" class="border disabled:border-gray-900 px-4 py-2 ml-3 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded text-sm text-gray-700">
                 Zobraziť
              </button>
           </div>
 
-            <div class="py-2 ml-2">
+            <div v-show="store == 'contactForm'" class="py-2 ml-2">
               <label class="custom-checkbox-container text-gray-900 font-semibold cursor-pointer bold uppercase">
                 <input v-model="filter.unread" type="checkbox" name="" id="">
                   <span class="mt-0.5">Neprečítané</span>
@@ -47,7 +47,7 @@
                         v-model="filter.checkedCategories">
                         <div class="flex justify-between">
                           <div  class="mt-0.5 font-light">{{ category.name }}</div>
-                          <div class="font-light" v-if="showedCategories">({{ countMsgsForEach(category.id) }}) </div> 
+                          <div class="font-light mr-2" v-if="showedCategories">({{ countMsgsForEach(category.id) }}) </div> 
                         </div>
                       <span class="checkmark"></span>
                   </label>
@@ -62,13 +62,13 @@
         <div class="mb-4 mx-2 float-right">
           <div v-if="filterIsActive">
             <button @click="openFilterMenu" 
-                    class="float-left px-4 whitespace-no-wrap py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
+                    class="float-left px-4 whitespace-no-wrap py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded text-sm text-gray-500">
               <span class="text-sm">Upraviť filter</span>
                 <font-awesome-icon :icon="['fas', 'pencil-alt']" class="ml-2" />
             </button>
           </div>
           <div v-else class="flex justify-start">
-            <button @click="openFilterMenu" class="transition duration-300 ease-in-out px-4 py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs focus:outline-none rounded text-sm text-gray-500">
+            <button @click="openFilterMenu" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded text-sm text-gray-500">
               Filtrovať 
             </button>
           </div>
@@ -77,18 +77,17 @@
       <!-- Categories in this case Categories are Branches related to Messages & Users also. -->
           <div class="flex flex-wrap">
             <div v-for="cat in showedCategories" :key="cat.index" class="mx-1 mb-1 text-xs text-black whitespace-no-wrap">
-              <button class="transition duration-500 ease-in-out transform hover:scale-90"
+              <button class="transition duration-500 ease-in-out transform hover:scale-90 focus:outline-none"
                       @click="runFilter(cat.id)"
               >
-                <span class="category-btn flex items-center justify-between bg-gray-200 hover:font-bold hover:bg-opacity-50 p-1 rounded center"
-                      :class="{'bg-gold-400' : filter.checkedCategories.includes(cat.id)}">
+                <span class="category-btn flex items-center justify-between transition duration-500 ease-in-out transform hover:scale-90 focus:outline-none bg-opacity-75 bg-gray-200 hover:font-bold hover:bg-opacity-50 p-1 rounded center"
+                      :class="{'bg-gold-500' : filter.checkedCategories.includes(cat.id)}">
                   {{cat.name}}
                 </span>
               </button>
             </div>
           </div>
       </div>
-    <Modal />
   </div>
 </template>
 
@@ -120,8 +119,10 @@ export default {
         }),
         showedCategories() {
           if(this.notPagList) {
-            // Return Only the Categories which contain at least one item.
-            return this.categories.filter(cat => this.notPagList.some(item => cat.id == item.branch_id))
+              if(this.notPagList.length > 0){
+              // Return Only the Categories which contain at least one item.
+              return this.categories.filter(cat => this.notPagList.some(item => cat.id == item.branch_id))
+            }
           }
         },
         notPagList() {
@@ -203,32 +204,6 @@ export default {
         }
         return counts;  
       },
-
-      // },
-      //   chooseFilter() {
-      //     // Call All Msgs bcs of counting of each msg by branch.
-      //     // this.allMessages;
-      //     this.checkedItems = this.filtratedCategories.data;
-      //     this.filterWinActive = true;
-
-      //     //notPaginatedBranches ids array
-      //     let allItemsArr = this.allItems.map(function(item) {
-      //       return item.id;
-      //     });
-
-      //     // All msgs branch_id array
-      //     let showedCategoriesIdArr = this.notPaginatedBranches.map(function(item) {
-      //       return item.branch_id;
-      //     });
-
-      //     // Make an Array of checked categories
-      //     const unduplicateMyValues = showedCategoriesIdArr.map(function(branch_id) {  // branch_id is a foreign key
-      //       const checked = allItemsArr.filter(item_id => item_id == branch_id);
-      //       return checked[0];
-      //     });
-      //     // Unduplicate values
-      //     this.filter.checkedCategories = this.unduplicate(unduplicateMyValues);
-      //   },
 
         runFilter(id) {
           if(id != undefined){

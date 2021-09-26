@@ -1,11 +1,14 @@
 <template>
     <div class="img-bg flex justify-center">
+
         <div class="pt-44 pb-64">
 
-            <form @submit.prevent="submit" class="py-24 pb-10">
+            <h1 class="text-xl">Registrovať užívateľa</h1>
+
+            <form @submit.prevent="submit" class="py-16">
 
                     <div class="relative">
-                        <label for="name" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="name" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                             Meno
                         </label>
 
@@ -14,7 +17,7 @@
                                 v-model="form.name"
                                 @click="clearErrors"
                                 type="text" 
-                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-white"
+                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="name" 
                                 size="40"
                                 value="" 
@@ -28,7 +31,7 @@
                     </div>
                     
                     <div class="relative pt-3">
-                        <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="email" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                             E-mail
                         </label>
 
@@ -37,7 +40,7 @@
                                 v-model="form.email"
                                 type="email"
                                 @click="clearErrors"
-                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="email" 
                                 size="40"
                                 value="" 
@@ -50,7 +53,7 @@
                     </div>
 
                     <div class="relative pt-3">
-                        <label for="phone" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="phone" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                             Telefón
                         </label>
 
@@ -59,7 +62,7 @@
                                 v-model="form.phone"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="phone" 
                                 size="40"
                                 value="" 
@@ -73,7 +76,7 @@
 
     <!-- Branch Selection -->
                     <div class="relative pt-3">
-                        <select name="branch" id="" v-model="form.branch_id"  class=" border border-gold-500 rounded w-101.5 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                        <select name="branch" id="" v-model="form.branch_id"  class="cursor-pointer border border-gold-500 tracking-widest rounded w-102.5 p-5 hoverBg text-xs text-gold-300 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                             <option value="" selected="true" disabled="disabled">Vyberte prevádzku...*</option>
                             <option v-for="branch in branches" 
                                     :key="branch.id" 
@@ -83,26 +86,29 @@
                                 {{ branch.name }}
                             </option>
                         </select>
+                        <p class="text-red-600 text-sm" v-text="errors.branch ? errors.branch[0] : ''"></p>
                     </div>
 
                     <div class="relative pt-3">
-                        <select name="is_admin" id="" v-model="form.is_admin"  class=" border border-gold-500 rounded w-101.5 p-5  hoverBg text-gold-500 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
+                        <select name="is_admin" id="" v-model="form.is_admin"  class="cursor-pointer border border-gold-500 tracking-widest rounded w-102.5 p-5 hoverBg text-xs text-gold-300 bg-opacity-50 bg-gray-400 outline-none focus:text-gold-500">
                             <option value="" selected="true" disabled="disabled">Vyberte oprávnenie užívateľa...*</option>
-                            <option value='0'
+                            <option :value="0"
                                     class="bg-gray-400"
                             >
                                 Užívateľ
                             </option>
-                            <option value='1'
+                            <option :value="1"
                                     class="bg-gray-400"
                             >
                                 Admin
                             </option>
                         </select>
+                        <p class="text-red-600 text-sm" v-text="errors.is_admin ? errors.is_admin[0] : ''"></p>
+
                     </div>
 
                     <div class="relative pt-3">
-                        <label for="password" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="password" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                         Heslo
                         </label>
 
@@ -110,7 +116,7 @@
                             v-model="form.password"
                             @click="clearErrors"
                             type="password" 
-                            class="pt-8 rounded w-101.5 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                            class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                             name="password" 
                             size="40"
                             autocomplete="new-password">
@@ -121,7 +127,7 @@
 
 
                     <div class="relative pt-3">    
-                        <label for="password-confirm" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="password-confirm" class="absolute tracking-widest text-gold-300 text-xs pl-2 pt-2">
                             Potvrdiť heslo
                         </label>
 
@@ -129,7 +135,7 @@
                                 @click="clearErrors"
                                 v-model="form.password_confirmation"
                                 type="password" 
-                                class="pt-8 rounded w-101.5 bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:bg-gray-300 focus:text-white"
+                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="password_confirmation" 
                                 size="40"
                                 autocomplete="new-password">
@@ -139,7 +145,7 @@
                     </div>
                 
                     <div class="pt-8">
-                        <button type="submit" class="border self-center focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
+                        <button type="submit" class="border self-center transition duration-500 ease-in-out transform active:scale-75 focus:outline-none hover:shadow-xl focus:bg-gray-400 bg-gold-500 py-2 px-3 uppercase rounded text-gold-900 focus:text-gold-500 hover:bg-gray-400 hover:border-gold-500 hover:text-gold-500 font-bold">
                             Registrovať
                         </button>
                     </div>
@@ -153,7 +159,7 @@
 
 export default {
     name: "Register",
-    middleware: 'authenticated',
+    middleware: ['authenticated', 'is-admin'],
 
     data: () => ({
         form: {
@@ -184,7 +190,7 @@ export default {
             try {
                 let errors = [];
                 await this.$axios.$get('sanctum/csrf-cookie');
-                await this.$axios.post('/api/register', {
+              let resp =  await this.$axios.post('/api/register', {
                     name: this.form.name,
                     email: this.form.email,
                     phone: this.form.phone,
@@ -192,12 +198,15 @@ export default {
                     is_admin: this.form.is_admin,
                     password: this.form.password,
                     password_confirmation: this.form.password_confirmation,
-                }).then(function() {
-                    alert('Na váš email bol odoslaný odkaz. Prosím potvrďte ho.')
                 })
+                .then((resp) => this.$store.dispatch('uiMessages/getUiMessage', resp.data))
+                .then(() => this.$router.replace({path: '/dashboard'}));
             } catch (e) {
                 if(e.response.data.errors) {
                     this.errors = e.response.data.errors;
+                } else if(e.response.data.errors.message) {
+                    this.$store.dispatch('uiMessages/getUiMessage', {data: {errors: e.response.data.message}});
+                    this.$router.replace({path: '/'});
                 }
             }
         },

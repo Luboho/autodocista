@@ -36,11 +36,9 @@ class UsersController extends Controller
         if($users) {
             return UserResource::collection($users)->response();
         } else {
-            return response()->json(['data' => [
-                'errors' => [
-                    'root' => 'No users found.'
-                ]
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Užívateľ sa nenašiel']])
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -54,11 +52,9 @@ class UsersController extends Controller
         if($users) {
             return UserResource::collection($users)->response();
         } else {
-            return response()->json(['data' => [
-                'errors' => [
-                    'root' => 'No Users.'
-                ]
-            ]]);
+            return response()
+                ->json(['data' => ['error' => 'Žiaden užívateľ']])
+                ->setStatusCode(Response::NO_CONTENT);
         }
     }
 

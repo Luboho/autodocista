@@ -1,153 +1,198 @@
 <template>
 <div>
-    <!-- <div v-if="branches.length > 1">  -->
-    <h2 class="text-gold-500 py-2 uppercase">Naše pobočky</h2>
-    <!-- </div> -->
-    <!-- <div v-else @click="refreshData()" class="flex items-center cursor-pointer">
-        <font-awesome-icon :icon="['fas', 'redo']" class="text-gold-500 hover:text-gold-600" />
-        <h2 class="text-gold-500 py-2 ml-2">načítať všetky pobočky</h2>
-    </div> -->
-    <!-- Confirm Item deletion -->
-        <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
-            <div class="fixed text-white rounded-lg z-30 p-8 bg-gray-800">
-                <p>Ste si istý, že chcete zmazať záznam? 
-                </p>
-                <p v-show="branchForDestroy.name" class="text-gold-500 font-bold">
-                    {{ branchForDestroy.name }}
-                </p>
+    <div v-if="branches">
+        <div v-if="branches.length > 0">
 
-                <div class="flex items-center mt-6 justify-end">               <!-- Set modal to opposite to HIDE modal-->
-                    <button @click="cancelDeletion" class="text-white pr-4">Zrušiť</button>
-                    <button @click="confirmDeletion" class="px-4 py-2 bg-red-500 rounded text-sm font-bold text-white">Zmazať</button>
-                </div>
-            </div>
-        </div> 
-     <!--End of Confirm Item deletion -->
-    <!-- Small Device -->
-    <div v-if="smallDevice">
-        <div v-for="branch in branches" :key="branch.id">
-            <div class="text-gray-300 rounded-sm border p-2 mb-1 border-black transition delay-700 duration-500 ease-in">
-                <div class="flex justify-between">
-
-                    <div class="flex flex-col">
-                        <p class=" text-gray-100">Kontakt: </p>
-                            <p class="ml-2 text-gray-500 font-semibold first:text-gray-800">
-                                 {{ branch.name }}
-                            <br>
-                                <a :href="'mailto:' + branch.email" class="hover:text-gray-100">{{ branch.email }}</a>
-                            <br>
-                                <a :href="'tel:' + branch.phone" class="hover:text-gray-100">{{ branch.phone }}</a> 
-                            </p>
-                    </div>
-                    
-                    <div class="ml-2">
-                        <div class="flex flex-col">
-                            <p class="text-gray-100">Mesto:  </p> 
-                                <p class="ml-2 text-gray-800 font-semibold">
-                                    {{ branch.city }}                                
-                                </p>
+            <div v-if="branches">
+                <div v-if="branches.length > 1">
+                    <div class="flex justify-between mx-2">
+                        <h2 class="text-gold-500 py-2 uppercase">Naše pobočky</h2>
+                        <div v-show="authUser.is_admin == '1'" class="flex justify-end items-center">
+                            <span class="text-gray-300">Pridať</span>
+                            <NuxtLink :to="{name: 'branch-create'}"
+                                class="text-gold-400 text-2xl ml-2 mr-1 active:text-gold-700 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
+                            >
+                                <font-awesome-icon :icon="['fas', 'plus']" />
+                            </NuxtLink>
                         </div>
-                        <div class="flex flex-col">
-                        <p class="text-gray-100">IČO:  </p> 
-                            <p class="ml-2 text-gray-800 font-semibold">
-                                {{ branch.ico }}                                
-                            </p>
-                        </div>
-                    </div>
+                    </div> 
                 </div>
-                <p class="text-gray-100">Adresa:  </p>
-                    <div class="text-gray-500 font-semibold ml-2">
-                        {{ branch.address }}
-                    </div>
-                <div class="flex justify-between">
-                <div>
-                    <p class=" text-gray-100">Vytvorená: </p>
-                        <p class="ml-2 text-gray-500 font-semibold"> 
-                            {{ branch.created_at }}
-                        </p>
-                </div>
-                <div>
-                    <p>
-                        &nbsp;
-                    </p>
-                    <!-- Edit Button -->
-                    <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}">
-                        <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-1 text-xl text-white rounded"/>
-                    </NuxtLink>
-                    <button 
-                        v-show="authUser.is_admin == '1'"  
-                        @click="destroy(branch.id)"
-                        class="text-2xl font-black mr-2 focus:outline-none align-items-middle text-red-800 hover:text-red-600">
-                        x 
+                <div v-else @click="refreshData()" class="flex items-center cursor-pointer">
+                    <button class="text-gold-500 active:text-gold-700 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none">
+                        <font-awesome-icon :icon="['fas', 'redo']" class="" />
+                        <h2 class="text-gold-500 hover:text-gold-600 py-2 ml-2">...všetky pobočky</h2>
                     </button>
                 </div>
+            </div>
+            <!-- Confirm Item deletion -->
+                <div v-if="confirm && modal" class="flex justify-center items-center absolute w-full">  <!-- If modal is true SHOW -->
+                    <div class="fixed text-white rounded-lg z-50 p-8 bg-gray-800">
+                        <p>Ste si istý, že chcete zmazať záznam? 
+                        </p>
+                        <p v-show="branchForDestroy" class="text-gold-500 font-bold">
+                            {{ branchForDestroy[0].name }}
+                        </p>
+
+                        <div class="flex items-center mt-6 justify-end">               <!-- Set modal to opposite to HIDE modal-->
+                            <button @click="cancelDeletion" class="text-white pr-4 transition duration-500 ease-in-out transform active:scale-75">Zrušiť</button>
+                            <button @click="confirmDeletion" class="px-4 py-2 bg-red-500 rounded text-sm font-bold text-white transition duration-500 ease-in-out transform active:scale-75">Zmazať</button>
+                        </div>
+                    </div>
+                </div> 
+            <Spinner />
+            <!--End of Confirm Item deletion -->
+
+
+            <!-- Small Device -->
+            <div v-if="smallDevice">
+                <div v-for="branch in branches" :key="branch.id" class="even:bg-warmGray-300 rounded-md m-3 mx-auto w-full odd:bg-warmGray-400">
+                    <div class="text-gray-200 border-0.5 p-2 mb-1 border-black transition delay-700 duration-500 ease-in">
+                        <div class="flex justify-between">
+
+                        <div class="flex flex-col">
+                            <p class=" text-gray-800 font-bold">Kontakt: </p>
+                            <p class="ml-2 text-gray-700">
+                                {{ branch.name }}
+                                    <br>
+                                <a :href="'mailto:' + branch.email" class="hover:font-bold">{{ branch.email }}</a>
+                                    <br >
+                                <a :href="'tel:' + branch.phone" class="hover:font-bold">{{ branch.phone }}</a>
+                            </p>
+                        </div>
+                            
+                            <div class="ml-2">
+                                <div class="flex flex-col">
+                                    <p class="text-gray-800 font-bold">Mesto:  </p> 
+                                        <p class="ml-2 text-gray-700">
+                                            {{ branch.city }}                                
+                                        </p>
+                                </div>
+                                <div class="flex flex-col">
+                                    <p class="text-gray-800 font-bold">IČO:  </p> 
+                                    <p class="ml-2 text-gray-800">
+                                        {{ branch.ico }}                                
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-800 font-bold">Adresa:  </p>
+                            <div class="text-gray-800 ml-2">
+                                {{ branch.address }}
+                            </div>
+                        <div class="flex justify-between">
+                            <div>
+                                <p class=" text-gray-800 font-bold">Vytvorená: </p>
+                                <p class="ml-2 text-gray-800"> 
+                                    {{ branch.created_at }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    &nbsp;
+                                </p>
+                                <!-- Edit Button -->
+                                <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}" v-show="authUser.is_admin == '1'">
+                                    <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-600 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
+                                </NuxtLink>
+                                <button class="mr-3 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
+                                    v-show="authUser.is_admin == '1'"  
+                                    @click="destroy(branch.id)">
+                                    <font-awesome-icon :icon="['fas', 'trash-alt']"  />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-             </div>
+            </div>
+
+            <!-- Bigger Devices -->
+            <div v-else class="py-8">
+
+            <!-- THEAD -->
+    <div class="uppercase rounded-t-full text-sm flex justify-between items-baseline shadow-inner p-4 text-gray-800 w-full">
+        <div class="w-3/12 pt-4 ml-8 font-semibold">Kontakt</div>
+        <div class="w-3/12 pt-4 ml-1 font-semibold">Mesto</div>
+        <div class="w-4/12 pt-4 ml-5 font-semibold">Adresa</div>
+        <div class="w-2/12 pt-4 mr-6 text-center font-semibold">Vytvorená</div>
+    </div>
+    <!-- / THEAD -->
+        <ul v-for="branch in branches" :key="branch.id" class=" even:bg-warmGray-300 rounded-full odd:bg-warmGray-400" >
+            <!-- TBODY -->
+                <li class="flex justify-between items-center rounded-l-full text-sm m-2 px-4 text-gray-800 w-full">
+                    <div class="w-3/12 ml-6 py-1">
+                        <p class="font-semibold">{{ branch.name }}
+                            <font-awesome-icon @click="showDetails(branch.id)" 
+                                                v-if="details[branch.id] == true" 
+                                                :icon="['fas', 'chevron-circle-up']" class="border cursor-pointer ounded align-bottom bg-coolGray-100 opacity-25 text-xl py-1 ml-1"/>
+                            <font-awesome-icon @click="showDetails(branch.id)" 
+                                                v-else 
+                                                :icon="['fas', 'ellipsis-h']" class="border cursor-pointer rounded align-bottom bg-coolGray-100 opacity-25 text-xl py-1 ml-1"/>
+                        </p>
+                        <div v-if="details[branch.id] == true" class="mt-1 mb-0.5">
+                            <a :href="'mailto:' + branch.email"
+                                class="hover:font-bold">
+                                {{ branch.email }}
+                            </a>
+                        </div>
+                        <div>
+                            <a :href="'tel:' + branch.phone"
+                                v-if="details[branch.id] == true"
+                                class="hover:font-bold">
+                                {{ branch.phone }}
+                            </a>
+                        </div>
+                        <div>
+                            <p v-if="details[branch.id] == true">
+                                <span class="font-bold text-xs">IČO:</span>
+                                {{ branch.ico }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="w-3/12">
+                        {{ branch.city }}
+                    </div>
+                    <div class="w-4/12 mx-5">
+                        {{ branch.address }}
+                    </div>
+                    <div class="w-2/12 flex">
+                        {{ branch.created_at }}
+                        <div v-if="details[branch.id] == true" class="flex justify-end items-center mr-3">
+                            <!-- Edit Button -->
+                            <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}" v-show="authUser.is_admin == '1'">
+                                <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-500 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
+                            </NuxtLink>
+                            <button class="mr-3 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
+                                v-show="authUser.is_admin == '1'"  
+                                @click="destroy(branch.id)">
+                                <font-awesome-icon :icon="['fas', 'trash-alt']"  />
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            <!-- / TBODY -->
+        </ul>
+
+            </div>
+            <div v-if="branches" v-show="paginationTotal > 10">
+                <Pagination store="branches" collection="branches" :filter="filter" />
+            </div>
         </div>
-    </div>
+        </div>
 
-    <!-- Bigger Devices -->
     <div v-else>
-
-        <table class="my-5 mx-auto bg-gray-400 py-8 table-fixed">
-            <thead class="text-gray-100">
-                <tr>
-                    <th class="text-center w-3/12 py-2">Kontakt</th>
-                    <th class="text-center w-3/12">Mesto</th>
-                    <th class="text-center w-4/12">Adresa</th>
-                    <th class="text-center w-1/12">Vytvorená</th>
-                    <th class="text-center w-1/12"></th>
-                </tr>
-            </thead>
-            <tbody v-for="branch in branches" :key="branch.id">
-                <tr class="text-gray-200 rounded-xl border-2 border-black transition delay-700 duration-500 ease-in">
-                    <td class="w-3/12 pl-2 first:text-gray-800">
-                        <span class="text-gray-600 font-bold">
-                            {{ branch.name }}
-                        </span>    
-                            <br>
-                        <a :href="'mailto:' + branch.email" class="hover:text-gray-800">{{ branch.email }}</a>
-                            <br>
-                        <a :href="'tel:' + branch.phone" class="hover:text-gray-800">{{ branch.phone }}</a>
-                        <p>IČO: <span class="text-gray-500">{{ branch.ico }}</span></p>
-                    </td>
-                    <td class="text-center w-2/12 text-gray-800 font-semibold">{{ branch.city }}</td>
-                    <td class="text-center w-5/12">{{ branch.address }}</td>
-                    <td class="text-center w-2/12 pr-1 text-gray-800">{{ branch.created_at }}</td>
-                    <td class="px-1">
-                        <!-- Edit Button -->
-                        <NuxtLink :to="{ name: 'branch-edit', params: { id: branch.id }}">
-                            <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-1 text-xl text-white rounded"/>
-                        </NuxtLink>
-                        <button 
-                            v-show="authUser.is_admin == '1'"  
-                            @click="destroy(branch.id)"
-                            class="text-2xl font-black mr-2 focus:outline-none align-items-middle text-red-800 hover:text-red-600">
-                            x 
-                        </button>
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- <Modal /> -->
-    
-    <div v-if="branches" v-show="paginationTotal > 10">
-        <Pagination store="branches" collection="branches" :filter="filter" />
+        Žiadne záznamy.
     </div>
 </div>
 </template>
 
 <script>    
 import {mapState, mapActions, mapMutations} from 'vuex'
-// import Spinner from './Spinner'
-import Modal from './Modal'
+import Spinner from './Spinner'
 import Pagination from './Pagination'
 
 export default {
     name: "Branches",
+    transtion: 'file',
 
     props: ['smallDevice'],
 
@@ -157,7 +202,8 @@ export default {
         filter: {
             sortByUnread: Boolean,
             filterByCategory: []
-        }
+        },
+        details: {}
     }),
 
     computed: {
@@ -169,11 +215,9 @@ export default {
             paginationTotal: state => state.branches.branches.meta.total
             // spin: state => state.spinner.spin
         }),
-        branchForDestroy:  {
-            get: function() {
-                return this.branches.filter(branch => branch.id == this.destroyId);
-            },
-        }
+        branchForDestroy() {
+            return this.branches.filter(branch => branch.id == this.destroyId);
+        },
     },
 
     async fetch() {
@@ -187,11 +231,22 @@ export default {
         }),
         ...mapMutations({
              setModal : 'modal/setModal',
-            //  setSpinner: 'spinner/SET_SPINNER'
+             setSpinner: 'spinner/SET_SPINNER'
         }),
 
         refreshData() {
             this.$store.dispatch('branches/getList', { pageNumber: 0});
+        },
+
+        showDetails(id) {
+            const idExists = Object.keys(this.details).find(el => el == id);
+            console.log(idExists)
+            if(idExists == undefined) {
+                this.$set(this.details, id,  true);
+            } else {
+                this.$set(this.details, id, false);
+                delete this.details[id];
+            }
         },
 
         destroy(id) {
@@ -226,9 +281,11 @@ export default {
     },
 
     components: {
-        // Spinner,
-        Modal,
+        Spinner,
         Pagination
     }
 }
 </script>
+<style scoped>
+
+</style>
