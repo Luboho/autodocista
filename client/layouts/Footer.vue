@@ -89,6 +89,7 @@
 <script>
     import {mapState} from 'vuex'
     import HoverContacts from "../components/HoverContacts"
+    import SocialSharing from "./../components/SocialSharing.vue"
     export default {
 
         name: "Footer",
@@ -123,7 +124,8 @@
 
         },
         components: {
-            HoverContacts
+            HoverContacts,
+            SocialSharing
         }
     }
 </script>

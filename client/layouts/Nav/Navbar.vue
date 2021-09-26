@@ -203,16 +203,26 @@
   </nav>
   <div v-if="modal" @click="closeDropdown" class="fixed flex items-center justify-center bg-opacity-50 bg-black z-20 top-0 left-0 right-0 bottom-0"></div>
   
+  <div class="absolute">
+    <font-awesome-icon @click="share = !share" :icon="['fas', 'share-alt']" class="cursor-pointer hover:text-gold-500 tranform transition duration-500 ease-in-out transform active:scale-75 text-5xl border-1 hover:border-gold-300 rounded-xl p-2 w-16 h-auto text-gray-200 m-4 fixed z-40 bottom-0 "  />
+    <div v-if="share" class="ml-16 slide">
+        <SocialSharing />
+    </div>
+  </div>
+
+  
 </div>
 </template>
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
+import SocialSharing from './../../components/SocialSharing.vue'
 
 export default {
     data: () => ({
         userDropdown: false,
         mobileDropdown: false,
+        share: false
     }),
 
    async fetch() {
@@ -251,6 +261,9 @@ export default {
         async logout() {
           await this.$auth.logout()
         },
+    },
+    components: {
+      SocialSharing
     }
 }
 </script>
@@ -273,5 +286,18 @@ export default {
 .dropdown-leave-to {
   transition: all 0.35s ease-in-out;
   transform-origin: top center;
+}
+.slide {
+  animation-duration: 0.8s;
+  animation-name: slidein;
+}
+@keyframes slidein {
+  from {
+    margin-left: 5000px;
+  }
+
+  to {
+    margin-left: 65px;
+  }
 }
 </style>

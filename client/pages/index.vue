@@ -19,6 +19,7 @@
           </p>
       </div>
       <div class="sm:w-1/6 text-justify">
+
       <!-- Keep this empty -->
       </div>
       <div class="sm:w-2/6 text-justify my-10 sm:mt-28">
@@ -38,7 +39,9 @@
 </template>
 
 <script>
-export default {}
+export default {
+  
+}
 </script>
 
 <style scoped>

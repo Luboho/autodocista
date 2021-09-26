@@ -8,6 +8,10 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
+      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
+      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
+      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
@@ -67,7 +71,8 @@ export default {
          }
        ]
       }
-    ]
+    ],
+    'vue-social-sharing/nuxt'
   ],
   auth: {
     strategies: {

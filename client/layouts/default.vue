@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-800 min-w-xxs">
-    <div class="max-w-7xl mx-auto ">
+    <div class="max-w-7xl mx-auto">
       <Navbar />
       <UiMessages />
       <Modal />
@@ -15,8 +15,10 @@
   import UiMessages from '../components/UiMessages';
   import Footer from './Footer';
   import Modal from './../components/Modal.vue';
+  import SocialSharing from './../components/SocialSharing.vue'
 
   export default {
+
     transition: "fade",
 
     components: {
@@ -24,6 +26,7 @@
       Modal,
       UiMessages,
       Footer,
+      SocialSharing
     }
   }
 </script>
