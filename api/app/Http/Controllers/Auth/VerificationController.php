@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VerificationController extends Controller
 {
-    public function verify(Request $request)
+    public function verify(Request $request, User $user)
     {
         $request->validate([
             'id' => 'required',
@@ -21,6 +21,7 @@ class VerificationController extends Controller
         ]);
 
         $tempUser = TempUser::find($request->id);
+        $isAlreadyVerified = User::find($request->id);
 
         if ($tempUser && $request->token == $tempUser->email_verification_code) {
             $tempUser->email_verification_code = md5(rand(0, 6)); // Change verif.code to make it on once use.
@@ -61,9 +62,13 @@ class VerificationController extends Controller
             return response()
                     ->json(['data' => [ 'success' => 'Email bol úspešne overený. Prosím prihláste sa.' ]])
                     ->setStatusCode(Response::HTTP_CREATED);
-        } else {
+        } elseif($isAlreadyVerified){
             return response()->json(['data' => [
                 'warning' => 'Email už je overený. Prosím prihláste sa.'
+            ]]);
+        } else {
+            return response()->json(['data' => [
+                'error' => 'Pravdepodobne email nebol správne overený. Prosím požiadajte o nový verifikačný email.'
             ]]);
         }
     }

@@ -15,15 +15,13 @@ class CreateContactFormMessagesTable extends Migration
     {
         Schema::create('contact_form_messages', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('branch_id')->unsigned()->index();
+            $table->foreignId('branch_id')->constrained();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('message');
             $table->boolean('read')->default(false);
             $table->timestamps();
-
-            $table->foreign('branch_id')->references('id')->on('branches');
         });
     }
 
