@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('phone');
             $table->boolean('is_admin')->default(false);
             $table->string('password');

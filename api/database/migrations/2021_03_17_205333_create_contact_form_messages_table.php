@@ -19,7 +19,7 @@ class CreateContactFormMessagesTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('message');
+            $table->text('message');
             $table->boolean('read')->default(false);
             $table->timestamps();
         });
