@@ -78,7 +78,7 @@ export default {
     strategies: {
       local: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8000',
+        url: 'https://autodocista-api.herokuapp.com',
         endpoints: {
           login: {url: '/api/login', method: 'post'},
           logout: {url: '/api/logout', method: 'post'},
@@ -97,7 +97,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000',
+    baseURL: 'https://autodocista-api.herokuapp.com',
     credentials: true
   },
 
