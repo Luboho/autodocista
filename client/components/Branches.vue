@@ -47,7 +47,7 @@
             <div v-if="smallDevice">
                 <div v-for="branch in branches" :key="branch.id" class="even:bg-warmGray-300 rounded-md m-3 mx-auto w-full odd:bg-warmGray-400">
                     <div class="text-gray-200 border-0.5 p-2 mb-1 border-black transition delay-700 duration-500 ease-in">
-                        <div class="flex justify-between">
+                        <div class="flex flex-col ">
 
                         <div class="flex flex-col">
                             <p class=" text-gray-800 font-bold">Kontakt: </p>
@@ -60,7 +60,7 @@
                             </p>
                         </div>
                             
-                            <div class="ml-2">
+                            <div class="flex flex-col sm:flex-row ml-2">
                                 <div class="flex flex-col">
                                     <p class="text-gray-800 font-bold">Mesto:  </p> 
                                         <p class="ml-2 text-gray-700">
@@ -75,6 +75,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <p class="text-gray-800 font-bold">Adresa:  </p>
                             <div class="text-gray-800 ml-2">
                                 {{ branch.address }}
@@ -110,16 +111,15 @@
 
             <!-- THEAD -->
     <div class="uppercase rounded-t-full text-sm flex justify-between items-baseline shadow-inner p-4 text-gray-800 w-full">
-        <div class="w-3/12 pt-4 ml-8 font-semibold">Kontakt</div>
-        <div class="w-3/12 pt-4 ml-1 font-semibold">Mesto</div>
-        <div class="w-4/12 pt-4 ml-5 font-semibold">Adresa</div>
+        <div class="w-5/12 pt-4 ml-8 font-semibold">Kontakt</div>
+        <div class="w-5/12 pt-4 ml-5 font-semibold">Adresa</div>
         <div class="w-2/12 pt-4 mr-6 text-center font-semibold">Vytvorená</div>
     </div>
     <!-- / THEAD -->
         <ul v-for="branch in branches" :key="branch.id" class=" even:bg-warmGray-300 rounded-full odd:bg-warmGray-400" >
             <!-- TBODY -->
-                <li class="flex justify-between items-center rounded-l-full text-sm m-2 px-4 text-gray-800 w-full">
-                    <div class="w-3/12 ml-6 py-1">
+                <li class="flex justify-between items-center rounded-l-full text-sm m-2 px-4 py-1 text-gray-800 w-full">
+                    <div class="w-5/12 ml-6 py-1">
                         <p class="font-semibold">{{ branch.name }}
                             <font-awesome-icon @click="showDetails(branch.id)" 
                                                 v-if="details[branch.id] == true" 
@@ -148,10 +148,9 @@
                             </p>
                         </div>
                     </div>
-                    <div class="w-3/12">
-                        {{ branch.city }}
-                    </div>
-                    <div class="w-4/12 mx-5">
+                    
+                    <div class="w-5/12 mx-5">
+                        <p class="font-semibold">{{ branch.city }}</p>
                         {{ branch.address }}
                     </div>
                     <div class="w-2/12 flex">

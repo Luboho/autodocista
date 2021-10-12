@@ -89,7 +89,7 @@
                   <div class="border-l-2 border-r-2 mr-3 absolute border-red-600 animate-ping rounded-full w-6 h-6"></div>
 
                   <div>&nbsp;</div>
-                  <font-awesome-icon :icon="['fas', 'bell']"  class="transition text-lg text-white mt-1 rounded"/>
+                  <font-awesome-icon :icon="['fas', 'envelope']"  class="transition text-lg text-white mt-1 rounded"/>
                   <span class="px-1 py-1 border border-white rounded-full">{{ notificationNum }}</span>
                 </nuxt-link>
               </div>
@@ -173,25 +173,25 @@
       <div v-if="mobileDropdown" class="sm:hidden" id="mobile-menu">
           <div @click="closeDropdown" class="flex flex-col flex-grow px-2 pt-4 pb-3 space-y-1">
               <nuxt-link to="/about" 
-                         class="text-gold-500 hover:bg-gold-500 mx-auto transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-4 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 ml-26 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-4 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/about' }"
               > 
                 O nás
               </nuxt-link>
               <nuxt-link to="/prices" 
-                         class="text-gold-500 hover:bg-gold-500 mx-auto transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 ml-26 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/prices' }"
               >
                 Cenník
               </nuxt-link>
               <nuxt-link to="/contact-us" 
-                         class="text-gold-500 hover:bg-gold-500 mx-auto transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
+                         class="text-gold-500 hover:bg-gold-500 ml-26 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/contact-us' }"
               >
                 Napíšte nám
               </nuxt-link>
               <nuxt-link to="/locations" 
-                         class="text-gold-500 hover:bg-gold-500 mx-auto transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium whitespace-no-wrap"
+                         class="text-gold-500 hover:bg-gold-500 ml-26 transition duration-500 ease-in-out hover:text-yellow-900 hover:font-bold px-3 py-2 text-sm font-medium whitespace-no-wrap"
                          :class="{ 'border-l-4 border-gold-500': currentPath == '/locations' }"
               >
                 Nájdete nás
@@ -203,12 +203,12 @@
   </nav>
   <div v-if="modal" @click="closeDropdown" class="fixed flex items-center justify-center bg-opacity-50 bg-black z-20 top-0 left-0 right-0 bottom-0"></div>
   
-  <div class="absolute">
+  <!-- <div class="absolute">
     <font-awesome-icon @click="share = !share" :icon="['fas', 'share-alt']" class="cursor-pointer hover:text-gold-500 tranform transition duration-500 ease-in-out transform active:scale-75 text-5xl border-1 hover:border-gold-300 rounded-xl p-2 w-16 h-auto text-gray-200 m-4 fixed z-40 bottom-0 "  />
     <div v-if="share" class="ml-16 slide">
         <SocialSharing />
     </div>
-  </div>
+  </div> -->
 
   
 </div>

@@ -29,7 +29,45 @@
 </template>
 
 <script>
-export default {}
+export default {
+  head() {
+    return {
+      title: "Niešo o nás - Autodočista",
+      meta: [
+          {
+            hid: 'og:url',
+            property: 'og:url',
+            content: `${process.env.baseUrl + '/about'}`
+          },
+          {
+            hid: 'og:title',
+            property: 'og:title',
+            content: 'Sme progresívna spoločnosť zameraná na umývanie áut.'
+          },
+          {
+            hid: 'og:description',
+            property: 'og:description',
+            content: 'Get to know all about Autodocista and its characters in tiny bits of info.'
+          },
+          {
+            hid: 'og:image',
+            property: 'og:image',
+            content: `${process.env.baseUrl +'/shared-images/about-us.jpg'}`
+          },
+          {
+            hid: 'og:image:secure_url',
+            property: 'og:image:secure_url',
+            content: `${process.env.baseUrl +'/shared-images/about-us.jpg'}`
+          },
+          {
+            hid: 'og:image:alt',
+            property: 'og:image:alt',
+            content: 'Autodočista'
+          }
+      ]
+    }
+  }
+}
 </script>
 
 <style scoped>

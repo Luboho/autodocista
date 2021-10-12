@@ -15,11 +15,11 @@ return [
 
     'stateful' => explode(',', env(
         'SANCTUM_STATEFUL_DOMAINS',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1, https://autodocista-client.herokuapp.com'
+        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1,.autodocista.nl,api.autodocista.nl'
     )),
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------s----------
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |

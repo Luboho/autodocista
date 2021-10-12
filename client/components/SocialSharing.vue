@@ -22,27 +22,16 @@
 
 <script>
 export default {
-    head() {
-        return {
-            meta: [
-                {
-                    hid: 'og:image',
-                    name: 'og:image',
-                    property: 'og:image', 
-                    content: '/swift.jpg',
-                },
-            ],
-        }
-    },
+    
     data () {
         return {
         sharing: {
-            url: 'https://autodocista.se',
+            url: 'https://www.autodocista.nl',
             image: "~@/assets/default-images/swift1020x680.jpg",
-            title: 'Auto DoČista. Nechajte svoje auto rozmaznať.',
+            title: 'Autodočista. Nechávajte svoje auto rozmaznať.',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet quo laboriosam accusantium quisquam, voluptate, commodi fuga voluptatem magnam inventore eos cum perspiciatis tenetur nisi, rerum incidunt',
             quote: 'Lorem ipsum dolor sit amet consectetur',
-            hashtags: 'autoDočista,autoumývarka,čisté-auto',
+            hashtags: 'autoDočista, autoumývarka, čisté-auto',
             twitterUser: 'auto-dočista'
         },
         networks: [
@@ -84,7 +73,7 @@ export default {
 
 <style scoped>
 .slide {
-    animation-duration: 3s;
+    animation-duration: 1s;
   animation-name: slidein;
 }
 @keyframes slidein {

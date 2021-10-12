@@ -29,6 +29,10 @@
 
 <script>
     export default {
+        name: "locations",
+        head: {
+            title: "Nájdete nás"
+        },
         data() {
             return {
                 currentLocation: {},

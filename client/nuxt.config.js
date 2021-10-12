@@ -1,18 +1,26 @@
 export default {
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://www.autodocista.nl'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'client',
+    // title: 'client',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
-      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
-      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
-      // { property: 'og:image', content: "@/assets/default-images/swift1020x680.png" || '' },
-      { hid: 'description', name: 'description', content: '' }
+      {
+        hid: 'title',
+        name: 'title',
+        content: 'Sme progresívna spoločnosť zameraná na umývanie áut.'
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'umyvanie, upratovanie, aut, auta, cistenie, bratislava, kosice, zilina, poprad'
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -72,13 +80,19 @@ export default {
        ]
       }
     ],
-    'vue-social-sharing/nuxt'
+    ['vue-social-sharing/nuxt', {
+      networks: {
+        fakeblock: 'https://fakeblock.com/share?url=@url&title=@title'
+      }
+    }],
   ],
   auth: {
     strategies: {
-      local: {
+      'laravelSanctum': {
         provider: 'laravel/sanctum',
-        url: 'https://autodocista-api.herokuapp.com',
+        // url: 'http://localhost:8000',
+        url: 'https://api.autodocista.nl', // Works
+
         endpoints: {
           login: {url: '/api/login', method: 'post'},
           logout: {url: '/api/logout', method: 'post'},
@@ -86,10 +100,24 @@ export default {
           },
           tokenRequired: false,
           tokenType: false,
-        } 
+        } ,
+
+        cookie: {
+          cookie: {
+            // (optional) If set, we check this cookie existence for loggedIn check
+            name: 'XSRF-TOKEN',
+          },
+          endpoints: {
+            // (optional) If set, we send a get request to this endpoint before login
+            csrf: {
+              url: 'https://api.autodocista.nl', // User for production
+            }
+          }
+        },
       },
+
       redirect: {
-        login: "/dashboard",
+        login: "/",
         logout: "/",
         home: "/"
       }
@@ -97,7 +125,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://autodocista-api.herokuapp.com',
+    // baseURL: 'http://localhost:8000',
+    baseURL: 'https://api.autodocista.nl', // works
     credentials: true
   },
 

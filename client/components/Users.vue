@@ -5,7 +5,7 @@
             <h2 class="text-gold-500 mt-4 mb-6 uppercase">Registrovaní užívatelia</h2>
             <div v-show="authUser.is_admin == '1'" class="flex justify-end items-center">
                 <span class="text-gray-300">Pridať</span>
-                <NuxtLink :to="{name: 'auth-register'}"
+                <NuxtLink to="/auth/register"
                     class="text-gold-400 text-2xl ml-2 mr-1 active:text-gold-700 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
                 >
                     <font-awesome-icon :icon="['fas', 'plus']" />
@@ -44,32 +44,34 @@
         <div v-for="user in users" :key="user.id" class="even:bg-warmGray-300 rounded-md m-3 mx-auto w-full odd:bg-warmGray-400">
 
             <div class="text-gray-200 border-0.5 p-2 mb-1 border-black transition delay-700 duration-500 ease-in">
-                <div class="flex justify-between">
+                <div class="flex flex-col">
 
-                    <div class="flex flex-col">
-                        <p class=" text-gray-800 font-bold">Meno a kontakt: </p>
-                            <p class="ml-2 text-gray-700">
-                                {{ user.name }}
-                                    <br>
-                                <a :href="'mailto:' + user.email" class="hover:font-bold">{{ user.email }}</a>
-                                    <br >
-                                <a :href="'tel:' + user.phone" class="hover:font-bold">{{ user.phone }}</a>
+                    <div class="flex flex-col sm:flex-row ">
+                        <div class="flex flex-col">
+                            <p class="text-gray-800 font-bold">Pracuje:  </p> 
+                            <p @click.prevent="showBranch(user.branch.id, $event)" class="ml-2 text-gray-600 hover:text-gray-900 cursor-pointer hover:font-bold">
+                                {{ user.branch.name }}                                
                             </p>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class=" text-gray-800 font-bold">Meno a kontakt: </p>
+                                <p class="ml-2 text-gray-700">
+                                    {{ user.name }}
+                                        <br>
+                                    <a :href="'mailto:' + user.email" class="hover:font-bold">{{ user.email }}</a>
+                                        <br >
+                                    <a :href="'tel:' + user.phone" class="hover:font-bold">{{ user.phone }}</a>
+                                </p>
+                        </div>
+
                     </div>
-                    
-                    <div class="flex flex-col">
-                        <p class="text-gray-800 font-bold">Pracuje:  </p> 
-                        <p @click.prevent="showBranch(user.branch.id, $event)" class="ml-2 text-gray-600 hover:text-gray-900 cursor-pointer hover:font-bold">
-                            {{ user.branch.name }}                                
-                        </p>
-                    </div>
-                </div>
 
                     <p v-show="authUser.is_admin == '1'" 
                        class="text-gray-800 font-bold"
                     >Registrovaný ako:
                             <span :class="user.role == 'Admin' ? 'text-gold-100 font-bold ml-1' : 'text-gold-200 font-light ml-1' ">{{ user.role }}</span>
                     </p>
+
                     <div class="flex justify-between">
                         <div>
                             <p class="text-gray-800 font-bold">Vytvorený: </p>
@@ -81,7 +83,7 @@
                             <p>
                                 &nbsp;
                             </p>
-                            <NuxtLink to="in-construction" v-show="authUser.is_admin == '1'">
+                            <NuxtLink :to="{ name: 'auth-edit', params: { id: user.id }}" v-show="authUser.is_admin == '1'">
                             <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-500 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
                             </NuxtLink>
                             <button class="mr-3 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
@@ -91,6 +93,9 @@
                             </button>
                         </div>
                     </div>
+                                        
+                </div>
+                                 
              </div>
         </div>
     </div>
@@ -144,7 +149,7 @@
                         {{ user.created_at }}
                         <div v-if="details[user.id] == true" class="flex justify-end items-center mr-3">
                         <!-- Edit Button -->
-                            <NuxtLink to="in-construction" v-show="authUser.is_admin == '1'">
+                            <NuxtLink :to="{ name: 'auth-edit', params: { id: user.id }}" v-show="authUser.is_admin == '1'">
                                 <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-500 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
                             </NuxtLink>
                             <button class="mr-6 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"

@@ -17,8 +17,7 @@
                             id="email" 
                             v-model="form.email"
                             type="email" 
-                            size="40"
-                            class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                            class="pt-8 pl-3 rounded bg-gray-400 w-72 bg-opacity-25 p-2 text-sm text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                             name="email" 
                             value="" 
                             autofocus
@@ -39,8 +38,7 @@
                         id="password" 
                         v-model="form.password"
                         type="password"
-                        size="40"
-                        class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                        class="pt-8 pl-3 rounded bg-gray-400 w-72 bg-opacity-25 p-2 text-sm text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="password" 
                         autocomplete="new-password">
 
@@ -66,6 +64,9 @@
 <script>
 export default {
     name: "Login",
+    head: {
+        title: "Prihlásenie"
+    },
 
     data: () => ({
         name: [],
@@ -85,8 +86,8 @@ export default {
         async submit(e) {
             try {
                 await this.$axios.$get('sanctum/csrf-cookie');
-                await this.$auth.loginWith('local', {data: this.form})
-                    .then(() => this.$router.replace({path: '/dashboard'}))
+                await this.$auth.loginWith('laravelSanctum', {data: this.form})
+                    .then(() => this.$router.replace({path: '/'}));
             } catch (e) {
                 if(e.response.data.errors) {
                     this.errors = e.response.data.errors;

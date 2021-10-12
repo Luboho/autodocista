@@ -20,8 +20,7 @@
                                 id="email" 
                                 v-model="form.email"
                                 type="email" 
-                                size="40"
-                                class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-gray-800"
+                                class="pt-8 rounded w-72 text-sm bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-gray-800"
                                 name="email" 
                                 value="" 
                                 autofocus
@@ -50,6 +49,9 @@
     export default {
         data: () => ({
             name: [],
+            head: {
+                title: "Zabudnuté heslo | Autodočista"
+            },  
             form: {
                 email: "",
             },

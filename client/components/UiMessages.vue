@@ -1,9 +1,9 @@
 <template>
-    <div class="w-screen">
+    <div class="w-screen h-auto absolute">
         <transition name="show">
             <div v-if="uiMessage">
-                <div class="flex justify-center absolute z-50 w-full"> 
-                    <div class="fixed text-white text-center rounded-lg text-xs z-30 px-48 py-3 bg-opacity-75"
+                <div class="flex justify-center fixed z-50 w-screen"> 
+                    <div class="fixed text-white text-center rounded-lg text-xs px-6 z-30 py-3 bg-opacity-75"
                         :class="bgColor">
                         {{ msg }}
                     </div>

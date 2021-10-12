@@ -16,7 +16,6 @@ class LoginController extends Controller
             if (!auth()->attempt($this->validateData())) {
                 throw new AuthenticationException();
             }
-            
         }
     
         private function validateData()

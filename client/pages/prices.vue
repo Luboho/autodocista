@@ -68,6 +68,44 @@
 <script>
 export default {
     name: "prices",
+    head() {
+        return {
+
+            title: "Cenník služiem a programov - Autodočista",
+            meta: [
+                {
+                hid: 'og:url',
+                property: 'og:url',
+                content: `${process.env.baseUrl +'/prices'}`
+                },
+                {
+                hid: 'og:title',
+                property: 'og:title',
+                content: 'Viac ako priateľské ceny naších programov ručného umývania.'
+                },
+                {
+                hid: 'og:description',
+                property: 'og:description',
+                content: 'Excepturi, a magnam. Libero ab dolorum aliquam, laboriosam, rerum beatae enim voluptate eligendi sit, sint voluptates magni qui quis voluptatem rem quasi ea iusto vero quod eos eaque '
+                },
+                {
+                hid: 'og:image',
+                property: 'og:image',
+                content: `${process.env.baseUrl +'/shared-images/cennik.jpg'}`
+                },
+                {
+                hid: 'og:image:secure_url',
+                property: 'og:image:secure_url',
+                content: `${process.env.baseUrl +'/shared-images/cennik.jpg'}`
+                },
+                {
+                hid: 'og:image:alt',
+                property: 'og:image:alt',
+                content: 'Autodočista'
+                }
+            ]
+        }
+    }
 }
 </script>
 

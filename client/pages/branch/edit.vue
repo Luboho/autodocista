@@ -15,9 +15,8 @@
                                 v-model="form.name"
                                 @click="clearErrors"
                                 type="text" 
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="name" 
-                                size="40"
                                 value="" 
                                 autocomplete="name"
                                 autofocus
@@ -38,9 +37,8 @@
                                 v-model="form.email"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="email" 
-                                size="40"
                                 value="" 
                                 autocomplete="email"
                             >
@@ -60,9 +58,8 @@
                                 v-model="form.phone"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="phone" 
-                                size="40"
                                 value="" 
                                 autocomplete="phone"
                             >
@@ -82,9 +79,8 @@
                                 v-model="form.address"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="address" 
-                                size="40"
                                 value="" 
                                 autocomplete="address"
                             >
@@ -104,9 +100,8 @@
                                 v-model="form.city"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="city" 
-                                size="40"
                                 value="" 
                                 autocomplete="city"
                             >
@@ -126,9 +121,8 @@
                                 v-model="form.postal_code"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="postal_code" 
-                                size="40"
                                 value="" 
                                 autocomplete="postal_code"
                             >
@@ -148,9 +142,8 @@
                                 v-model="form.ico"
                                 type="text"
                                 @click="clearErrors"
-                                class="pt-8 pl-3 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 text-sm bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="ico" 
-                                size="40"
                                 value="" 
                                 autocomplete="ico"
                             >
@@ -227,9 +220,7 @@ export default {
             } catch (e) {
                 if(e.response.data.errors) {
                     this.errors = e.response.data.errors;
-                } else if(e.response.data.message) {
-                    this.$store.dispatch('uiMessages/getUiMessage', e.response )
-                }
+                } 
             }
         },
 

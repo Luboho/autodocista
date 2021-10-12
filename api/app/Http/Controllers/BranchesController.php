@@ -71,11 +71,26 @@ class BranchesController extends Controller
     {
         $this->authorize('update', $branch);
 
-        $branch = Branch::where('id', intval($request->id))->first();
+        $updateBranch = Branch::where('id', intval($request->id))->first();
 
-        if($branch) {
+        if($updateBranch) {
 
-            $branch->update($this->validateRequest());
+            $validated = request()->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email'],
+                'phone' => ['required', 'string', 'min:9', ],
+                'address' => ['required', 'string', 'max:150'],
+                'postal_code' => ['required', 'string', 'min:5', 'max:7'],
+                'ico' => ['required', 'regex:/^[SK]*[0-9]{9,14}/', 'min:9', 'max:14'],
+            ]);
+            Branch::where('id', $updateBranch->id)->update(array(
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'address' => $validated['address'],
+                'postal_code' => $validated['postal_code'],
+                'ico' => $validated['ico'],
+            ));
 
             return response()->json(['data' => [
                 'success' => 'Údaje boli úspešne upravené.'
@@ -104,7 +119,7 @@ class BranchesController extends Controller
     {
        return request()->validate([
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique'],
             'phone' => ['required', 'regex:/^[+]*[0-9]{9,14}/', 'min:9', 'max:14'],
             'city' => ['required', 'string', 'max:80'],
             'address' => ['required', 'string', 'max:150'],

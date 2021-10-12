@@ -61,6 +61,9 @@ import Modal from '../components/Modal.vue'
  
 export default {
     name: "dashboard",
+    head: {
+        title: "Ovládací panel"
+    },
     middleware: 'authenticated',
 
     data: () => ({

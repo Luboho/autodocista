@@ -15,7 +15,10 @@
 
 <script>
 export default {
-    name: 'reconstraction'
+    name: 'reconstraction',
+    head: {
+      title: "Stránka v rekonštrukcii"
+    }
 }
 </script>
 

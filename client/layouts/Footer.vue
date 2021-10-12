@@ -1,8 +1,9 @@
 <template>
   <div class="w-full h-auto text-gray-300 text-sm bg-gray-900">
-      <div class="grid grid-cols-1 justify-items-center sm:grid-cols-3 gap-4 sm:gap-2 xs:justify-items-center">
+      <div class="grid grid-cols-1 justify-items-center place-content-start sm:grid-cols-3 gap-4 sm:gap-2 xs:justify-items-center">
 
-            <div class="flex flex-col p-10 mt-16 bg-opacity-50">
+            <div class="flex flex-col p-10 bg-opacity-50">
+                <p class="mt-3">&nbsp;</p>
                 <nuxt-link to="/" 
                          class="text-gold-500 hover:text-yellow-200 hover:font-bold pl-4 py-2"
                          :class="{ 'border-l-4 -ml-1 border-gold-500': currentPath == '/' }"
@@ -40,24 +41,25 @@
             </div>
 
 <!-- Company Branchies -->
-            <div @mouseleave="hover = false" class="px-20 py-5 mt-16 border border-gold-500 rounded-md place-items-center relative bg-opacity-50">
-                <h1 class="font-bold pb-1">Prevádzky</h1>
-                <transition name="dropdown">
-                    <div class="absolute z-100 inset-0 flex flex-col justify-center text-gold-500 bg-gray-600" v-if="hover">
-                        <HoverContacts :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" :ico="branch[0].ico" />
-                        <img src="@/assets/default-images/logo200x121.png"  alt="Auto Dočista">
+            <div @mouseleave="hover = false" class="px-20 py-10 mt-2  border border-gold-500 rounded-md relative bg-opacity-50">
+                    <h1 class="font-bold pb-1 text-center">Prevádzky</h1>
+                    <transition name="dropdown">
+                        <div class="absolute z-100 inset-y-0 text-gold-500 bg-gray-600" v-if="hover">
+                            <div class="flex flex-col content-center">
+                                <HoverContacts class="self-center" :name="branch[0].name" :phone="branch[0].phone" :email="branch[0].email" :ico="branch[0].ico" />
+                                <img src="@/assets/default-images/logo200x121.png" class="self-center w-1/2"  alt="Auto Dočista">
+                            </div>
+                        </div>
+                    </transition>
+                    <div v-for="branch in branches" :key="branch.id" class="py-2 whitespace-no-wrap">
+                        <h2 @mouseover="hoverCity(branch.id)">{{ branch.name }}  
+                            <font-awesome-icon :icon="['fas', 'info']" class="text-xs ml-1 align-baseline text-gold-500 inline-block" />
+                        </h2>
                     </div>
-                </transition>
-                <div v-for="branch in branches" :key="branch.id" class="py-2 whitespace-no-wrap">
-                    <h2 @mouseover="hoverCity(branch.id)">{{ branch.name }}  
-                        <font-awesome-icon :icon="['fas', 'info']" class="text-xs ml-1 align-baseline text-gold-500 inline-block" />
-                    </h2>
-                </div>
-                
             </div>
 
-            <div class="p-10 mt-16  bg-opacity-50">
-                <h1 class="font-bold py-2">Otváracie hodiny:</h1>
+            <div class="p-10  bg-opacity-50">
+                <h1 class="font-bold py-3">Otváracie hodiny:</h1>
                 <div class="flex">
                     <div class="">
                         <p>Pondelok:</p> 

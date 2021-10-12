@@ -13,10 +13,9 @@
                             id="name" 
                             v-model="form.name"
                             type="name" 
-                            class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 text-white outline-none focus:shadow-inner focus:bg-opacity-75 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 text-sm bg-opacity-50 w-72 p-2 text-white outline-none focus:shadow-inner focus:bg-opacity-75 focus:text-gold-500"
                             name="name" 
                             value="" 
-                            size="40"
                             autocomplete="name"
                         >
 
@@ -33,10 +32,9 @@
                             id="email" 
                             v-model="form.email"
                             type="email" 
-                            class="pt-8 rounded bg-gray-400 bg-opacity-25 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                            class="pt-8 rounded bg-gray-400 text-sm bg-opacity-25 w-72 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                             name="email" 
                             value="" 
-                            size="40"
                             autocomplete="email"
                         >
 
@@ -51,7 +49,7 @@
                     <input @click="clearErrors" 
                         id="phone" 
                         v-model="form.phone"
-                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 w-101 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 text-sm bg-opacity-50 p-2 w-72 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="phone" 
                         value="" 
                         autocomplete="email"
@@ -62,7 +60,7 @@
     <!-- Branch Selection -->
                 <div class="relative py-6">
                     
-                    <select name="city" id="" v-model="form.branch_id" class="cursor-pointer w-101 rounded p-5 text-gold-300 text-xs bg-opacity-50 focus:bg-opacity-75 bg-gray-400 outline-none focus:text-gold-500">
+                    <select name="branch" id="" v-model="form.branch_id" class="cursor-pointer w-72 rounded p-5 text-gold-300 text-xs bg-opacity-50 focus:bg-opacity-75 bg-gray-400 outline-none focus:text-gold-500">
                         <option value="" selected="true" disabled="disabled" >
                             <span class="trancking-widest text-xs text-gold-300">Vyberte prevádzku... &nbsp;* </span>
                         </option>
@@ -77,10 +75,9 @@
                     <textarea @click="clearErrors" 
                         id="message" 
                         v-model="form.message"
-                        class="pt-8 rounded bg-gray-400 bg-opacity-50 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
+                        class="pt-8 rounded bg-gray-400 text-sm bg-opacity-50 w-72 p-2 text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                         name="message" 
                         rows="3" 
-                        cols="41"
                     ></textarea>
                     <p class="text-red-600 text-sm" v-text="errors.message ? errors.message[0] : ''"></p>
 
@@ -98,6 +95,43 @@
 <script>
     import {mapState} from 'vuex'
     export default {
+        head() {
+            return {
+                title: "Napíšte nám - Autodočista",
+                meta: [
+                    {
+                      hid: 'og:url',
+                      property: 'og:url',
+                      content: `${process.env.baseUrl + '/contact-us'}`
+                    },
+                    {
+                      hid: 'og:title',
+                      property: 'og:title',
+                      content: 'Napíšte nám, sme vďačný za každú spätnú väzbu.'
+                    },
+                    {
+                      hid: 'og:description',
+                      property: 'og:description',
+                      content: 'Optio vitae dolor quidem beatae adipisci, animi nostrum sed! Impedit earum aut asperiores consequuntur modi veritatis maxime iste? Labore magnam id velit quos doloribus molestias est veritatis! Tempora voluptas fuga illo vitae pariatur omnis suscipit eligendi quidem possimus optio.'
+                    },
+                    {
+                      hid: 'og:image',
+                      property: 'og:image',
+                      content: `${process.env.baseUrl +'/shared-images/contact-us.jpg'}`
+                    },
+                    {
+                      hid: 'og:image:secure_url',
+                      property: 'og:image:secure_url',
+                      content: `${process.env.baseUrl +'/shared-images/contact-us.jpg'}`
+                    },
+                    {
+                      hid: 'og:image:alt',
+                      property: 'og:image:alt',
+                      content: 'Autodočista'
+                    }
+                ],
+            }
+        },
         data: () => ({
             form: {
                 name: "",

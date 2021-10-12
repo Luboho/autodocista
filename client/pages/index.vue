@@ -32,15 +32,57 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, harum et? Cupiditate, dolorem placeat, voluptatem dolores nemo magnam aspernatur praesentium maxime impedit neque hic rerum unde laborum. Placeat, ipsa magni.
           </p>
       </div>
-      
     </div>
 
   </div>
 </template>
 
 <script>
+import SocialSharing from './../components/SocialSharing.vue'
+
 export default {
   
+  head() {
+    return {
+        title: "Autodočista - rozmaznávajte svoje auto",
+        meta: [
+            {
+              hid: 'og:url',
+              property: 'og:url',
+              content: `${process.env.baseUrl}`
+            },
+            {
+              hid: 'og:title',
+              property: 'og:title',
+              content: 'Vaše auto si zaslúži pozornosť'
+            },
+            {
+              hid: 'og:description',
+              property: 'og:description',
+              content:
+                'Get to know all about Autodocista and its characters in tiny bits of info.'
+            },
+            {
+              hid: 'og:image',
+              property: 'og:image',
+              content: `${process.env.baseUrl +'/shared-images/swift.jpg'}`
+            },
+            {
+              hid: 'og:image:secure_url',
+              property: 'og:image:secure_url',
+              content: `${process.env.baseUrl +'/shared-images/swift.jpg'}`
+            },
+            {
+              hid: 'og:image:alt',
+              property: 'og:image:alt',
+              content: 'Autodočista'
+            }
+        ]
+      }
+    },
+  components: {
+    SocialSharing
+  }
 }
 </script>
 

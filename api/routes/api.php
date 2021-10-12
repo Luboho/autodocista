@@ -44,6 +44,7 @@ Route::patch('/branch/edit', [BranchesController::class, 'update']);
 Route::delete('/branches/{id}', [BranchesController::class, 'destroy']);
 // Dashboard
 Route::get('/users', [UsersController::class, 'index']);
+Route::patch('/users/edit', [UsersController::class, 'update']);
 Route::delete('/users/{id}', [UsersController::class, 'destroy']);
 Route::get('/all-users', [UsersController::class, 'allUsers']);
 

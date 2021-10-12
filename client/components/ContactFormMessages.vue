@@ -18,7 +18,7 @@
                 <div v-for="message in messages" :key="message.id" class="even:bg-warmGray-300 rounded-md m-3 mx-auto w-full odd:bg-warmGray-400">
 
                     <!-- Message iter. -->
-                    <div class="text-gray-200 text-sm border-0.5 p-2 mb-1 border-black transition delay-250 duration-500 ease-in"
+                    <div class="text-gray-200 text-sm border-0.5 px-2 py-1 mb-1 border-black transition delay-250 duration-500 ease-in"
                         :class="{'bg-gold-600' : message.read == '0' }">
                         <div class="flex justify-between">
                             <div class="flex flex-col">
@@ -32,22 +32,17 @@
                                 </p>
                         </div>
                             
-                            <div class="flex flex-col">
-                                <p class="text-gray-800 font-bold">Pre pobočku: </p> 
-                                    <a href="" @click.prevent="showBranch(message.branch.id, $event)" class="ml-2 text-gray-600 hover:text-gray-900 cursor-pointer hover:font-bold">
-                                        {{ message.branch.name }}                                
-                                    </a>
-                            </div>
+                            
                         </div>
 
                             <p class="text-gray-800 font-bold">Správa: </p>
                                 <div>
                                     <div @click="showDetails(message.id, $event)" 
-                                        class="ml-2 text-gray-700 cursor-pointer hover:text-gold-800"
+                                        class=" hover:text-gold-900 text-gray-400 relative transition underline duration-500 ease-in-out cursor-pointer"
                                         :class="{'no-underline': details[message.id] === true, 'font-black' : message.read == '0', }">
                                         <!-- Show/Hide part of text with VannilaJS  -->
                                             {{ message.message.slice(0, 21) }}
-                                    </div>
+                                </div>
                                 </div>
                             <div class="flex justify-between">
                             <div>
@@ -61,9 +56,6 @@
                                     &nbsp;
                                 </p>
                                 
-                                <NuxtLink to="in-construction" v-show="$auth.user.is_admin == '1'">
-                                    <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-500 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
-                                </NuxtLink>
                                 <button class="mr-3 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
                                     v-show="$auth.user.is_admin == '1'" >
                                     <NuxtLink to="in-construction">
@@ -89,7 +81,7 @@
         <!-- / THEAD -->
             <ul v-for="message in messages" :key="message.id" class="even:bg-warmGray-300 rounded-full odd:bg-warmGray-400 ">
                 <!-- TBODY -->
-                    <li class="flex justify-evenly text-sm items-center rounded-full my-2 text-gray-800 w-full transition duration-500 ease-in-out"
+                    <li class="flex justify-evenly text-sm items-center rounded-full p-1 my-2 text-gray-800 w-full transition duration-500 ease-in-out"
                         :class="{'bg-gold-600' : message.read == '0' }">
                         <div class="w-3/12 ml-6 py-1">
                             <p class="font-semibold">{{ message.name }}
@@ -117,14 +109,11 @@
                             :class="{'no-underline': details[message.id] === true, 'font-black' : message.read == '0', }">
                             <!-- Show/Hide part of text with VannilaJS  -->
                                 {{ message.message.slice(0, 21) }}
-                    </div>
+                        </div>
                         <div class="w-1/12 flex">
                             {{ message.created_at }}
                             <div v-if="details[message.id] == true" class="flex items-center mr-3">
-                            <!-- Edit Button -->
-                                <NuxtLink to="in-construction" v-show="$auth.user.is_admin == '1'">
-                                    <font-awesome-icon :icon="['fas', 'pencil-alt']"  class="mr-3 text-gray-500 hover:text-gray-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded"/>
-                                </NuxtLink>
+                            
                                 <button class="mr-6 text-red-600 hover:text-red-500 transition duration-500 ease-in-out transform active:scale-75 focus:outline-none"
                                     v-show="$auth.user.is_admin == '1'"  
                                     ><NuxtLink to="in-construction" v-show="$auth.user.is_admin == '1'">
@@ -158,7 +147,7 @@ import Modal from './Modal'
 
 export default {
     name: "ContactFormMessages",
-
+    
     props: {
         smallDevice: {},
         store: {}

@@ -59,7 +59,7 @@
 
       <div class="flex">
         <!-- Filter Button -->
-        <div class="mb-4 mx-2 float-right">
+        <div class="mb-4 mr-2 float-right">
           <div v-if="filterIsActive">
             <button @click="openFilterMenu" 
                     class="float-left px-4 whitespace-no-wrap py-2 bg-gray-200 hover:bg-gray-300 hover:text-gray-50 shadow-lg hover:shadow-xs transition duration-500 ease-in-out transform active:scale-75 focus:outline-none rounded text-sm text-gray-500">
