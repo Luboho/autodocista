@@ -12,6 +12,11 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
+        hid: 'fb:app_id',
+        property: 'fb:app_id',
+        content: '899591764284265'
+      },
+      {
         hid: 'title',
         name: 'title',
         content: 'Sme progresívna spoločnosť zameraná na umývanie áut.'
@@ -21,6 +26,21 @@ export default {
         name: 'keywords',
         content: 'umyvanie, upratovanie, aut, auta, cistenie, bratislava, kosice, zilina, poprad'
       },
+      {
+        hid: 'og:image:width',
+        property: 'og:image:width',
+        content: '625px'
+      },
+      {
+        hid: 'og:image:height',
+        property: 'og:image:height',
+        content: '415px'
+      },
+      {
+        hid: 'og:image:alt',
+        property: 'og:image:alt',
+        content: 'Autodočista'
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
