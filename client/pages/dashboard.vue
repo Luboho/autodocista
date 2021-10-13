@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-4 mt-28 mb-2 relative mx-auto max-w-1024">
+        <div class="p-2 mt-28 mb-2 relative mx-auto max-w-1024">
             <div class="-mt-9.5 absolute flex flex-row text-gray-100 ">
                 <button @click="setTab('messages')" 
                         class="focus:outline-none bg-gray-300 mr-1 rounded-t-md  px-3 py-2"
@@ -25,7 +25,7 @@
             <div class="relative mb-1 mr-1 border-b-4 border-r-4 border-gray-400">
                 <div class="mb-1 mr-1 border-b-1 border-r-1 border-gray-200">
                     <div class="mb-1 mr-1 border-b-1 border-r-1 border-gray-200">
-                        <div class="relative mb-1 mr-1 bg-gray-400 mx-auto p-10">
+                        <div class="relative mb-1 mr-1 bg-gray-400 mx-auto p-3">
                             <transition name="fade">
                                 <div v-show="tab == 'messages'">
                                     <ContactFormMessages :smallDevice="smallDevice" />

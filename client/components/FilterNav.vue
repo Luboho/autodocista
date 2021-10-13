@@ -57,7 +57,7 @@
       </div>
     <!-- End of Filter Window -->
 
-      <div class="flex">
+      <div class="flex flex-col sm:flex-row">
         <!-- Filter Button -->
         <div class="mb-4 mr-2 float-right">
           <div v-if="filterIsActive">
