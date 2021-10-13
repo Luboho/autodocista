@@ -14,7 +14,7 @@ module.exports = {
       '12': '12px'
     },
     minWidth: {
-      'xxs': '378px'
+      'xxs': '330px'
     },
     maxWidth: {
       '1024': '1024px',
