@@ -11,7 +11,7 @@
                 <form @submit.prevent="submit" class="pt-10 pb-10">
                             
                     <div class="relative">
-                        <label for="email" class="absolute uppercase text-gold-500 text-xs font-bold pl-3 pt-2">
+                        <label for="email" class="absolute uppercase text-gold-300 text-xs font-bold pl-3 pt-2">
                             E-mail
                         </label>
 
@@ -20,7 +20,7 @@
                                 id="email" 
                                 v-model="form.email"
                                 type="email" 
-                                class="pt-8 rounded w-72 text-sm bg-gray-400 bg-opacity-50 p-2 border border-gold-500 text-white outline-none focus:text-gray-800"
+                                class="pt-8 pl-3 rounded bg-gray-400 w-72 bg-opacity-25 p-2 text-sm text-white outline-none focus:bg-opacity-75 focus:text-gold-500"
                                 name="email" 
                                 value="" 
                                 autofocus
